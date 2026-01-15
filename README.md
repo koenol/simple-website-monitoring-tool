@@ -19,9 +19,10 @@ This app is a project created for the University of Helsinki's TKT20019 - Databa
 
 Course Deadlines. See [course progress documentation](docs/course-progress-finnish.md) (in finnish) for more details.
 
-- [] 18.1.2026 Interim Submission 1
-- [] 1.2.2026 Interim Submission 2
-- [] 8.2.2026 Peer Review 1
-- [] 15.2.2026 Interim Submission 3 
-- [] 22.2.2026 Peer Review 2
-- [] 1.3.2026 Final Submission
+- [ ] 18.1.2026 Interim Submission 1
+[branch interim-1](https://github.com/koenol/simple-website-monitoring-tool/tree/interim-1)
+- [ ] 1.2.2026 Interim Submission 2
+- [ ] 8.2.2026 Peer Review 1
+- [ ] 15.2.2026 Interim Submission 3 
+- [ ] 22.2.2026 Peer Review 2
+- [ ] 1.3.2026 Final Submission
