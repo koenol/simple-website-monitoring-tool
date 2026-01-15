@@ -12,7 +12,41 @@ This app is a project created for the University of Helsinki's TKT20019 - Databa
 
 ## Installation
 
+Requirements:
+- Python 3.14
+- Pip 25.3
 
+Create and activate a virtual environment
+
+```
+Create:
+$ python3 -m venv venv
+
+Activate (Linux):
+$ source venv/bin/activate
+
+Activate (Windows):
+$ venv\Scripts\activate
+```
+
+Install Flask
+
+```
+$ pip install flask
+
+```
+
+Create a database and generate .env variables
+
+```
+$ python install.py
+```
+
+Start the Flask app
+
+```
+$ flask run
+```
 
 
 ## Course Progress
