@@ -33,7 +33,6 @@ Install Flask
 
 ```
 $ pip install flask
-
 ```
 
 Create a database and generate .env variables
