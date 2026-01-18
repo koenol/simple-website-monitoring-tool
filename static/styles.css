@@ -1,7 +1,7 @@
-.green {
+.status-code-ok {
     color: green;
 }
 
-.red {
+.status-code-bad {
     color: red;
 }

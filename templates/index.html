@@ -7,14 +7,14 @@
     <p>
         <b>Website:</b> localhost:5000/ping 
         <b>Status:</b> 
-        <span class="{% if status[0] == 200 %} green {% else %} red {% endif %}">
+        <span class="{% if status[0] == 200 %} status-code-ok {% else %} status-code-bad {% endif %}">
             {{ status[0] }}
         </span>
     </p>
     <p>
         <b>Website:</b> localhost:5000/ping-fail
         <b>Status:</b> 
-        <span class="{% if status[1] == 200 %} green{% else %} red {% endif %}">
+        <span class="{% if status[1] == 200 %} status-code-ok {% else %} status-code-bad {% endif %}">
             {{ status[1] }}
         </span>
     </p>
