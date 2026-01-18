@@ -1,7 +1,7 @@
 """Init the app"""
 
 import urllib
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 import config
 
 app = Flask(__name__)
@@ -10,12 +10,11 @@ app.secret_key = config.SECRET_KEY
 @app.route("/")
 def index():
     """Render the home page."""
-
     ## for testing purposes:
     status = []
     urls = [
-        "http://localhost:5000/ping",
-        "http://localhost:5000/ping-fail"
+        f"{request.host_url}ping",
+        f"{request.host_url}ping-fail"
     ]
     for url in urls:
         try:
