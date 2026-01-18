@@ -8,7 +8,9 @@ This app is a project created for the University of Helsinki's TKT20019 - Databa
 -   Users can add, edit and delete websites entries they want to monitor.
 -   Users can search for website entries using keywords or other filters and categorize them with one or more tags.
 -   The user's page displays statistics and entries created by the user.
+-   Users can comment on other users personal page.
 -   Users can add secondary data or related entries to a primary website entry, e.g. additional URLs linked to the main entry.
+
 
 ## Installation
 
@@ -59,3 +61,10 @@ Course Deadlines. See [course progress documentation](docs/course-progress-finni
 - [ ] 15.2.2026 Interim Submission 3 
 - [ ] 22.2.2026 Peer Review 2
 - [ ] 1.3.2026 Final Submission
+
+
+## Database Diagram
+
+_Last Updated: 18.01.2026_ (dd/mm/yyyy)
+
+![](static/db_diagram.png)
