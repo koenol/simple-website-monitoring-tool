@@ -26,3 +26,5 @@ def load_env():
 load_env()
 
 SECRET_KEY = os.getenv("SECRET_KEY")
+if not SECRET_KEY:
+    raise RuntimeError("Cannot find secret_key in .env file.")

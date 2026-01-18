@@ -6,9 +6,6 @@ import config
 app = Flask(__name__)
 app.secret_key = config.SECRET_KEY
 
-if app.secret_key is None:
-    raise RuntimeError("Cannot find secret_key in config.")
-
 @app.route("/")
 def index():
     """Render the home page."""
