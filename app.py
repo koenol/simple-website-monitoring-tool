@@ -1,5 +1,6 @@
 """Init the app"""
 
+import urllib
 from flask import Flask, render_template
 import config
 
@@ -9,4 +10,23 @@ app.secret_key = config.SECRET_KEY
 @app.route("/")
 def index():
     """Render the home page."""
-    return render_template("index.html")
+
+    ## for testing purposes:
+    status = []
+    urls = [
+        "http://localhost:5000/ping",
+        "http://localhost:5000/ping-fail"
+    ]
+    for url in urls:
+        try:
+            with urllib.request.urlopen(url) as response:
+                status.append(response.getcode())
+        except urllib.error.HTTPError as e:
+            status.append(e.code)
+
+    return render_template("index.html", status=status)
+
+@app.route("/ping")
+def ping():
+    """For testing connection to the localhost"""
+    return render_template("ping.html")
