@@ -4,7 +4,7 @@ import re
 import config
 
 def valid_username(username):
-    """Validate username."""
+    """Validate username is a string that contains only characters and is within set parameters."""
     if not username or not username.isalpha():
         return False
     username = sanitize(username)

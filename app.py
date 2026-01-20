@@ -1,6 +1,6 @@
 """Init the app"""
 
-from flask import Flask, render_template, request, flash
+from flask import Flask, render_template, request, flash, redirect
 import config
 import service
 
@@ -21,11 +21,12 @@ def register():
     password2 = request.form["password2"]
 
     if not service.valid_username(username):
-        flash("Username must be between 3 and 12 characters and it must contain only letters")
+        flash("Username must be between 3 and 12 characters and it must contain only letters.")
         filled = {"username": username}
         return render_template("register.html", filled=filled)
     
-    return render_template("register.html")
+    flash("Registration Successful. You may now log in.")
+    return redirect("/")
 
 @app.route("/ping")
 def ping():
