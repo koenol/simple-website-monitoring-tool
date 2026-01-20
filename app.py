@@ -10,20 +10,7 @@ app.secret_key = config.SECRET_KEY
 @app.route("/")
 def index():
     """Render the home page."""
-    ## for testing purposes:
-    status = []
-    urls = [
-        f"{request.host_url}ping",
-        f"{request.host_url}ping-fail"
-    ]
-    for url in urls:
-        try:
-            with urllib.request.urlopen(url) as response:
-                status.append(response.getcode())
-        except urllib.error.HTTPError as e:
-            status.append(e.code)
-
-    return render_template("index.html", status=status)
+    return render_template("index.html")
 
 @app.route("/ping")
 def ping():

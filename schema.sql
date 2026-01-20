@@ -9,14 +9,14 @@ CREATE TABLE users (
 CREATE TABLE urls (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER NOT NULL,
-    name TEXT,
+    addr TEXT,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
 CREATE TABLE keywords (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     url_id INTEGER NOT NULL,
-    name TEXT,
+    keyword TEXT,
     FOREIGN KEY (url_id) REFERENCES urls(id) ON DELETE CASCADE
 );
 
