@@ -1,12 +1,46 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>Login</title>
-    <link rel="stylesheet" href="static/styles.css">
-</head>
+<html>
+    <head>
+        <title>Login</title>
+        <link rel="stylesheet" href="static/main.css" />
+    </head>
 
-<body>
-
-</body>
-
+    <body id="login-page">
+        <h1 id="login-title">Simple Website Monitoring Tool</h1>
+        <div class="login-form" id="login-form">
+            <form action="/login" method="post">
+                <p>
+                    <label for="username">Username</label> <br />
+                    <input
+                        type="text"
+                        name="username"
+                        id="username"
+                        minlength="{{ config[0] }}"
+                        maxlength="{{ config[1] }}"
+                        required
+                    />
+                </p>
+                <p>
+                    <label for="password">Password</label> <br />
+                    <input
+                        type="password"
+                        name="password"
+                        minlength="{{ config[2] }}"
+                        maxlength="{{ config[3] }}"
+                        id="password"
+                        required
+                    />
+                </p>
+                <input type="submit" value="Login" id="login-button" />
+            </form>
+        </div>
+        <hr />
+        <div class="register-form" id="register-form">
+            <form action="/register" method="get">
+                <button type="submit" id="register-button">
+                    Register New Account
+                </button>
+            </form>
+        </div>
+    </body>
 </html>

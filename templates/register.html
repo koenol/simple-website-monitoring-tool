@@ -1,12 +1,53 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>Register</title>
-    <link rel="stylesheet" href="static/styles.css">
-</head>
+<html>
+    <head>
+        <title>Register</title>
+        <link rel="stylesheet" href="static/main.css" />
+    </head>
 
-<body>
-
-</body>
-
+    <body id="register-page">
+        <h1>Register New Account</h1>
+        <div class="register-form" id="register-form">
+            <form action="/register" method="post">
+                <p>
+                    <label for="username">Username</label><br />
+                    <input
+                        type="text"
+                        name="username"
+                        id="username"
+                        minlength="{{ config[0] }}"
+                        maxlength="{{ config[1] }}"
+                        required
+                        value="{{ filled.username }}"
+                    />
+                </p>
+                <p>
+                    <label for="password1">Password</label><br />
+                    <input
+                        type="password"
+                        name="password1"
+                        id="password1"
+                        minlength="{{ config[2] }}"
+                        maxlength="{{ config[3] }}"
+                        required
+                    />
+                </p>
+                <p>
+                    <label for="password2">Password Again</label><br />
+                    <input
+                        type="password"
+                        name="password2"
+                        id="password2"
+                        minlength="{{ config[2] }}"
+                        maxlength="{{ config[3] }}"
+                        required
+                    />
+                </p>
+                <input type="submit" value="Register" />
+            </form>
+            <p>
+                <a href="/">Go back to login page</a>
+            </p>
+        </div>
+    </body>
 </html>
