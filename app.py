@@ -6,21 +6,21 @@ import service
 
 app = Flask(__name__)
 app.secret_key = config.SECRET_KEY
+app.config["FORM_VALIDATION_LIMIT"] = [config.USERNAME_MIN_LENGTH, config.USERNAME_MAX_LENGTH, config.PASSWORD_MIN_LENGTH, config.PASSWORD_MAX_LENGTH]
+
 
 @app.route("/", methods=["GET", "POST"])
 def index():
     """Render the home page."""
     if request.method == "GET":
-        configuration = [config.USERNAME_MIN_LENGTH, config.USERNAME_MAX_LENGTH, config.USERNAME_MIN_LENGTH, config.PASSWORD_MAX_LENGTH]
-        return render_template("index.html", config=configuration)
+        return render_template("index.html", form_validation_limits=app.config["FORM_VALIDATION_LIMIT"])
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
     """Register new account"""
     
     if request.method == "GET":
-        configuration = [config.USERNAME_MIN_LENGTH, config.USERNAME_MAX_LENGTH, config.USERNAME_MIN_LENGTH, config.PASSWORD_MAX_LENGTH]
-        return render_template("register.html", filled={}, config=configuration)
+        return render_template("register.html", filled={}, form_validation_limits=app.config["FORM_VALIDATION_LIMIT"])
 
     if request.method == "POST":
         username = request.form["username"]

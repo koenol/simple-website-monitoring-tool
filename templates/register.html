@@ -15,8 +15,8 @@
                         type="text"
                         name="username"
                         id="username"
-                        minlength="{{ config[0] }}"
-                        maxlength="{{ config[1] }}"
+                        minlength="{{ form_validation_limits[0] }}"
+                        maxlength="{{ form_validation_limits[1] }}"
                         required
                         value="{{ filled.username }}"
                     />
@@ -27,8 +27,8 @@
                         type="password"
                         name="password1"
                         id="password1"
-                        minlength="{{ config[2] }}"
-                        maxlength="{{ config[3] }}"
+                        minlength="{{ form_validation_limits[2] }}"
+                        maxlength="{{ form_validation_limits[3] }}"
                         required
                     />
                 </p>
@@ -38,8 +38,8 @@
                         type="password"
                         name="password2"
                         id="password2"
-                        minlength="{{ config[2] }}"
-                        maxlength="{{ config[3] }}"
+                        minlength="{{ form_validation_limits[2] }}"
+                        maxlength="{{ form_validation_limits[3] }}"
                         required
                     />
                 </p>
