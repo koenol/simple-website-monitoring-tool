@@ -1,7 +1,9 @@
 """Service methods"""
 
 import re
+from werkzeug.security import generate_password_hash
 import config
+import db
 
 def valid_username(username):
     """Validate username is a string that contains only characters and is within set parameters."""
@@ -19,3 +21,10 @@ def sanitize(text):
     text = re.sub(r'on\w+=".*?"', '', text, flags=re.IGNORECASE)
     text = re.sub(r'(javascript:|data:|vbscript:)', '', text, flags=re.IGNORECASE)
     return text
+
+def create_user(username, password):
+    """Generate password hash and create user"""
+    password_hash = generate_password_hash(password)
+    sql = "INSERT INTO users (username, password_hash) VALUES (?, ?)"
+    print("?")
+    db.execute(sql, [username, password_hash])

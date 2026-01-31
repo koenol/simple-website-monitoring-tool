@@ -32,7 +32,6 @@ load_env()
 USERNAME_MIN_LENGTH = 3
 USERNAME_MAX_LENGTH = 12
 PASSWORD_MIN_LENGTH = 8
-PASSWORD_MAX_LENGTH = 16
 SECRET_KEY = os.getenv("SECRET_KEY")
 if not SECRET_KEY:
     raise RuntimeError("Cannot find secret_key in .env file.")
