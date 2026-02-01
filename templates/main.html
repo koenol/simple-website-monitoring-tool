@@ -42,14 +42,16 @@
                 <button type="submit">Search</button>
             </form>
             <div id="public-websites">
-                <div class="website">
                 {% for website in public_websites %}
-                                <div class="website">
-                                    <span>{{ website.addr }}</span>
-                                    <button>Copy</button>
-                                </div>
-                {% endfor %}
+                <div class="website">
+                    <span>{{ website.addr }}</span>
+                    <form method="POST" action="/copy-website" class="inline-form">
+                        <input type="hidden" name="public_website_id" value="{{ website.id }}">
+                        <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+                        <button type="submit">Copy</button>
+                    </form>
                 </div>
+                {% endfor %}
             </div>
         </div>
     </div>

@@ -73,7 +73,7 @@ def get_user_websites(user_id):
     return result
 
 def get_public_websites():
-    sql = "SELECT addr FROM urls WHERE public = ?"
+    sql = "SELECT addr, id FROM urls WHERE public = ?"
     result = db.query(sql, [True])
     return result
 
@@ -91,3 +91,9 @@ def get_public_websites_filtered(filter_query):
     filter = f"%{filter_query}%"
     result = db.query(sql, [True, filter])
     return result
+
+def copy_website(user_id, website_id):
+    sql = "SELECT addr FROM urls WHERE id = ?"
+    result = db.query(sql, [website_id])
+    sql = "INSERT INTO urls (user_id, addr, public) VALUES (?, ?, ?)"
+    db.execute(sql, [user_id, result[0]["addr"], False])
