@@ -84,3 +84,9 @@ def toggle_visiblity(website_id):
 def delete_website(website_id):
     sql = "DELETE FROM urls WHERE id = ?"
     db.execute(sql, [website_id])
+
+def get_public_websites_filtered(filter_query):
+    sql = "SELECT addr, id FROM urls WHERE public = ? AND addr LIKE ?"
+    filter = f"%{filter_query}%"
+    result = db.query(sql, [True, filter])
+    return result

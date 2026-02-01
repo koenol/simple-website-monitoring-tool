@@ -93,12 +93,23 @@ def login():
         return redirect("/")
     abort(405)
 
-@app.route("/main")
+@app.route("/main", methods=["GET", "POST"])
 def main():
     """Render Main View"""
     personal_websites = service.get_user_websites(session["user_id"])
-    public_websites = service.get_public_websites()
-    return render_template("main.html", personal_websites=personal_websites, public_websites=public_websites)
+    filter_query = request.args.get("filter", "").strip()
+    
+    if filter_query:
+        public_websites = service.get_public_websites_filtered(filter_query)
+    else:
+        public_websites = service.get_public_websites()
+    
+    return render_template(
+        "main.html", 
+        personal_websites=personal_websites, 
+        public_websites=public_websites,
+        filter_query=filter_query
+    )
 
 
 @app.route("/add-website", methods=["POST"])
