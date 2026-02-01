@@ -118,6 +118,23 @@ def add_website():
             return redirect("/main")
     abort(405)
 
+@app.route("/toggle-visibility", methods=["POST"])
+def toggle_visibility():
+    if request.method == "POST":
+        service.check_csrf()
+        website_id = request.form["website_id"]
+        try:
+            service.toggle_visiblity(website_id)
+            return redirect("/main")
+        except sqlite3.IntegrityError as e:
+            flash(str(e))
+            return redirect("/main")
+    abort(405)
+
+@app.route("/delete-website", methods=["POST"])
+def delete_website():
+    pass
+
 @app.route("/ping")
 def ping():
     """For testing connection to the localhost"""

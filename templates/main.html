@@ -18,11 +18,19 @@
             <h2>Your Monitored Websites</h2>
             <div id="monitored-websites">
                 {% for website in personal_websites %}
-                                <div class="website">
-                                    <span>{{ website.addr }}</span>
-                                    <button>Public/Private</button>
-                                    <button>Delete</button>
-                                </div>
+                <div class="website">
+                    <span>{{ website.addr }}</span>
+                    <form method="POST" action="/toggle-visibility" class="inline-form">
+                        <input type="hidden" name="website_id" value="{{ website.id }}">
+                        <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+                        <button type="submit">Public/Private</button>
+                    </form>
+                    <form method="POST" action="/delete-website" class="inline-form">
+                        <input type="hidden" name="website_id" value="{{ website.id }}">
+                        <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+                        <button type="submit">Delete</button>
+                    </form>
+                </div>
                 {% endfor %}
             </div>
         </div>
@@ -37,8 +45,7 @@
                 {% for website in public_websites %}
                                 <div class="website">
                                     <span>{{ website.addr }}</span>
-                                    <button>Public/Private</button>
-                                    <button>Delete</button>
+                                    <button>Copy</button>
                                 </div>
                 {% endfor %}
                 </div>

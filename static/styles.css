@@ -143,3 +143,7 @@ body#register-page {
     padding: 8px;
     font-size: 14px;
 }
+
+.main-page .inline-form {
+    display: inline;
+}

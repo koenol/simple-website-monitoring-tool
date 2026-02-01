@@ -68,7 +68,7 @@ def valid_address(address):
     return pattern.fullmatch(address)
 
 def get_user_websites(user_id):
-    sql = "SELECT addr FROM urls WHERE user_id = ?"
+    sql = "SELECT addr, id FROM urls WHERE user_id = ?"
     result = db.query(sql, [user_id])
     return result
 
@@ -76,3 +76,7 @@ def get_public_websites():
     sql = "SELECT addr FROM urls WHERE public = ?"
     result = db.query(sql, [True])
     return result
+
+def toggle_visiblity(website_id):
+    sql = "UPDATE urls SET public = ? WHERE id = ?"
+    db.execute(sql, [True, website_id])
