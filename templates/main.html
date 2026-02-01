@@ -22,8 +22,9 @@
                     <span>{{ website.addr }}</span>
                     <form method="POST" action="/toggle-visibility" class="inline-form">
                         <input type="hidden" name="website_id" value="{{ website.id }}">
+                        <input type="hidden" name="website_visibility" value="{{ website.public }}">
                         <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
-                        <button type="submit">Public/Private</button>
+                        <button type="submit">{% if website.public %}Hide{% else %}Public{% endif %}</button>
                     </form>
                     <form method="POST" action="/delete-website" class="inline-form">
                         <input type="hidden" name="website_id" value="{{ website.id }}">

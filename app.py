@@ -134,8 +134,9 @@ def toggle_visibility():
     if request.method == "POST":
         service.check_csrf()
         website_id = request.form["website_id"]
+        website_visibility = request.form["website_visibility"]
         try:
-            service.toggle_visiblity(website_id)
+            service.toggle_visiblity(website_id, website_visibility)
             return redirect("/main")
         except sqlite3.IntegrityError as e:
             flash(str(e))
