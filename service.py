@@ -1,9 +1,11 @@
 """Service methods"""
 
 import re
+from flask import session, abort, request
 from werkzeug.security import generate_password_hash, check_password_hash
 import config
 import db
+import secrets
 
 def valid_username(username):
     """Validate username is a string that contains only characters and is within set parameters."""
@@ -37,3 +39,15 @@ def validate_user(username, password):
         return False
     password_hash = result[0]["password_hash"]
     return check_password_hash(password_hash, password)
+
+def create_csrf_token():
+    token = session.get("csrf_token")
+    if not token:
+        token = secrets.token_hex(16)
+    return token
+
+def check_csrf():
+    form_token = request.form.get("csrf_token")
+    session_token = session.get("csrf_token")
+    if not form_token or form_token != session_token:
+        abort(403)

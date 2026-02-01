@@ -24,7 +24,7 @@
                     <button>Make Public/Private</button>
                     <button>Delete</button>
                 </div>
-            </div>
+            </div>1
         </div>
         <div class="box">
             <h2>Public Websites</h2>
@@ -46,9 +46,11 @@
 
     <div class="secondary-box">
         <h2>Add New Website</h2>
-        <input type="text" placeholder="Address" id="address">
-        <input type="text" placeholder="Keyword" id="keyword">
-        <button id="add-website">Add</button>
+        <form method="POST" action="/add-website">
+            <input type="text" placeholder="Address" id="address" name="address" required>
+            <input type="text" placeholder="Keyword" id="keyword" name="keyword">
+            <button type="submit" id="add-website">Add</button>
+        </form>
     </div>
 </div> <!-- self.note: end of login required -->
 

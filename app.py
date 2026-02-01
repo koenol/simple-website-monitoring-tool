@@ -1,7 +1,7 @@
 """Init the app"""
 
 import sqlite3
-from flask import Flask, render_template, request, flash, redirect, abort
+from flask import Flask, render_template, request, flash, redirect, abort, session
 import config
 import service
 
@@ -18,6 +18,7 @@ app.config["FORM_VALIDATION_LIMIT"] = [
 def index():
     """Render the home page."""
     if request.method == "GET":
+        session["csrf_token"] = service.create_csrf_token()
         return render_template(
             "index.html", 
             form_validation_limit=app.config["FORM_VALIDATION_LIMIT"]
@@ -28,12 +29,14 @@ def index():
 def register():
     """Register new account"""
     if request.method == "GET":
+        session["csrf_token"] = service.create_csrf_token()
         return render_template(
             "register.html", filled={}, 
             form_validation_limit=app.config["FORM_VALIDATION_LIMIT"]
             )
 
     if request.method == "POST":
+        service.check_csrf()
         username = request.form["username"]
         password1 = request.form["password1"]
         password2 = request.form["password2"]
@@ -78,6 +81,7 @@ def register():
 def login():
     """Login to website"""
     if request.method == "POST":
+        service.check_csrf()
         username = request.form["username"]
         password = request.form["password"]
 
@@ -92,6 +96,18 @@ def login():
 def main():
     """Render Main View"""
     return render_template("main.html")
+
+@app.route("/add-website", methods=["POST"])
+def add_website():
+    if request.method == "POST":
+        address = request.form["address"]
+        keyword = request.form["keyword"]
+    try:
+        service.add_website(address, keyword)
+    except:
+        flash("Something went wrong.")
+        return redirect("/main")
+    abort(405)
 
 @app.route("/ping")
 def ping():
