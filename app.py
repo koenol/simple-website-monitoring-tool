@@ -41,7 +41,6 @@ def register():
         username = request.form["username"]
         password1 = request.form["password1"]
         password2 = request.form["password2"]
-
         if not service.valid_username(username):
             flash(
                 f"Username must be between {config.USERNAME_MIN_LENGTH} "
@@ -98,23 +97,20 @@ def main():
     """Render Main View"""
     personal_websites = service.get_user_websites(session["user_id"])
     filter_query = request.args.get("filter", "").strip()
-    
     if filter_query:
         public_websites = service.get_public_websites_filtered(filter_query)
     else:
         public_websites = service.get_public_websites()
-    
     return render_template(
         "main.html",
-         
-        personal_websites=personal_websites, 
+        personal_websites=personal_websites,
         public_websites=public_websites,
         filter_query=filter_query
     )
 
-
 @app.route("/add-website", methods=["POST"])
 def add_website():
+    """Add new website to user database"""
     if request.method == "POST":
         address = request.form["address"]
         keyword = request.form["keyword"]
@@ -132,6 +128,7 @@ def add_website():
 
 @app.route("/toggle-visibility", methods=["POST"])
 def toggle_visibility():
+    """Toggle User Website Visibility"""
     if request.method == "POST":
         service.check_csrf()
         website_id = request.form["website_id"]
@@ -146,6 +143,7 @@ def toggle_visibility():
 
 @app.route("/delete-website", methods=["POST"])
 def delete_website():
+    """Delete User Website"""
     if request.method == "POST":
         service.check_csrf()
         website_id = request.form["website_id"]
@@ -159,6 +157,7 @@ def delete_website():
 
 @app.route("/copy-website", methods=["POST"])
 def copy_website():
+    """Copy Public Website to User Database"""
     if request.method == "POST":
         service.check_csrf()
         website_id = request.form["public_website_id"]
@@ -172,6 +171,7 @@ def copy_website():
 
 @app.route("/logout", methods=["POST"])
 def logout():
+    """Logout and clear session"""
     if request.method == "POST":
         service.check_csrf()
         session.clear()

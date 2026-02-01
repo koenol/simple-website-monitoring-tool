@@ -1,8 +1,31 @@
+## Väliplautus 1
+- [x] Done.
+
+## Välipalautus 2
+- [x] Käyttäjä pystyy luomaan tunnuksen ja kirjautumaan sisään sovellukseen.
+    - 1. Index -> Register -> Login -> Main View
+    - 2. Index -> Login -> Main View
+- [x] Käyttäjä pystyy lisäämään, muokkaamaan ja poistamaan tietokohteita.
+    - 1. Lisääminen: Index -> Login -> Main View: Add New Website -> Address: e.g. example.com (keyword ei vielä käytössä) -> Add
+    - 2. Muokkaamaan: Index -> Login -> Main View: Public/Hide: Toggle vaihtaa tietorakenteen näkyvyyttä muille käyttäjille
+    - 3. Poistaminen: Index -> Login -> Main View: Delete: Delete poistaa käyttäjän valitaseman tietokohteen
+- [x] Käyttäjä näkee sovellukseen lisätyt tietokohteet.
+    - 1. Käyttäjän Omat Tietorakenteet: Index -> Login -> Main View: "Your Monitored Websites" kohdassa näytetään käyttäjän omat julkiset & yksityiset tietorakenteet
+    - 2. Julkiset Tietorakenteet: Index -> Login -> Main View: "Public Websites" kohdassa näytetään käyttäjän ja muiden julkiset tietorakenteet
+- [x] Käyttäjä pystyy etsimään tietokohteita hakusanalla tai muulla perusteella.
+    - 1. Haku: Index -> Login -> Main View: Käyttäjä pystyy filtteröimään julkisia tietorakenteita valitsemallaan hakusanalla
+- [x] README.md-tiedoston tulee kuvata, millainen sovellus on ja miten sitä voi testata.
+    - README.md päivitetty, toisten käyttäjien sivulle kommentointi feature-idea poistettu ja olemassa olevien featureiden ominaisuuksia tarkennettu.
+
+Huomioitavaa:
+    - Sovellus ei vielä tee health-check kutsuja tietorakenteista, mutta toimintoa testattu ensimmäisellä viikolla.
+
+
 ## Sovelluksen perusvaatimukset
-- [ ] Käyttäjä pystyy luomaan tunnuksen ja kirjautumaan sisään sovellukseen
-- [ ] Käyttäjä pystyy lisäämään, muokkaamaan ja poistamaan tietokohteita
-- [ ] Käyttäjä näkee sovellukseen lisätyt tietokohteet
-- [ ] Käyttäjä pystyy etsimään tietokohteita hakusanalla tai muulla perusteella
+- [x] Käyttäjä pystyy luomaan tunnuksen ja kirjautumaan sisään sovellukseen
+- [x] Käyttäjä pystyy lisäämään, muokkaamaan ja poistamaan tietokohteita
+- [x] Käyttäjä näkee sovellukseen lisätyt tietokohteet
+- [x] Käyttäjä pystyy etsimään tietokohteita hakusanalla tai muulla perusteella
 - [ ] Käyttäjäsivu näyttää tilastoja ja käyttäjän lisäämät tietokohteet
 - [ ] Käyttäjä pystyy valitsemaan tietokohteelle yhden tai useamman luokittelun
 - [ ] Käyttäjä pystyy lisäämään tietokohteeseen toissijaisia tietokohteita
