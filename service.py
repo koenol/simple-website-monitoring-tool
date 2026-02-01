@@ -28,7 +28,6 @@ def create_user(username, password):
     """Generate password hash and create user"""
     password_hash = generate_password_hash(password)
     sql = "INSERT INTO users (username, password_hash) VALUES (?, ?)"
-    print("?")
     db.execute(sql, [username, password_hash])
 
 def validate_user(username, password):
@@ -67,3 +66,13 @@ def valid_address(address):
     """check if address format is valid"""
     pattern = re.compile(r"^[a-z0-9-]+\.[a-z]{2,}$")
     return pattern.fullmatch(address)
+
+def get_user_websites(user_id):
+    sql = "SELECT addr FROM urls WHERE user_id = ?"
+    result = db.query(sql, [user_id])
+    return result
+
+def get_public_websites():
+    sql = "SELECT addr FROM urls WHERE public = ?"
+    result = db.query(sql, [True])
+    return result

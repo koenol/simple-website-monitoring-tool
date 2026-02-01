@@ -17,13 +17,13 @@
             <!-- self.note: Iterate User Websites-->
             <h2>Your Monitored Websites</h2>
             <div id="monitored-websites">
-                <div class="website">
-                    <span>example.com</span>
-                    <span>Status: <span class="status">Online</span></span>
-                    <!-- self.note: make better buttons -->
-                    <button>Public/Private</button>
-                    <button>Delete</button>
-                </div>
+                {% for website in personal_websites %}
+                                <div class="website">
+                                    <span>{{ website.addr }}</span>
+                                    <button>Public/Private</button>
+                                    <button>Delete</button>
+                                </div>
+                {% endfor %}
             </div>
         </div>
         <div class="box">
@@ -34,11 +34,13 @@
             </form>
             <div id="public-websites">
                 <div class="website">
-                    <!-- self.note: Iterate Public Websites -->
-                    <span>publicexample.com</span>
-                    <span>Status: <span class="status">Online</span></span>
-                    <!-- self.note: make better buttons -->
-                    <button>Copy</button>
+                {% for website in public_websites %}
+                                <div class="website">
+                                    <span>{{ website.addr }}</span>
+                                    <button>Public/Private</button>
+                                    <button>Delete</button>
+                                </div>
+                {% endfor %}
                 </div>
             </div>
         </div>

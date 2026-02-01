@@ -9,7 +9,7 @@ CREATE TABLE users (
 CREATE TABLE urls (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER NOT NULL,
-    addr TEXT UNIQUE,
+    addr TEXT,
     public BOOLEAN,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
@@ -28,3 +28,4 @@ CREATE TABLE statistics (
     entries_created INTEGER DEFAULT 0,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
+

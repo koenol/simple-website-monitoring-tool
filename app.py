@@ -96,7 +96,9 @@ def login():
 @app.route("/main")
 def main():
     """Render Main View"""
-    return render_template("main.html")
+    personal_websites = service.get_user_websites(session["user_id"])
+    public_websites = service.get_public_websites()
+    return render_template("main.html", personal_websites=personal_websites, public_websites=public_websites)
 
 
 @app.route("/add-website", methods=["POST"])
@@ -108,8 +110,8 @@ def add_website():
             try:
                 service.add_website(session["user_id"], address, keyword)
                 return redirect("/main")
-            except:
-                flash("Something went wrong.")
+            except sqlite3.IntegrityError as e:
+                flash(str(e))
                 return redirect("/main")
         else:
             flash("Incorrect domain format, use: 'example.com'")
