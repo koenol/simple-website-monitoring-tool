@@ -105,7 +105,8 @@ def main():
         public_websites = service.get_public_websites()
     
     return render_template(
-        "main.html", 
+        "main.html",
+         
         personal_websites=personal_websites, 
         public_websites=public_websites,
         filter_query=filter_query
@@ -167,6 +168,14 @@ def copy_website():
         except sqlite3.IntegrityError as e:
             flash(str(e))
             return redirect("/main")
+    abort(405)
+
+@app.route("/logout", methods=["POST"])
+def logout():
+    if request.method == "POST":
+        service.check_csrf()
+        session.clear()
+        return redirect("/")
     abort(405)
 
 @app.route("/ping")

@@ -7,8 +7,11 @@
 <!-- self.note: Login required -->
 <body class="main-page">
 <header>
-    <div>User: <span id="username">Username</span></div>
-    <button id="logout">Logout</button>
+    <div>User: <span id="username">{{ session.username }}</span></div>
+    <form method="POST" action="/logout">
+        <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+        <button id="logout">Logout</button>
+    </form>
 </header>
 
 <div class="container">
