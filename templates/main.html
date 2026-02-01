@@ -1,13 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <title>Main View</title>
-    <link rel="stylesheet" href="static/styles.css">
-</head>
+    <head>
+        <title>Main Page</title>
+        <link rel="stylesheet" href="static/styles.css" />
+    </head>
+<!-- self.note: Login required -->
+<body class="main-page">
+<header>
+    <div>User: <span id="username">Username</span></div>
+    <button id="logout">Logout</button>
+</header>
 
-<body>
-    <p>Heh!</p>
+<div class="container">
+    <div class="main-box">
+        <div class="box">
+            <!-- self.note: Iterate User Websites-->
+            <h2>Your Monitored Websites</h2>
+            <div id="monitored-websites">
+                <div class="website">
+                    <span>example.com</span>
+                    <span>Status: <span class="status">Online</span></span>
+                    <!-- self.note: make better buttons -->
+                    <button>Make Public/Private</button>
+                    <button>Delete</button>
+                </div>
+            </div>
+        </div>
+        <div class="box">
+            <h2>Public Websites</h2>
+            <form method="GET" class="search-filter">
+                <input type="text" name="Filter">
+                <button type="submit">Search</button>
+            </form>
+            <div id="public-websites">
+                <div class="website">
+                    <!-- self.note: Iterate Public Websites -->
+                    <span>publicexample.com</span>
+                    <span>Status: <span class="status">Online</span></span>
+                    <!-- self.note: make better buttons -->
+                    <button>Copy</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="secondary-box">
+        <h2>Add New Website</h2>
+        <input type="text" placeholder="Address" id="address">
+        <input type="text" placeholder="Keyword" id="keyword">
+        <button id="add-website">Add</button>
+    </div>
+</div> <!-- self.note: end of login required -->
 
 </body>
-
 </html>
