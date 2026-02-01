@@ -133,7 +133,16 @@ def toggle_visibility():
 
 @app.route("/delete-website", methods=["POST"])
 def delete_website():
-    pass
+    if request.method == "POST":
+        service.check_csrf()
+        website_id = request.form["website_id"]
+        try:
+            service.delete_website(website_id)
+            return redirect("/main")
+        except sqlite3.IntegrityError as e:
+            flash(str(e))
+            return redirect("/main")
+    abort(405)
 
 @app.route("/ping")
 def ping():

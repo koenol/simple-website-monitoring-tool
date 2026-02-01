@@ -80,3 +80,7 @@ def get_public_websites():
 def toggle_visiblity(website_id):
     sql = "UPDATE urls SET public = ? WHERE id = ?"
     db.execute(sql, [True, website_id])
+
+def delete_website(website_id):
+    sql = "DELETE FROM urls WHERE id = ?"
+    db.execute(sql, [website_id])
