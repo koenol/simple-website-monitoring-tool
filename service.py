@@ -1,7 +1,7 @@
 """Service methods"""
 
 import re
-from werkzeug.security import generate_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
 import config
 import db
 
@@ -28,3 +28,12 @@ def create_user(username, password):
     sql = "INSERT INTO users (username, password_hash) VALUES (?, ?)"
     print("?")
     db.execute(sql, [username, password_hash])
+
+def validate_user(username, password):
+    """Validate that username exists and password matches"""
+    sql = "SELECT id, password_hash FROM users WHERE username = ?"
+    result = db.query(sql, [username])
+    if not result:
+        return False
+    password_hash = result[0]["password_hash"]
+    return check_password_hash(password_hash, password)

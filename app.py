@@ -74,9 +74,24 @@ def register():
         return redirect("/")
     abort(405)
 
-@app.route("/login")
+@app.route("/login", methods=["POST"])
 def login():
     """Login to website"""
+    if request.method == "POST":
+        username = request.form["username"]
+        password = request.form["password"]
+
+        if service.valid_username(username):
+            if service.validate_user(username, password):
+                return redirect("/main")
+        flash("Invalid username or password")
+        return redirect("/")
+    abort(405)
+
+@app.route("/main")
+def main():
+    """Render Main View"""
+    return render_template("main.html")
 
 @app.route("/ping")
 def ping():
