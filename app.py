@@ -36,6 +36,7 @@ def register():
             )
 
     if request.method == "POST":
+        print()
         service.check_csrf()
         username = request.form["username"]
         password1 = request.form["password1"]
@@ -97,16 +98,22 @@ def main():
     """Render Main View"""
     return render_template("main.html")
 
+
 @app.route("/add-website", methods=["POST"])
 def add_website():
     if request.method == "POST":
         address = request.form["address"]
         keyword = request.form["keyword"]
-    try:
-        service.add_website(address, keyword)
-    except:
-        flash("Something went wrong.")
-        return redirect("/main")
+        if service.valid_address(address):
+            try:
+                service.add_website(session["user_id"], address, keyword)
+                return redirect("/main")
+            except:
+                flash("Something went wrong.")
+                return redirect("/main")
+        else:
+            flash("Incorrect domain format, use: 'example.com'")
+            return redirect("/main")
     abort(405)
 
 @app.route("/ping")

@@ -32,13 +32,16 @@ def create_user(username, password):
     db.execute(sql, [username, password_hash])
 
 def validate_user(username, password):
-    """Validate that username exists and password matches"""
     sql = "SELECT id, password_hash FROM users WHERE username = ?"
     result = db.query(sql, [username])
     if not result:
         return False
     password_hash = result[0]["password_hash"]
-    return check_password_hash(password_hash, password)
+    if check_password_hash(password_hash, password):
+        session["user_id"] = result[0]["id"]
+        session["username"] = username
+        return True
+    return False
 
 def create_csrf_token():
     token = session.get("csrf_token")
@@ -51,3 +54,16 @@ def check_csrf():
     session_token = session.get("csrf_token")
     if not form_token or form_token != session_token:
         abort(403)
+
+def add_website(user_id, address, keyword):
+    """Insert domain into the database"""
+    domain = address
+    ## kword = keyword // not in use for now
+    sql = "INSERT INTO urls (user_id, addr, public) VALUES (?, ?, ?)"
+    db.execute(sql, [user_id, address, False])
+
+
+def valid_address(address):
+    """check if address format is valid"""
+    pattern = re.compile(r"^[a-z0-9-]+\.[a-z]{2,}$")
+    return pattern.fullmatch(address)

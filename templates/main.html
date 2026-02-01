@@ -50,7 +50,21 @@
             <input type="text" placeholder="Address" id="address" name="address" required>
             <input type="text" placeholder="Keyword" id="keyword" name="keyword">
             <button type="submit" id="add-website">Add</button>
+            <input
+                type="hidden"
+                name="csrf_token"
+                value="{{ session.csrf_token }}"
+            />
         </form>
+    </div>
+    <div class="flashed-messages">
+        {% for message in get_flashed_messages() %}
+        <div class="error">
+            <p>
+                <b>{{ message }}</b>
+            </p>
+        </div>
+        {% endfor %}
     </div>
 </div> <!-- self.note: end of login required -->
 
