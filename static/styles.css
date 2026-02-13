@@ -187,3 +187,32 @@ body#register-page {
     padding: 15px;
     margin-bottom: 15px;
 }
+
+/* profile.html */
+.profile header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgb(60, 60, 255);
+    color: white;
+    padding: 10px 20px;
+}
+
+.profile .container {
+    display: flex;
+    margin-top: 20px;
+    margin-left: 100px;
+    justify-content: center;
+    position: relative;
+}
+.profile .main-box {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    padding-top: 100px;
+}
+.profile .box {
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 15px;
+}
