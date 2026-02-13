@@ -14,10 +14,17 @@
     </form>
 </header>
 
+<nav class="sidebar">
+    <ul class="nav-menu">
+        <li><a href="#dashboard" class="nav-link active">Dashboard</a></li>
+        <li><a href="#profile" class="nav-link">Profile</a></li>
+        <li><a href="#add-website" class="nav-link">Add Website</a></li>
+    </ul>
+</nav>
+
 <div class="container">
     <div class="main-box">
         <div class="box">
-            <!-- self.note: Iterate User Websites-->
             <h2>Your Monitored Websites</h2>
             <div id="monitored-websites">
                 {% for website in personal_websites %}
