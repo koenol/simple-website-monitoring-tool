@@ -110,13 +110,13 @@ def add_website():
         if service.valid_address(address):
             try:
                 service.add_website(session["user_id"], address, keyword)
-                return redirect("/main")
+                return redirect("/website")
             except sqlite3.IntegrityError as e:
                 flash(str(e))
                 return redirect("/main")
         else:
             flash("Incorrect domain format, use: 'example.com'")
-            return redirect("/main")
+            return redirect("/website")
     abort(405)
 
 @app.route("/toggle-visibility", methods=["POST"])

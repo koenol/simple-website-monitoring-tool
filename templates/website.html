@@ -24,8 +24,27 @@
 
 <div class="container">
     <div class="main-box">
+        <div class="flashed-messages">
+        {% for message in get_flashed_messages() %}
+        <div class="error">
+            <p>
+                <b>{{ message }}</b>
+            </p>
+        </div>
+        {% endfor %}
+        </div>
         <div class="box">
-            <h2>Your Websites</h2>
+        <h2>Add New Website</h2>
+        <form method="POST" action="/add-website">
+            <input type="text" placeholder="Address" id="address" name="address" required>
+            <input type="text" placeholder="Keyword" id="keyword" name="keyword">
+            <button type="submit" id="add-website">Add</button>
+            <input
+                type="hidden"
+                name="csrf_token"
+                value="{{ session.csrf_token }}"
+            />
+        </form>
     </div>
 </div> <!-- self.note: end of login required -->
 
