@@ -95,6 +95,7 @@ def login():
 @app.route("/main", methods=["GET", "POST"])
 def main():
     """Render Main View"""
+    service.ping_all_monitored_websites(session["user_id"])
     personal_websites = service.get_user_websites(session["user_id"])
     return render_template("main.html", personal_websites=personal_websites)
 

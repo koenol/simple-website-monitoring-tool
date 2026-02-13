@@ -6,6 +6,7 @@ from flask import session, abort, request
 from werkzeug.security import generate_password_hash, check_password_hash
 import config
 import db
+import urllib.request, urllib.error
 
 def valid_username(username):
     """Validate username is a string that contains only characters and is within set parameters."""
@@ -106,3 +107,21 @@ def copy_website(user_id, website_id):
     result = db.query(sql, [website_id])
     sql = "INSERT INTO urls (user_id, addr, public) VALUES (?, ?, ?)"
     db.execute(sql, [user_id, result[0]["addr"], False])
+
+def ping_all_monitored_websites(user_id):
+    results = get_user_websites(user_id)
+    for url in results:
+        print(ping_website(url["addr"]))
+
+def ping_website(url_addr):
+    try:
+        req = urllib.request.Request(("https://" + url_addr), headers={"User-Agent": "Mozilla/5.0"})
+        response = urllib.request.urlopen(req, timeout=3)
+        return True, response.status
+    except urllib.error.HTTPError as e:
+        return False, e.code
+    except urllib.error.URLError as e:
+        return False, None
+    
+def update_website_status(url_id):
+    pass
