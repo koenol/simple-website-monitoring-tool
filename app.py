@@ -96,17 +96,7 @@ def login():
 def main():
     """Render Main View"""
     personal_websites = service.get_user_websites(session["user_id"])
-    filter_query = request.args.get("filter", "").strip()
-    if filter_query:
-        public_websites = service.get_public_websites_filtered(filter_query)
-    else:
-        public_websites = service.get_public_websites()
-    return render_template(
-        "main.html",
-        personal_websites=personal_websites,
-        public_websites=public_websites,
-        filter_query=filter_query
-    )
+    return render_template("main.html", personal_websites=personal_websites)
 
 @app.route("/add-website", methods=["GET", "POST"])
 def add_website():
