@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>Add Website</title>
+        <title>Websites</title>
         <link rel="stylesheet" href="static/styles.css" />
     </head>
 <!-- self.note: Login required -->
-<body class="main-page">
+<body class="website-page">
 <header>
     <div>User: <span id="username">{{ session.username }}</span></div>
     <form method="POST" action="/logout">
@@ -18,14 +18,14 @@
     <ul class="nav-menu">
         <li><a href="/main" class="nav-link">Dashboard</a></li>
         <li><a href="/profile" class="nav-link">Profile</a></li>
-        <li><a href="/add-website" class="nav-link active">Add Website</a></li>
+        <li><a href="/website" class="nav-link active">Websites</a></li>
     </ul>
 </nav>
 
 <div class="container">
     <div class="main-box">
         <div class="box">
-            <h2>Add Website</h2>
+            <h2>Your Websites</h2>
     </div>
 </div> <!-- self.note: end of login required -->
 

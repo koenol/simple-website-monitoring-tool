@@ -188,6 +188,13 @@ def profile():
         return render_template("profile.html")
     abort(405)
 
+@app.route("/website", methods=["GET"])
+def website():
+    """Render Websites"""
+    if request.method == "GET":
+        return render_template("website.html")
+    abort(405)
+
 @app.route("/ping")
 def ping():
     """For testing connection to the localhost"""
