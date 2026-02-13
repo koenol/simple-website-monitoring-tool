@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>{% block title %}Website Monitoring Tool{% endblock %}</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+    </head>
+    <body class="{% block page_class %}{% endblock %}">
+        <header>
+            <div>User: <span id="username">{{ session.username }}</span></div>
+            <form method="POST" action="/logout">
+                <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+                <button id="logout">Logout</button>
+            </form>
+        </header>
+
+        <nav class="sidebar">
+            <ul class="nav-menu">
+                <li><a href="/main" class="nav-link {% if request.path == '/main' %}active{% endif %}">Dashboard</a></li>
+                <li><a href="/profile" class="nav-link {% if request.path == '/profile' %}active{% endif %}">Profile</a></li>
+                <li><a href="/add-website" class="nav-link {% if request.path == '/add-website' %}active{% endif %}">Add Website</a></li>
+            </ul>
+        </nav>
+
+        <div class="container">
+            <div class="flashed-messages">
+                {% for message in get_flashed_messages() %}
+                <div class="error">
+                    <p><b>{{ message }}</b></p>
+                </div>
+                {% endfor %}
+            </div>
+
+            {% block content %}{% endblock %}
+        </div>
+    </body>
+</html>
