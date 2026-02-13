@@ -108,9 +108,12 @@ def main():
         filter_query=filter_query
     )
 
-@app.route("/add-website", methods=["POST"])
+@app.route("/add-website", methods=["GET", "POST"])
 def add_website():
     """Add new website to user database"""
+    if request.method == "GET":
+        return render_template("add_website.html")
+
     if request.method == "POST":
         address = request.form["address"]
         keyword = request.form["keyword"]
@@ -176,6 +179,13 @@ def logout():
         service.check_csrf()
         session.clear()
         return redirect("/")
+    abort(405)
+
+@app.route("/profile", methods=["GET"])
+def profile():
+    """Render User Profile"""
+    if request.method == "GET":
+        return render_template("profile.html")
     abort(405)
 
 @app.route("/ping")
