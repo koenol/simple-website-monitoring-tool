@@ -18,14 +18,14 @@
     <ul class="nav-menu">
         <li><a href="/main" class="nav-link active">Dashboard</a></li>
         <li><a href="/profile" class="nav-link">Profile</a></li>
-        <li><a href="/add-website" class="nav-link">Add Website</a></li>
+        <li><a href="/website" class="nav-link">Websites</a></li>
     </ul>
 </nav>
 
 <div class="container">
     <div class="main-box">
         <div class="box">
-            <h2>Your Monitored Websites</h2>
+            <h2>Dashboard</h2>
             <div id="monitored-websites">
                 {% for website in personal_websites %}
                 <div class="website">
@@ -40,25 +40,6 @@
                         <input type="hidden" name="website_id" value="{{ website.id }}">
                         <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
                         <button type="submit">Delete</button>
-                    </form>
-                </div>
-                {% endfor %}
-            </div>
-        </div>
-        <div class="box">
-            <h2>Public Websites</h2>
-            <form method="GET" class="search-filter">
-                <input type="text" name="filter" value="{{ filter_query }}">
-                <button type="submit">Filter</button>
-            </form>
-            <div id="public-websites">
-                {% for website in public_websites %}
-                <div class="website">
-                    <span>{{ website.addr }}</span>
-                    <form method="POST" action="/copy-website" class="inline-form">
-                        <input type="hidden" name="public_website_id" value="{{ website.id }}">
-                        <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
-                        <button type="submit">Copy</button>
                     </form>
                 </div>
                 {% endfor %}
