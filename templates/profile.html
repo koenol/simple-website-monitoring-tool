@@ -5,7 +5,7 @@
         <link rel="stylesheet" href="static/styles.css" />
     </head>
 <!-- self.note: Login required -->
-<body class="main-page">
+<body class="profile-page">
 <header>
     <div>User: <span id="username">{{ session.username }}</span></div>
     <form method="POST" action="/logout">
@@ -18,7 +18,7 @@
     <ul class="nav-menu">
         <li><a href="/main" class="nav-link">Dashboard</a></li>
         <li><a href="/profile" class="nav-link active">Profile</a></li>
-        <li><a href="/add-website" class="nav-link">Add Website</a></li>
+        <li><a href="/website" class="nav-link">Websites</a></li>
     </ul>
 </nav>
 

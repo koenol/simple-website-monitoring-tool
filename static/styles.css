@@ -69,8 +69,19 @@ body#register-page {
     border-radius: 4px;
 }
 
+/* header: username/logout */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgb(60, 60, 255);
+    color: white;
+    padding: 10px 20px;
+}
+
+
 /* menu */
-.main-page .sidebar {
+.sidebar {
     position: fixed;
     top: 60px;
     width: 200px;
@@ -79,36 +90,29 @@ body#register-page {
     padding: 20px 0;
 }
 
-.main-page .sidebar .nav-menu {
+.sidebar .nav-menu {
     list-style: none;
     padding: 0;
 }
 
-.main-page .sidebar .nav-link {
+.sidebar .nav-link {
     display: block;
     padding: 12px 20px;
     color: darkslategray;
     text-decoration: none;
 }
 
-.main-page .sidebar .nav-link:hover {
+.sidebar .nav-link:hover {
     background: rgb(60, 60, 255);
     color: white;
 }
-.main-page .sidebar .nav-link.active {
+
+.sidebar .nav-link.active {
     background: rgb(60, 60, 255);
     color: white;
 }
 
 /* main.html */
-.main-page header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: rgb(60, 60, 255);
-    color: white;
-    padding: 10px 20px;
-}
 
 .main-page .container {
     display: flex;
@@ -159,60 +163,102 @@ body#register-page {
     display: inline;
 }
 
-/* add_website.html */
-.add-website header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: rgb(60, 60, 255);
-    color: white;
-    padding: 10px 20px;
-}
-
-.add-website .container {
+/* website.html */
+.website-page .container {
     display: flex;
     margin-top: 20px;
     margin-left: 100px;
     justify-content: center;
     position: relative;
 }
-.add-website .main-box {
+.website-page .main-box {
     display: flex;
     flex-direction: column;
     width: 50%;
     padding-top: 100px;
 }
-.add-website .box {
+.website-page .box {
     border-radius: 5px;
     padding: 15px;
     margin-bottom: 15px;
+}
+
+.website-page button {
+    background: rgb(60, 60, 255);
+    color: white;
+    border: none;
+    padding: 8px;
+    border-radius: 5px;
+    font-size: 12px;
+}
+.website-page button:hover {
+    background: rgb(100, 100, 250);
+}
+.website-page input {
+    padding: 4px;
+    margin-bottom: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.website-page .search-filter {
+    margin-bottom: 15px;
+}
+.website-page.search-filter input {
+    padding: 8px;
+    font-size: 14px;
+}
+
+.website-page .inline-form {
+    display: inline;
 }
 
 /* profile.html */
-.profile header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: rgb(60, 60, 255);
-    color: white;
-    padding: 10px 20px;
-}
-
-.profile .container {
+.profile-page .container {
     display: flex;
     margin-top: 20px;
     margin-left: 100px;
     justify-content: center;
     position: relative;
 }
-.profile .main-box {
+.profile-page  .main-box {
     display: flex;
     flex-direction: column;
     width: 50%;
     padding-top: 100px;
 }
-.profile .box {
+.profile-page  .box {
     border-radius: 5px;
     padding: 15px;
     margin-bottom: 15px;
+}
+
+.profile-page  button {
+    background: rgb(60, 60, 255);
+    color: white;
+    border: none;
+    padding: 8px;
+    border-radius: 5px;
+    font-size: 12px;
+}
+.profile-page  button:hover {
+    background: rgb(100, 100, 250);
+}
+.profile-page  input {
+    padding: 4px;
+    margin-bottom: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.profile-page  .search-filter {
+    margin-bottom: 15px;
+}
+.profile-page .search-filter input {
+    padding: 8px;
+    font-size: 14px;
+}
+
+.profile-page  .inline-form {
+    display: inline;
 }
