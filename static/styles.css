@@ -69,7 +69,7 @@ body#register-page {
     border-radius: 4px;
 }
 
-/* Menu */
+/* menu */
 .main-page .sidebar {
     position: fixed;
     top: 60px;
@@ -158,5 +158,3 @@ body#register-page {
 .main-page .inline-form {
     display: inline;
 }
-
-/* add_Website.html */
