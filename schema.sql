@@ -11,6 +11,8 @@ CREATE TABLE urls (
     user_id INTEGER NOT NULL,
     addr TEXT,
     public BOOLEAN,
+    url_status_ok BOOLEAN,
+    url_code INT,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
