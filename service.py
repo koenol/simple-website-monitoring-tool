@@ -6,6 +6,7 @@ from flask import session, abort, request
 from werkzeug.security import generate_password_hash, check_password_hash
 import config
 import db
+import sqlite3
 import urllib.request, urllib.error
 
 def valid_username(username):
@@ -110,8 +111,18 @@ def copy_website(user_id, website_id):
 
 def ping_all_monitored_websites(user_id):
     results = get_user_websites(user_id)
+    errors = []
+    url_errors = []
     for url in results:
-        print(ping_website(url["addr"]))
+        status_ok, code = ping_website(url["addr"])
+
+        if code:
+            try:
+                update_website_status(url["id"], status_ok, code)
+            except Exception as e:
+                errors.append(e)
+        else:
+            url_errors.append(url["addr"])
 
 def ping_website(url_addr):
     try:
@@ -123,5 +134,6 @@ def ping_website(url_addr):
     except urllib.error.URLError as e:
         return False, None
     
-def update_website_status(url_id):
-    pass
+def update_website_status(url_id, status_ok, code):
+    sql = "UPDATE urls SET url_status_ok = ?, url_code = ? WHERE id = ?"
+    db.execute(sql, [status_ok, int(code), url_id])
