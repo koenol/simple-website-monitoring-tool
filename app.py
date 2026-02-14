@@ -172,11 +172,11 @@ def logout():
         return redirect("/")
     abort(405)
 
-@app.route("/profile", methods=["GET"])
-def profile():
+@app.route("/profile/<int:user_id>", methods=["GET"])
+def profile(user_id):
     """Render User Profile"""
     if request.method == "GET":
-        return render_template("profile.html")
+        return render_template("profile.html", user_id=user_id)
     abort(405)
 
 @app.route("/website", methods=["GET"])
