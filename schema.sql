@@ -23,11 +23,11 @@ CREATE TABLE keywords (
     FOREIGN KEY (url_id) REFERENCES urls(id) ON DELETE CASCADE
 );
 
-CREATE TABLE statistics (
-    user_id INTEGER PRIMARY KEY,
-    creation_date TIMESTAMP,
-    last_login TIMESTAMP,
-    entries_created INTEGER DEFAULT 0,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
-);
-
+CREATE TABLE reports {
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    report_date TEXT,
+    FOREIGN KEY (url_id) REFERENCES urls(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (url_status_ok) REFERENCES urls(url_status_ok) ON DELETE CASCADE,
+    FOREIGN KEY (url_code) REFERENCES urls(url_status_ok) ON DELETE CASCADE
+}
