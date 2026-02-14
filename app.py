@@ -183,7 +183,19 @@ def profile():
 def website():
     """Render Websites"""
     if request.method == "GET":
-        return render_template("website.html")
+        service.ping_all_monitored_websites(session["user_id"])
+        personal_websites = service.get_user_websites(session["user_id"])
+        filter_query = request.args.get("filter", "").strip()
+        if filter_query:
+            public_websites = service.get_public_websites_filtered(filter_query)
+        else:
+            public_websites = service.get_public_websites()
+        return render_template(
+            "website.html",
+            personal_websites=personal_websites,
+            public_websites=public_websites,
+            filter_query=filter_query
+        )
     abort(405)
 
 @app.route("/ping")
