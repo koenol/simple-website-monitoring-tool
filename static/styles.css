@@ -163,6 +163,37 @@ header {
     display: inline;
 }
 
+.main-page .websites-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.main-page .websites-table th,
+.main-page .websites-table td {
+    padding: 4px 5px;
+    text-align: left;
+}
+
+.main-page .websites-table th:nth-child(1),
+.main-page .websites-table td:nth-child(1) {
+    width: 10px;
+}
+
+.main-page .websites-table th:nth-child(2),
+.main-page .websites-table td:nth-child(2) {
+    width: 200px;
+}
+
+.main-page .websites-table th:nth-child(3),
+.main-page .websites-table td:nth-child(3) {
+    width: 40px;
+}
+
+.main-page .websites-table th:nth-child(4),
+.main-page .websites-table td:nth-child(4) {
+    width: 40px;
+}
+
 /* website.html */
 .website-page .container {
     display: flex;
