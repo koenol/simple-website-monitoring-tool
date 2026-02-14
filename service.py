@@ -74,7 +74,7 @@ def valid_address(address):
 
 def get_user_websites(user_id):
     """Get all user websites"""
-    sql = "SELECT addr, id, public FROM urls WHERE user_id = ?"
+    sql = "SELECT addr, id, public, url_status_ok, url_code FROM urls WHERE user_id = ?"
     result = db.query(sql, [user_id])
     return result
 

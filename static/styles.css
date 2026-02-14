@@ -194,6 +194,26 @@ header {
     width: 40px;
 }
 
+.main-page .websites-table td.status-ok-true {
+    color: green;
+}
+
+.main-page .websites-table td.status-ok-false {
+    color: red;
+}
+
+.main-page .websites-table td.url-code-green {
+    color: green;
+}
+
+.main-page .websites-table td.url-code-yellow {
+    color: yellow;
+}
+
+.main-page .websites-table td.url-code-red {
+    color: red;
+}
+
 /* website.html */
 .website-page .container {
     display: flex;
