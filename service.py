@@ -78,10 +78,10 @@ def get_user_websites(user_id):
     result = db.query(sql, [user_id])
     return result
 
-def get_public_websites():
+def get_public_websites(user_id):
     """Get all public websites"""
-    sql = "SELECT addr, id FROM urls WHERE public = ?"
-    result = db.query(sql, [True])
+    sql = "SELECT addr, id FROM urls WHERE public = ? AND user_id != ?"
+    result = db.query(sql, [True, user_id],)
     return result
 
 def toggle_visiblity(website_id, visibility):
@@ -95,11 +95,11 @@ def delete_website(website_id):
     sql = "DELETE FROM urls WHERE id = ?"
     db.execute(sql, [website_id])
 
-def get_public_websites_filtered(filter_query):
+def get_public_websites_filtered(filter_query, user_id):
     """Get Filtered Public Websites"""
-    sql = "SELECT addr, id FROM urls WHERE public = ? AND addr LIKE ?"
+    sql = "SELECT addr, id FROM urls WHERE public = ? AND addr LIKE ? AND user_id != ?"
     website_filter = f"%{filter_query}%"
-    result = db.query(sql, [True, website_filter])
+    result = db.query(sql, [True, website_filter, user_id])
     return result
 
 def copy_website(user_id, website_id):
