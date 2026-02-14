@@ -114,7 +114,7 @@ def add_website():
                 return redirect("/website")
             except sqlite3.IntegrityError as e:
                 flash(str(e))
-                return redirect("/main")
+                return redirect("/website")
         else:
             flash("Incorrect domain format, use: 'example.com'")
             return redirect("/website")
@@ -129,10 +129,10 @@ def toggle_visibility():
         website_visibility = request.form["website_visibility"]
         try:
             service.toggle_visiblity(website_id, website_visibility)
-            return redirect("/main")
+            return redirect("/website")
         except sqlite3.IntegrityError as e:
             flash(str(e))
-            return redirect("/main")
+            return redirect("/website")
     abort(405)
 
 @app.route("/delete-website", methods=["POST"])
@@ -143,10 +143,10 @@ def delete_website():
         website_id = request.form["website_id"]
         try:
             service.delete_website(website_id)
-            return redirect("/main")
+            return redirect("/website")
         except sqlite3.IntegrityError as e:
             flash(str(e))
-            return redirect("/main")
+            return redirect("/website")
     abort(405)
 
 @app.route("/copy-website", methods=["POST"])
@@ -157,10 +157,10 @@ def copy_website():
         website_id = request.form["public_website_id"]
         try:
             service.copy_website(session["user_id"], website_id)
-            return redirect("/main")
+            return redirect("/website")
         except sqlite3.IntegrityError as e:
             flash(str(e))
-            return redirect("/main")
+            return redirect("/website")
     abort(405)
 
 @app.route("/logout", methods=["POST"])
