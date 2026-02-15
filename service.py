@@ -66,7 +66,7 @@ def add_website(user_id, address, keyword):
     """Insert domain into the database"""
     ## kword = keyword // not in use for now
     sql = "INSERT INTO urls (user_id, addr, public, priority_class) VALUES (?, ?, ?, ?)"
-    db.execute(sql, [user_id, address, False, 1])
+    db.execute(sql, [user_id, address, False, 2])
 
 
 def valid_address(address):
@@ -76,7 +76,7 @@ def valid_address(address):
 
 def get_user_websites(user_id):
     """Get all user websites"""
-    sql = "SELECT addr, id, public, url_status_ok, url_code FROM urls WHERE user_id = ? ORDER BY priority_class"
+    sql = "SELECT addr, id, public, url_status_ok, url_code FROM urls WHERE user_id = ? ORDER BY priority_class DESC"
     result = db.query(sql, [user_id])
     return result
 
@@ -182,4 +182,8 @@ def get_user_data_public(user_id):
 def get_priority_classes():
     sql = "SELECT * from priority_classes"
     result = db.query(sql)
-    return result
+    return [dict(row) for row in result] if result else []
+
+def update_website_priority(url_id, priority):
+    sql = "UPDATE urls SET priority_class = ? WHERE id = ?"
+    db.execute(sql, [priority, url_id])

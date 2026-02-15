@@ -222,3 +222,14 @@ def website_report(url_id):
             reports = service.get_website_reports_by_id(url_id)
             return render_template("website_info.html", website_data = website_data[0], reports=reports)
     abort(403)
+
+@app.route("/update-priority", methods=["POST"])
+def update_priority():
+    if request.method == "POST":
+        service.check_csrf()
+        website_id = request.form["website_id"]
+        priority = request.form["priority"]
+        if service.check_website_view_permission(website_id, session["user_id"]):
+            service.update_website_priority(website_id, priority)
+            return redirect(f"/website/{website_id}")
+    abort(403)

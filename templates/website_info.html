@@ -49,7 +49,7 @@
                 <select name="priority" required>
                     <option value="">Select Priority</option>
                     {% for priority in priority_classes %}
-                    <option value="{{ priority }}">{{ priority.class }}</option>
+                    <option value="{{ priority.id }}">{{ priority.class }}</option>
                     {% endfor %}
                 </select>
                 <button type="submit">Update</button>
