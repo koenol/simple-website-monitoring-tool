@@ -46,12 +46,13 @@ Uudet:
 -   [x] CSRF-aukot pitäisi olla toteutettu kaikissa formeissa.
 
 Huomioitavaa:
-    - Sovelluksen lukuoikeuksissa saattaa esiintyä puutteita, koska sovelluksen logiikka on vielä hiukan keskeneräinen sen suhteen mitä ja milloin renderöidään.
-    - Käyttäjän muodostamat raportit ovat vielä dict muodossa, samoin käyttäjän luontipvm.
-    - Virheidenhallinta kaipaa parannusta, sovellus saattaa kaatua välillä jos urllib epäonnistuu tai yhteyden haku on hidasta, tämä esiintyy myös sivun hitautena.
-    - Kaikki sivustot eivät hyväksy pingausta nykyisillä parametreillä, esim. finnair.com palauttaa 403 vaikka sinne pääsee normaalilla selaimella. Lisäparametrja harkitaan, mutta täydellistä korjausta ei ole tulossa.
-    - Ulkoasu vaatii hiukan parannusta, mutta on kuitenkin aika lähellä lopullista. Virheiden esityspaikka & joidenkin painikken siirto parempaan paikkaan vaatii muutosta.
-    - Keyword ei vieläkään käytössä.
+- Sovelluksen lukuoikeuksissa saattaa esiintyä puutteita, koska sovelluksen logiikka on vielä hieman keskeneräinen sen suhteen mitä ja milloin renderöidään.
+- Käyttäjän muodostamat raportit ovat vielä dict-muodossa, samoin käyttäjän luontipäivämäärä.
+- Virheidenhallinta kaipaa parannusta. Sovellus saattaa kaatua välillä, jos urllib epäonnistuu tai yhteyden haku on hidasta. Tämä voi ilmetä myös sivun hitautena.
+- Kaikki sivustot eivät hyväksy pingausta nykyisillä parametreillä. Esimerkiksi finnair.com palauttaa 403-virheen, vaikka sivulle pääsee normaalilla selaimella. Lisäparametreja harkitaan, mutta täydellistä korjausta ei ole tulossa.
+- Ulkoasu vaatii vielä hieman parannusta, mutta on jo melko lähellä lopullista versiota. Virheiden esityspaikka sekä joidenkin painikkeiden siirto parempaan paikkaan vaativat muutoksia.
+- Keyword-toiminnallisuus ei ole vielä käytössä.
+
 
 
 
