@@ -1,12 +1,3 @@
-/* test */
-.status-code-ok {
-    color: green;
-}
-
-.status-code-bad {
-    color: red;
-}
-
 /* index.html */
 body#login-page {
     display: flex;
@@ -163,67 +154,6 @@ header {
     display: inline;
 }
 
-.main-page .websites-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.main-page .websites-table th,
-.main-page .websites-table td {
-    padding: 4px 5px;
-    text-align: left;
-}
-
-.main-page .websites-table th:nth-child(1),
-.main-page .websites-table td:nth-child(1) {
-    width: 10px;
-}
-
-.main-page .websites-table th:nth-child(2),
-.main-page .websites-table td:nth-child(2) {
-    width: 200px;
-}
-
-.main-page .websites-table th:nth-child(3),
-.main-page .websites-table td:nth-child(3) {
-    width: 40px;
-}
-
-.main-page .websites-table th:nth-child(4),
-.main-page .websites-table td:nth-child(4) {
-    width: 40px;
-}
-
-.main-page .websites-table th:nth-child(5),
-.main-page .websites-table td:nth-child(5) {
-    width: 10px;
-}
-
-.main-page .websites-table th:nth-child(6),
-.main-page .websites-table td:nth-child(6) {
-    width: 10px;
-}
-
-.main-page .websites-table td.status-ok-true {
-    color: green;
-}
-
-.main-page .websites-table td.status-ok-false {
-    color: red;
-}
-
-.main-page .websites-table td.url-code-green {
-    color: green;
-}
-
-.main-page .websites-table td.url-code-yellow {
-    color: yellow;
-}
-
-.main-page .websites-table td.url-code-red {
-    color: red;
-}
-
 /* website.html */
 .website-page .container {
     display: flex;
@@ -322,4 +252,66 @@ header {
 
 .profile-page  .inline-form {
     display: inline;
+}
+
+/* .websites-table, universal */
+.websites-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.websites-table th,
+.websites-table td {
+    padding: 4px 5px;
+    text-align: left;
+}
+
+.websites-table th:nth-child(1),
+.websites-table td:nth-child(1) {
+    width: 10px;
+}
+
+.websites-table th:nth-child(2),
+.websites-table td:nth-child(2) {
+    width: 200px;
+}
+
+.websites-table th:nth-child(3),
+.websites-table td:nth-child(3) {
+    width: 40px;
+}
+
+.websites-table th:nth-child(4),
+.websites-table td:nth-child(4) {
+    width: 40px;
+}
+
+.websites-table th:nth-child(5),
+.websites-table td:nth-child(5) {
+    width: 10px;
+}
+
+.websites-table th:nth-child(6),
+.websites-table td:nth-child(6) {
+    width: 10px;
+}
+
+.websites-table td.status-ok-true { 
+    color: green;
+}
+
+.websites-table td.status-ok-false {
+    color: red;
+}
+
+.websites-table td.url-code-green {
+    color: green;
+}
+
+.websites-table td.url-code-yellow {
+    color: yellow;
+}
+
+.websites-table td.url-code-red {
+    color: red; 
 }

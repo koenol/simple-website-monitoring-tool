@@ -178,5 +178,4 @@ def get_user_websites_reports_all(user_id):
 def get_user_data_public(user_id):
     sql = "SELECT username, creation_date FROM users WHERE id = ?"
     result = db.query(sql, [user_id])
-    print(result)
     return result
