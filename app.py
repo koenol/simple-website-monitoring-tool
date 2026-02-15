@@ -176,10 +176,11 @@ def logout():
 def profile(user_id):
     """Render User Profile"""
     if request.method == "GET":
+        userdata = service.get_user_data_public(user_id)
         if user_id == session["user_id"]:
             websites = service.get_user_websites(user_id)
             reports = service.get_user_websites_reports_all(user_id)
-        return render_template("profile.html", personal_websites=websites, reports=reports)
+        return render_template("profile.html", personal_websites=websites, reports=reports, userdata=userdata)
     abort(405)
 
 @app.route("/website", methods=["GET"])
