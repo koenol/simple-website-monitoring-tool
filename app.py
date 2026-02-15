@@ -204,7 +204,7 @@ def website_info(url_id):
     if request.method == "GET":
         if service.check_website_view_permission(url_id, session["user_id"]):
             website_data = service.get_website_info_by_id(url_id)
-            return render_template("website_info.html", website_data = website_data)
+            return render_template("website_info.html", website_data = website_data[0])
     abort(403)
 
 @app.route("/ping")

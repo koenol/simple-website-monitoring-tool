@@ -26,7 +26,13 @@
     <div class="main-box">
         <div class="box">
             <h2>Website Info</h2>
-            <p>{{ website_data }}</p>
+            <p>Identifier:{{ website_data.id }}</p>
+            <p>Owner: {{ website_data.user_id }}</p>
+            <p>Address: https://{{ website_data.addr }}</p>
+            <p>Public: {{ website_data.public }}</p>
+            <p>Status: {{ website_data.url_status_ok }}</p>
+            <p>HTTP Code: {{ website_data.url_code }}</p>
+        </div>
     </div>
 </div> <!-- self.note: end of login required -->
 
