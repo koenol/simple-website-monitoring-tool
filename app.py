@@ -199,13 +199,13 @@ def website():
     abort(405)
 
 @app.route("/website/<int:url_id>", methods=["GET"])
-def website(url_id):
+def website_info(url_id):
     """Render Website Info"""
     if request.method == "GET":
         if service.check_website_view_permission(url_id, session["user_id"]):
             website_data = service.get_website_info_by_id(url_id)
-            return render_template("website.html", website_data = website_data)
-    abort(405)
+            return render_template("website_info.html", website_data = website_data)
+    abort(403)
 
 @app.route("/ping")
 def ping():
