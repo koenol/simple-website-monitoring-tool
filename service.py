@@ -64,10 +64,9 @@ def check_csrf():
 
 def add_website(user_id, address, keyword):
     """Insert domain into the database"""
-    ## domain = address
     ## kword = keyword // not in use for now
-    sql = "INSERT INTO urls (user_id, addr, public) VALUES (?, ?, ?)"
-    db.execute(sql, [user_id, address, False])
+    sql = "INSERT INTO urls (user_id, addr, public, priority_class) VALUES (?, ?, ?, ?)"
+    db.execute(sql, [user_id, address, False, 1])
 
 
 def valid_address(address):
@@ -77,7 +76,7 @@ def valid_address(address):
 
 def get_user_websites(user_id):
     """Get all user websites"""
-    sql = "SELECT addr, id, public, url_status_ok, url_code FROM urls WHERE user_id = ?"
+    sql = "SELECT addr, id, public, url_status_ok, url_code FROM urls WHERE user_id = ? ORDER BY priority_class"
     result = db.query(sql, [user_id])
     return result
 
@@ -178,4 +177,9 @@ def get_user_websites_reports_all(user_id):
 def get_user_data_public(user_id):
     sql = "SELECT username, creation_date FROM users WHERE id = ?"
     result = db.query(sql, [user_id])
+    return result
+
+def get_priority_classes():
+    sql = "SELECT * from priority_classes"
+    result = db.query(sql)
     return result

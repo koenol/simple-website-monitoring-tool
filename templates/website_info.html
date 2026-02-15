@@ -43,6 +43,17 @@
                 <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
                 <button type="submit">Delete</button>
             </form>
+            <form method="POST" action="/update-priority" class="inline-form">
+                <input type="hidden" name="website_id" value="{{ website_data.id }}">
+                <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+                <select name="priority" required>
+                    <option value="">Select Priority</option>
+                    {% for priority in priority_classes %}
+                    <option value="{{ priority }}">{{ priority.class }}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit">Update</button>
+            </form>
             <br>
             <h3>Reports</h3>
             <ul>
