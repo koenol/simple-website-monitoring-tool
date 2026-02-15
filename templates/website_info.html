@@ -32,6 +32,12 @@
             <p>Public: {{ website_data.public }}</p>
             <p>Status: {{ website_data.url_status_ok }}</p>
             <p>HTTP Code: {{ website_data.url_code }}</p>
+            <h3>Reports</h3>
+            <ul>
+                {% for report in reports %}
+                <li>{{ report }}</li>
+                {% endfor %}
+            </ul>
         </div>
     </div>
 </div> <!-- self.note: end of login required -->
