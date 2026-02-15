@@ -198,6 +198,13 @@ def website():
         )
     abort(405)
 
+@app.route("/website/<int:url_id>", methods=["GET"])
+def website(url_id):
+    """Render Website Info"""
+    if request.method == "GET":
+        service.get_website_info_by_id(url_id)
+    abort(405)
+
 @app.route("/ping")
 def ping():
     """For testing connection to the localhost"""

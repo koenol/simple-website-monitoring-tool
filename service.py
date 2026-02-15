@@ -137,3 +137,9 @@ def ping_website(url_addr):
 def update_website_status(url_id, status_ok, code):
     sql = "UPDATE urls SET url_status_ok = ?, url_code = ? WHERE id = ?"
     db.execute(sql, [status_ok, int(code), url_id])
+
+def get_website_info_by_id(url_id):
+    """Get website info by id"""
+    sql = "SELECT * FROM urls WHERE id = ?"
+    result = db.query(sql, [url_id])
+    return result
