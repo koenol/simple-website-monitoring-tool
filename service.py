@@ -167,4 +167,4 @@ def report_website_by_id(url_id):
 def get_website_reports_by_id(url_id):
     sql = "SELECT * FROM reports WHERE url_id = ?"
     result = db.query(sql, [url_id])
-    return result
+    return [dict(row) for row in result] if result else []
