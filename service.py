@@ -30,9 +30,10 @@ def sanitize(text):
 
 def create_user(username, password):
     """Generate password hash and create user"""
+    timestamp = datetime.now().isoformat()
     password_hash = generate_password_hash(password)
-    sql = "INSERT INTO users (username, password_hash) VALUES (?, ?)"
-    db.execute(sql, [username, password_hash])
+    sql = "INSERT INTO users (username, creation_date, password_hash) VALUES (?, ?, ?)"
+    db.execute(sql, [username, timestamp, password_hash])
 
 def validate_user(username, password):
     """Validate User Password"""
@@ -172,5 +173,4 @@ def get_website_reports_by_id(url_id):
 def get_user_websites_reports_all(user_id):
     sql = "SELECT * FROM reports WHERE user_id = ?"
     result = db.query(sql, [user_id])
-    print(result)
     return result
