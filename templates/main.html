@@ -35,6 +35,8 @@
                                 <th>Website</th>
                                 <th>Status</th>
                                 <th>Code</th>
+                                <th>Edit</th>
+                                <th>Report</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -51,11 +53,25 @@
                                     {% if website.url_code >= 200 and website.url_code < 300 %}
                                         <td class="url-code-green">{{ website.url_code }}</td>
                                     {% elif website.url_code >= 300 and website.url_code < 400 %}
-                                        <td class="url-code-yellow">{{ webssite.url_code }}</td>
+                                        <td class="url-code-yellow">{{ website.url_code }}</td>
                                     {% else %}
-                                        <td class="url-code-red">{{ webssite.url_code }}</td>
-                                    {% endif %}
+                                        <td class="url-code-red">{{ website.url_code }}</td>
+                                        {% endif %}
+                                {% else %}
+                                    <td>-</td>
                                 {% endif %}
+                                <td class="edit">
+                                    <form method="GET" action="/website/{{ website.id }}" class="inline-form">
+                                        <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+                                        <button type="submit">Edit</button>
+                                    </form>
+                                </td>
+                                <td class="report">
+                                    <form method="POST" action="/website/{{ website.id }}/report" class="inline-form">
+                                        <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+                                        <button type="submit">Report</button>
+                                    </form>
+                                </td>
                             </tr>
                             {% endfor %}
                         </tbody>

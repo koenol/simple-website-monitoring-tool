@@ -194,6 +194,16 @@ header {
     width: 40px;
 }
 
+.main-page .websites-table th:nth-child(5),
+.main-page .websites-table td:nth-child(5) {
+    width: 10px;
+}
+
+.main-page .websites-table th:nth-child(6),
+.main-page .websites-table td:nth-child(6) {
+    width: 10px;
+}
+
 .main-page .websites-table td.status-ok-true {
     color: green;
 }
