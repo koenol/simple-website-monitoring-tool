@@ -2,12 +2,14 @@
 
 import re
 import secrets
+from datetime import datetime
 from flask import session, abort, request
 from werkzeug.security import generate_password_hash, check_password_hash
 import config
 import db
 import sqlite3
 import urllib.request, urllib.error
+
 
 def valid_username(username):
     """Validate username is a string that contains only characters and is within set parameters."""
@@ -153,3 +155,11 @@ def check_website_view_permission(url_id, user_id):
     """
     return db.query(sql, [url_id, user_id, url_id, True])
     
+def report_website_by_id(url_id):
+    """Insert Website Current Status Into Reports Page"""
+    timestamp = datetime.now().isoformat()
+    sql = """
+    INSERT INTO reports (url_id, user_id, report_date, url_status_ok, url_code)
+    SELECT id, user_id, ?, url_status_ok, url_code FROM urls WHERE id = ?
+    """
+    db.execute(sql, [timestamp, url_id])

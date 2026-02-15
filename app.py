@@ -207,7 +207,10 @@ def website_info(url_id):
             return render_template("website_info.html", website_data = website_data[0])
     abort(403)
 
-@app.route("/ping")
-def ping():
-    """For testing connection to the localhost"""
-    return render_template("ping.html")
+@app.route("/website/<int:url_id>/report", methods=["POST"])
+def website_report(url_id):
+    if request.method == "POST":
+        if service.check_website_view_permission(url_id, session["user_id"]):
+            service.report_website_by_id(url_id)
+            return render_template("website.html")
+    abort(403)
