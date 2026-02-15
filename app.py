@@ -180,7 +180,12 @@ def profile(user_id):
         if user_id == session["user_id"]:
             websites = service.get_user_websites(user_id)
             reports = service.get_user_websites_reports_all(user_id)
-        return render_template("profile.html", personal_websites=websites, reports=reports, userdata=userdata)
+            return render_template(
+                "profile.html",
+                personal_websites=websites,
+                reports=reports,
+                userdata=userdata
+            )
     abort(405)
 
 @app.route("/website", methods=["GET"])
@@ -210,26 +215,39 @@ def website_info(url_id):
             website_data = service.get_website_info_by_id(url_id)
             reports = service.get_website_reports_by_id(url_id)
             priority_classes = service.get_priority_classes()
-            return render_template("website_info.html", website_data = website_data[0], reports=reports, priority_classes=priority_classes)
+            return render_template(
+                "website_info.html",
+                website_data=website_data[0],
+                reports=reports,
+                priority_classes=priority_classes
+            )
     abort(403)
 
 @app.route("/website/<int:url_id>/report", methods=["POST"])
 def website_report(url_id):
+    """Report website status"""
     if request.method == "POST":
         if service.check_website_view_permission(url_id, session["user_id"]):
             service.report_website_by_id(url_id)
             website_data = service.get_website_info_by_id(url_id)
             reports = service.get_website_reports_by_id(url_id)
-            return render_template("website_info.html", website_data = website_data[0], reports=reports)
+            return render_template(
+                "website_info.html",
+                website_data=website_data[0],
+                reports=reports
+            )
     abort(403)
 
 @app.route("/update-priority", methods=["POST"])
 def update_priority():
+    """Update website priority"""
     if request.method == "POST":
         service.check_csrf()
         website_id = request.form["website_id"]
         priority = request.form["priority"]
-        if service.check_website_view_permission(website_id, session["user_id"]):
+        if service.check_website_view_permission(
+            website_id, session["user_id"]
+        ):
             service.update_website_priority(website_id, priority)
             return redirect(f"/website/{website_id}")
     abort(403)

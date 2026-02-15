@@ -2,13 +2,13 @@
 
 import re
 import secrets
+import urllib.error
+import urllib.request
 from datetime import datetime
 from flask import session, abort, request
 from werkzeug.security import generate_password_hash, check_password_hash
 import config
 import db
-import sqlite3
-import urllib.request, urllib.error
 
 
 def valid_username(username):
@@ -64,7 +64,7 @@ def check_csrf():
 
 def add_website(user_id, address, keyword):
     """Insert domain into the database"""
-    ## kword = keyword // not in use for now
+    # keyword parameter not in use for now
     sql = "INSERT INTO urls (user_id, addr, public, priority_class) VALUES (?, ?, ?, ?)"
     db.execute(sql, [user_id, address, False, 2])
 
@@ -76,7 +76,11 @@ def valid_address(address):
 
 def get_user_websites(user_id):
     """Get all user websites"""
-    sql = "SELECT addr, id, public, url_status_ok, url_code FROM urls WHERE user_id = ? ORDER BY priority_class DESC"
+    sql = (
+        "SELECT addr, id, public, url_status_ok, url_code FROM urls "
+        "WHERE user_id = ? "
+        "ORDER BY priority_class DESC"
+    )
     result = db.query(sql, [user_id])
     return result
 
@@ -112,6 +116,7 @@ def copy_website(user_id, website_id):
     db.execute(sql, [user_id, result[0]["addr"], False])
 
 def ping_all_monitored_websites(user_id):
+    """Ping all monitored websites"""
     results = get_user_websites(user_id)
     errors = []
     url_errors = []
@@ -121,22 +126,27 @@ def ping_all_monitored_websites(user_id):
         if code:
             try:
                 update_website_status(url["id"], status_ok, code)
-            except Exception as e:
+            except ValueError as e:
                 errors.append(e)
         else:
             url_errors.append(url["addr"])
 
 def ping_website(url_addr):
+    """Ping a website"""
     try:
-        req = urllib.request.Request(("https://" + url_addr), headers={"User-Agent": "Mozilla/5.0"})
-        response = urllib.request.urlopen(req, timeout=3)
-        return True, response.status
+        req = urllib.request.Request(
+            ("https://" + url_addr),
+            headers={"User-Agent": "Mozilla/5.0"}
+        )
+        with urllib.request.urlopen(req, timeout=3) as response:
+            return True, response.status
     except urllib.error.HTTPError as e:
         return False, e.code
-    except urllib.error.URLError as e:
+    except urllib.error.URLError:
         return False, None
-    
+
 def update_website_status(url_id, status_ok, code):
+    """Update website status and HTTP code."""
     sql = "UPDATE urls SET url_status_ok = ?, url_code = ? WHERE id = ?"
     db.execute(sql, [status_ok, int(code), url_id])
 
@@ -154,7 +164,7 @@ def check_website_view_permission(url_id, user_id):
         OR (id = ? AND public = ?)
     """
     return db.query(sql, [url_id, user_id, url_id, True])
-    
+
 def report_website_by_id(url_id):
     """Insert Website Current Status Into Reports Page"""
     timestamp = datetime.now().isoformat()
@@ -165,25 +175,30 @@ def report_website_by_id(url_id):
     db.execute(sql, [timestamp, url_id])
 
 def get_website_reports_by_id(url_id):
+    """Get website reports by url_id"""
     sql = "SELECT * FROM reports WHERE url_id = ?"
     result = db.query(sql, [url_id])
     return [dict(row) for row in result] if result else []
 
 def get_user_websites_reports_all(user_id):
+    """Get all website reports for user"""
     sql = "SELECT * FROM reports WHERE user_id = ?"
     result = db.query(sql, [user_id])
     return result
 
 def get_user_data_public(user_id):
+    """Get public user data"""
     sql = "SELECT username, creation_date FROM users WHERE id = ?"
     result = db.query(sql, [user_id])
     return result
 
 def get_priority_classes():
+    """Get all priority classes"""
     sql = "SELECT * from priority_classes"
     result = db.query(sql)
     return [dict(row) for row in result] if result else []
 
 def update_website_priority(url_id, priority):
+    """Update website priority class"""
     sql = "UPDATE urls SET priority_class = ? WHERE id = ?"
     db.execute(sql, [priority, url_id])
