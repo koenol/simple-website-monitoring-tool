@@ -32,6 +32,18 @@
             <p>Public: {{ website_data.public }}</p>
             <p>Status: {{ website_data.url_status_ok }}</p>
             <p>HTTP Code: {{ website_data.url_code }}</p>
+            <form method="POST" action="/toggle-visibility" class="inline-form">
+                <input type="hidden" name="website_id" value="{{ website_data.id }}">
+                <input type="hidden" name="website_visibility" value="{{ website_data.public }}">
+                <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+                <button type="submit">{% if website_data.public %}Hide{% else %}Public{% endif %}</button>
+            </form>
+            <form method="POST" action="/delete-website" class="inline-form">
+                <input type="hidden" name="website_id" value="{{ website_data.id }}">
+                <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+                <button type="submit">Delete</button>
+            </form>
+            <br>
             <h3>Reports</h3>
             <ul>
                 {% for report in reports %}
