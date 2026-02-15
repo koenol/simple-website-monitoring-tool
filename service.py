@@ -83,7 +83,7 @@ def get_user_websites(user_id):
 def get_public_websites(user_id):
     """Get all public websites"""
     sql = "SELECT addr, id FROM urls WHERE public = ? AND user_id != ?"
-    result = db.query(sql, [True, user_id],)
+    result = db.query(sql, [True, user_id])
     return result
 
 def toggle_visiblity(website_id, visibility):
@@ -163,3 +163,8 @@ def report_website_by_id(url_id):
     SELECT id, user_id, ?, url_status_ok, url_code FROM urls WHERE id = ?
     """
     db.execute(sql, [timestamp, url_id])
+
+def get_website_reports_by_id(url_id):
+    sql = "SELECT * FROM reports WHERE url_id = ?"
+    result = db.query(sql, [url_id])
+    return result
