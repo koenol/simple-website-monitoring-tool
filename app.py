@@ -227,6 +227,7 @@ def website_info(url_id):
 def website_report(url_id):
     """Report website status"""
     if request.method == "POST":
+        service.check_csrf()
         if service.check_website_view_permission(url_id, session["user_id"]):
             service.report_website_by_id(url_id)
             website_data = service.get_website_info_by_id(url_id)
