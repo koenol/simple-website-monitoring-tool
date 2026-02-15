@@ -129,10 +129,10 @@ def toggle_visibility():
         website_visibility = request.form["website_visibility"]
         try:
             service.toggle_visiblity(website_id, website_visibility)
-            return redirect("/website")
+            return redirect(f"/website/{website_id}")
         except sqlite3.IntegrityError as e:
             flash(str(e))
-            return redirect("/website")
+            return redirect(f"/website/{website_id}")
     abort(405)
 
 @app.route("/delete-website", methods=["POST"])
