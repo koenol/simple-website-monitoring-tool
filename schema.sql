@@ -23,11 +23,13 @@ CREATE TABLE keywords (
     FOREIGN KEY (url_id) REFERENCES urls(id) ON DELETE CASCADE
 );
 
-CREATE TABLE reports {
+CREATE TABLE reports (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
+    url_id INTEGER NOT NULL,
+    user_id INTEGER NOT NULL,
     report_date TEXT,
+    url_status_ok BOOLEAN,
+    url_code INT,
     FOREIGN KEY (url_id) REFERENCES urls(id) ON DELETE CASCADE,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-    FOREIGN KEY (url_status_ok) REFERENCES urls(url_status_ok) ON DELETE CASCADE,
-    FOREIGN KEY (url_code) REFERENCES urls(url_status_ok) ON DELETE CASCADE
-}
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
