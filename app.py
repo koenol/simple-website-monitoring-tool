@@ -202,7 +202,9 @@ def website():
 def website(url_id):
     """Render Website Info"""
     if request.method == "GET":
-        service.get_website_info_by_id(url_id)
+        if service.check_website_view_permission(url_id, session["user_id"]):
+            website_data = service.get_website_info_by_id(url_id)
+            return render_template("website.html", website_data = website_data)
     abort(405)
 
 @app.route("/ping")

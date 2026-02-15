@@ -143,3 +143,9 @@ def get_website_info_by_id(url_id):
     sql = "SELECT * FROM urls WHERE id = ?"
     result = db.query(sql, [url_id])
     return result
+
+def check_website_view_permission(url_id, user_id):
+    """Verify View Permission"""
+    sql = "SELECT * FROM urls WHERE id = ? AND user_id = ? OR where id = ? AND public = ?"
+    return db.query(sql, [url_id, user_id, url_id, True])
+    
