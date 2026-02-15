@@ -20,16 +20,50 @@
 Huomioitavaa:
     - Sovellus ei vielä tee health-check kutsuja tietorakenteista, mutta toimintoa testattu ensimmäisellä viikolla.
 
+## Välipalautus 3 (+Välipalautus 2 muutokset)
+
+Päivitetyt:
+- [x] Käyttäjä pystyy luomaan tunnuksen ja kirjautumaan sisään sovellukseen.
+    - 1. Index -> Register -> Login -> Main View
+    - 2. Index -> Login -> Main View
+- [x] Käyttäjä pystyy lisäämään, muokkaamaan ja poistamaan tietokohteita.
+    - 1. Lisääminen: Index -> Login -> Websites: Add New Website -> Address: e.g. example.com (keyword ei vielä käytössä) -> Add
+    - 2. Muokkaamaan: Index -> Login -> Edit -> Website/id:
+        - Public/Hide: Muuttaa sivuston näkyvyyttä
+        - Select Priority: Vaihtaa sivuston järjestysprioriteettia
+    - 3. Poistaminen: Index -> Login -> Edit -> Website/id:
+        - Delete: Poistaa sivuston
+- [x] Käyttäjä näkee sovellukseen lisätyt tietokohteet.
+    - 1. Käyttäjän Omat Tietorakenteet: Index -> Login -> Main: Käyttäjä näkee omat tietokohteensa Dashboardissa, Profiilit sivulla, Websites sivulla. 
+    - 2. Julkiset Tietorakenteet: Index -> Login -> Websites: Public Websites näyttää julkiset tietokohteet. Website/Id: Näyttää julkisten tietokohteiden tiedot ja raportit
+- [x] Käyttäjä pystyy etsimään tietokohteita hakusanalla tai muulla perusteella.
+    - 1. Haku: Index -> Login -> Websites: Käyttäjä pystyy filtteröimään julkisia tietorakenteita valitsemallaan hakusanalla
+
+Uudet:
+-   [x] Sovelluksessa on käyttäjäsivut, jotka näyttävät tilastoja ja käyttäjän lisäämät tietokohteet: Index -> Login -> Profile
+-   [x] Käyttäjä pystyy valitsemaan tietokohteelle yhden tai useamman luokittelun. Mahdolliset luokat ovat tietokannassa: Index -> Login -> Edit: Käyttäjä voi muuttaa tietokohteen priority luokkaa (Low/Medium/High Priority). Nämä muuttavat tietokohteen järjestely luokitusta, mutta se ei vielä ilmene välttämättä käyttäjälle tarpeeksi selvästi.
+-   [x] Käyttäjä pystyy lähettämään toisen käyttäjän tietokohteeseen liittyen jotain lisätietoa, joka tulee näkyviin sovelluksessa: Index -> Websites -> Public Websites -> Report: Käyttäjä pystyy raportoimaan omiaan ja toisen käyttäjän julkisia tietokohteita report nappulasta. Tämä luo raportin itse tietokohteeseen ja käyttäjän omille sivuille.
+-   [x] CSRF-aukot pitäisi olla toteutettu kaikissa formeissa.
+
+Huomioitavaa:
+    - Sovelluksen lukuoikeuksissa saattaa esiintyä puutteita, koska sovelluksen logiikka on vielä hiukan keskeneräinen sen suhteen mitä ja milloin renderöidään.
+    - Käyttäjän muodostamat raportit ovat vielä dict muodossa, samoin käyttäjän luontipvm.
+    - Virheidenhallinta kaipaa parannusta, sovellus saattaa kaatua välillä jos urllib epäonnistuu tai yhteyden haku on hidasta, tämä esiintyy myös sivun hitautena.
+    - Kaikki sivustot eivät hyväksy pingausta nykyisillä parametreillä, esim. finnair.com palauttaa 403 vaikka sinne pääsee normaalilla selaimella. Lisäparametrja harkitaan, mutta täydellistä korjausta ei ole tulossa.
+    - Ulkoasu vaatii hiukan parannusta, mutta on kuitenkin aika lähellä lopullista. Virheiden esityspaikka & joidenkin painikken siirto parempaan paikkaan vaatii muutosta.
+    - Keyword ei vieläkään käytössä.
+
+
 
 ## Sovelluksen perusvaatimukset
 - [x] Käyttäjä pystyy luomaan tunnuksen ja kirjautumaan sisään sovellukseen
 - [x] Käyttäjä pystyy lisäämään, muokkaamaan ja poistamaan tietokohteita
 - [x] Käyttäjä näkee sovellukseen lisätyt tietokohteet
 - [x] Käyttäjä pystyy etsimään tietokohteita hakusanalla tai muulla perusteella
-- [ ] Käyttäjäsivu näyttää tilastoja ja käyttäjän lisäämät tietokohteet
-- [ ] Käyttäjä pystyy valitsemaan tietokohteelle yhden tai useamman luokittelun
-- [ ] Käyttäjä pystyy lisäämään tietokohteeseen toissijaisia tietokohteita
-- [ ] Sovelluksen perusvaatimukset on kuvattu tarkemmin aloitussivulla
+- [x] Käyttäjäsivu näyttää tilastoja ja käyttäjän lisäämät tietokohteet
+- [x] Käyttäjä pystyy valitsemaan tietokohteelle yhden tai useamman luokittelun
+- [x] Käyttäjä pystyy lisäämään tietokohteeseen toissijaisia tietokohteita
+- [x] Sovelluksen perusvaatimukset on kuvattu tarkemmin aloitussivulla
 
 ## Tekniset perusvaatimukset
 - [ ] Sovellus toteutettu kurssimateriaalin mukaisesti

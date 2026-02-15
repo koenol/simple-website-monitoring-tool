@@ -6,11 +6,10 @@ This app is a project created for the University of Helsinki's TKT20019 - Databa
 
 -   Users can create an account and log in to the app.
 -   Users can add, copy, edit and delete websites entries they want to monitor.
--   Users can toggle website visibility to be private/public.
--   Users can search for website entries using keywords or other filters and categorize them with one or more tags.
+-   Users can toggle website visibility to be public/hide.
+-   Users can search for website entries using keywords.
 -   The user's page displays statistics and entries created by the user.
--   Users can add secondary data or related entries to a primary website entry, e.g. additional URLs linked to the main entry.
--   Users can report public websites status
+-   Users can add secondary data or related entries to a primary website entry.
 
 
 ## Installation
@@ -59,14 +58,16 @@ Course Deadlines. See [course progress documentation](docs/course-progress-finni
 [branch interim-1](https://github.com/koenol/simple-website-monitoring-tool/tree/interim-1)
 - [x] 1.2.2026 Interim Submission 2
 [branch interim-2](https://github.com/koenol/simple-website-monitoring-tool/tree/interim-2)
-- [ ] 8.2.2026 Peer Review 1
-- [ ] 15.2.2026 Interim Submission 3 
+- [x] 8.2.2026 Peer Review 1 
+[peer review](https://github.com/HarriApp/soutuporssi/issues/1)
+- [x] 15.2.2026 Interim Submission 3
+[branch interim-3](https://github.com/koenol/simple-website-monitoring-tool/tree/interim-3)
 - [ ] 22.2.2026 Peer Review 2
 - [ ] 1.3.2026 Final Submission
 
 
 ## Database Diagram
 
-_Last Updated: 01.02.2026_ (dd/mm/yyyy)
+_Last Updated: 15.02.2026_ (dd/mm/yyyy)
 
-![](static/db_diagram_v2.png)
+![](static/db_diagram_v3.png)
