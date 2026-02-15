@@ -14,8 +14,9 @@ CREATE TABLE urls (
     public BOOLEAN,
     url_status_ok BOOLEAN,
     url_code INT,
+    priority_class INT,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
-);
+    FOREIGN KEY (priority_class) REFERENCES priority_classes(id)
 
 CREATE TABLE keywords (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -34,3 +35,11 @@ CREATE TABLE reports (
     FOREIGN KEY (url_id) REFERENCES urls(id) ON DELETE CASCADE,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
+CREATE TABLE priority_classes (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT UNIQUE NOT NULL
+);
+
+INSERT INTO priority_classes (name) VALUES ("High");
+INSERT INTO priority_classes (name) VALUES ("Normal");
+INSERT INTO priority_classes (name) VALUES ("Low");
