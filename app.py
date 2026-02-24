@@ -177,13 +177,15 @@ def profile(user_id):
     if request.method == "GET":
         userdata = service.get_user_data_public(user_id)
         if user_id == session["user_id"]:
+            reports_count = service.get_count_website_reports_created(user_id)
             websites = service.get_user_websites(user_id)
             reports = service.get_user_websites_reports_all(user_id)
             return render_template(
                 "profile.html",
                 personal_websites=websites,
                 reports=reports,
-                userdata=userdata
+                userdata=userdata,
+                reports_count=reports_count
             )
     abort(405)
 

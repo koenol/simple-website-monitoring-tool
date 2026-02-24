@@ -202,3 +202,9 @@ def update_website_priority(url_id, priority):
     """Update website priority class"""
     sql = "UPDATE urls SET priority_class = ? WHERE id = ?"
     db.execute(sql, [priority, url_id])
+
+def get_count_website_reports_created(user_id):
+    """Get count of the website reports created by the user"""
+    sql = "SELECT COUNT(id) FROM reports WHERE user_id = ?"
+    result = db.query(sql, [user_id])
+    return result[0]["COUNT(id)"] if result else 0
