@@ -37,7 +37,6 @@
         <h2>Add New Website</h2>
         <form method="POST" action="/add-website">
             <input type="text" placeholder="Address" id="address" name="address" required>
-            <input type="text" placeholder="Keyword" id="keyword" name="keyword">
             <button type="submit" id="add-website">Add</button>
             <input
                 type="hidden"
@@ -84,7 +83,6 @@
                                 {% endif %}
                                 <td class="edit">
                                     <form method="GET" action="/website/{{ website.id }}" class="inline-form">
-                                        <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
                                         <button type="submit">Edit</button>
                                     </form>
                                 </td>

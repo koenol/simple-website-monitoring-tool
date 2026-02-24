@@ -68,7 +68,6 @@
                                 {% endif %}
                                 <td class="edit">
                                     <form method="GET" action="/website/{{ website.id }}" class="inline-form">
-                                        <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
                                         <button type="submit">Edit</button>
                                     </form>
                                 </td>
