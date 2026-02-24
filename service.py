@@ -62,9 +62,8 @@ def check_csrf():
     if not form_token or form_token != session_token:
         abort(403)
 
-def add_website(user_id, address, keyword):
+def add_website(user_id, address):
     """Insert domain into the database"""
-    # keyword parameter not in use for now
     sql = "INSERT INTO urls (user_id, addr, public, priority_class) VALUES (?, ?, ?, ?)"
     db.execute(sql, [user_id, address, False, 2])
 

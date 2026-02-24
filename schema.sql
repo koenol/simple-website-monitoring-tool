@@ -19,13 +19,6 @@ CREATE TABLE urls (
     FOREIGN KEY (priority_class) REFERENCES priority_classes(id)
 );
 
-CREATE TABLE keywords (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    url_id INTEGER NOT NULL,
-    keyword TEXT,
-    FOREIGN KEY (url_id) REFERENCES urls(id) ON DELETE CASCADE
-);
-
 CREATE TABLE reports (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     url_id INTEGER NOT NULL,

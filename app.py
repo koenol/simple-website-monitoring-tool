@@ -107,10 +107,9 @@ def add_website():
 
     if request.method == "POST":
         address = request.form["address"]
-        keyword = request.form["keyword"]
         if service.valid_address(address):
             try:
-                service.add_website(session["user_id"], address, keyword)
+                service.add_website(session["user_id"], address)
                 return redirect("/website")
             except sqlite3.IntegrityError as e:
                 flash(str(e))
@@ -198,7 +197,7 @@ def website():
         if filter_query:
             public_websites = service.get_public_websites_filtered(filter_query, session["user_id"])
         else:
-            public_websites = service.get_public_websites(session["user_id"])
+            public_websites = service.get_public_websites(session["user6_id"])
         return render_template(
             "website.html",
             personal_websites=personal_websites,
