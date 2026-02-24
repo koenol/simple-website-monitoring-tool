@@ -197,7 +197,7 @@ def website():
         if filter_query:
             public_websites = service.get_public_websites_filtered(filter_query, session["user_id"])
         else:
-            public_websites = service.get_public_websites(session["user6_id"])
+            public_websites = service.get_public_websites(session["user_id"])
         return render_template(
             "website.html",
             personal_websites=personal_websites,
