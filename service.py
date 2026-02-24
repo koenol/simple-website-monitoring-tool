@@ -165,14 +165,14 @@ def check_website_view_permission(url_id, user_id):
     result = db.query(sql, [url_id, user_id, url_id, True])
     return bool(result)
 
-def report_website_by_id(url_id):
+def report_website_by_id(url_id, user_id):
     """Insert Website Current Status Into Reports Page"""
     timestamp = datetime.now().isoformat()
     sql = """
     INSERT INTO reports (url_id, user_id, report_date, url_status_ok, url_code)
-    SELECT id, user_id, ?, url_status_ok, url_code FROM urls WHERE id = ?
+    SELECT id, ?, ?, url_status_ok, url_code FROM urls WHERE id = ?
     """
-    db.execute(sql, [timestamp, url_id])
+    db.execute(sql, [user_id, timestamp, url_id])
 
 def get_website_reports_by_id(url_id):
     """Get website reports by url_id"""
