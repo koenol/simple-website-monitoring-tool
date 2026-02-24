@@ -194,7 +194,7 @@ def get_user_data_public(user_id):
 
 def get_priority_classes():
     """Get all priority classes"""
-    sql = "SELECT * from priority_classes"
+    sql = "SELECT id, class from priority_classes"
     result = db.query(sql)
     return [dict(row) for row in result] if result else []
 
