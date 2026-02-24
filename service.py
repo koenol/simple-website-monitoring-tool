@@ -158,11 +158,12 @@ def get_website_info_by_id(url_id):
 def check_website_view_permission(url_id, user_id):
     """Verify View Permission"""
     sql = """
-        SELECT * FROM urls
+        SELECT id FROM urls
         WHERE (id = ? AND user_id = ?)
         OR (id = ? AND public = ?)
     """
-    return db.query(sql, [url_id, user_id, url_id, True])
+    result = db.query(sql, [url_id, user_id, url_id, True])
+    return bool(result)
 
 def report_website_by_id(url_id):
     """Insert Website Current Status Into Reports Page"""
