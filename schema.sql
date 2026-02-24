@@ -15,7 +15,7 @@ CREATE TABLE urls (
     url_status_ok BOOLEAN,
     url_code INT,
     priority_class INT,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (priority_class) REFERENCES priority_classes(id)
 );
 
