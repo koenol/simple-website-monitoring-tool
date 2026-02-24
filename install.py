@@ -10,10 +10,15 @@ if not os.path.exists("database.db"):
             database_cursor = db.cursor()
             try:
                 with open("schema.sql", "r", encoding="utf-8") as schema:
-                    schema_file = schema.read()
-                    database_cursor.executescript(schema_file)
+                    database_cursor.executescript(schema.read())
             except OSError as e:
                 print(f"Error reading schema.sql: {e}")
+            try:
+                with open("init.sql", "r", encoding="utf-8") as init_file:
+                    database_cursor.executescript(init_file.read())
+            except OSError as e:
+                print(f"Error reading init.sql: {e}")
+
             db.commit()
     except sqlite3.Error as e:
         print(f"Error creating database.db: {e}")
