@@ -37,7 +37,7 @@ Install Flask
 $ pip install flask
 ```
 
-Create a database and generate .env variables
+Option1 (Recommended): Create a database, populate the database and generate .env variables
 
 ```
 $ python install.py
@@ -49,6 +49,19 @@ Start the Flask app
 $ flask run
 ```
 
+Option2 (Manual): Create a database, populate the database & generate_secret key
+```
+$ sqlite3 database.db < schema.sql
+$ sqlite3 database.db < init.sql
+$ generate secret key at: https://www.seckeygen.com/
+$ create .env file and add the generated secret key to variable: SECRET_KEY = 'YOUR_SECRET_KEY'
+```
+
+Start the Flask app
+
+```
+$ flask run
+```
 
 ## Course Progress
 
