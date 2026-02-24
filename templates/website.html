@@ -109,16 +109,59 @@
             <button type="submit">Filter</button>
         </form>
         <div id="public-websites">
-            {% for website in public_websites %}
-            <div class="website">
-                <span>{{ website.addr }}</span>
-                <form method="POST" action="/copy-website" class="inline-form">
-                    <input type="hidden" name="public_website_id" value="{{ website.id }}">
-                    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
-                    <button type="submit">Copy</button>
-                </form>
-            </div>
-            {% endfor %}
+            {% if public_websites %}
+                <table class="websites-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Website</th>
+                            <th>Status</th>
+                            <th>Code</th>
+                            <th>Copy</th>
+                            <th>Report</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for website in public_websites %}
+                        <tr>
+                            <td>{{ website.id }}</td>
+                            <td><a href="https://{{ website.addr }}">https://{{ website.addr }}</a></td>
+                            {% if website.url_status_ok == 1 %}
+                                <td class="status-ok-true">OK</td>
+                            {% else %}
+                                <td class="status-ok-false">ERROR</td>
+                            {% endif %}
+                            {% if website.url_code %}
+                                {% if website.url_code >= 200 and website.url_code < 300 %}
+                                    <td class="url-code-green">{{ website.url_code }}</td>
+                                {% elif website.url_code >= 300 and website.url_code < 400 %}
+                                    <td class="url-code-yellow">{{ website.url_code }}</td>
+                                {% else %}
+                                    <td class="url-code-red">{{ website.url_code }}</td>
+                                    {% endif %}
+                            {% else %}
+                                <td>-</td>
+                            {% endif %}
+                            <td class="copy">
+                                <form method="POST" action="/copy-website" class="inline-form">
+                                    <input type="hidden" name="public_website_id" value="{{ website.id }}">
+                                    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+                                    <button type="submit">Copy</button>
+                                </form>
+                            </td>
+                            <td class="report">
+                                <form method="POST" action="/website/{{ website.id }}/report" class="inline-form">
+                                    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+                                    <button type="submit">Report</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>No public websites found.</p>
+            {% endif %}
         </div>
     </div>
     </div>
