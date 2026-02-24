@@ -151,7 +151,7 @@ def update_website_status(url_id, status_ok, code):
 
 def get_website_info_by_id(url_id):
     """Get website info by id"""
-    sql = "SELECT id, addr, url_status_ok, url_code, public, priority_class FROM urls WHERE id = ?"
+    sql = "SELECT id, user_id, addr, url_status_ok, url_code, public, priority_class FROM urls WHERE id = ?"
     result = db.query(sql, [url_id])
     return result
 
