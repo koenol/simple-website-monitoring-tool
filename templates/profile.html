@@ -89,10 +89,7 @@
             <h2>User Websites Report Log</h2>
             <div id="reported-websites">
                 {% for report in reports %}
-                <div class="report">
-                    <span>{{ report.url_status_ok }}</span>
-                    <span>{{ report.url_code }}</span>
-                </div>
+                <li>{{ report }}</li>
                 {% endfor %}
             </div>
         </div>

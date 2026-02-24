@@ -176,15 +176,15 @@ def report_website_by_id(url_id):
 
 def get_website_reports_by_id(url_id):
     """Get website reports by url_id"""
-    sql = "SELECT * FROM reports WHERE url_id = ?"
+    sql = "SELECT url_id, user_id, report_date, url_status_ok, url_code FROM reports WHERE url_id = ?"
     result = db.query(sql, [url_id])
     return [dict(row) for row in result] if result else []
 
 def get_user_websites_reports_all(user_id):
     """Get all website reports for user"""
-    sql = "SELECT * FROM reports WHERE user_id = ?"
+    sql = "SELECT url_id, user_id, report_date, url_status_ok, url_code FROM reports WHERE user_id = ?"
     result = db.query(sql, [user_id])
-    return result
+    return [dict(row) for row in result] if result else []
 
 def get_user_data_public(user_id):
     """Get public user data"""
