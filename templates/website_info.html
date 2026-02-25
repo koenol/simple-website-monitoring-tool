@@ -69,7 +69,7 @@
                     {% for report in reports %}
                     <tr>
                         <td>{{ report.report_date }}</td>
-                        <td>{{ report.user_id }}</td>
+                        <td>{{ report.username }}</td>
                         {% if report.url_status_ok %}
                             <td class="status-ok-true">OK</td>
                         {% else %}
