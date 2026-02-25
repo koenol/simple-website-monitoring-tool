@@ -27,10 +27,10 @@
         <div class="box">
             <h2>Website Info</h2>
             <p>Identifier:{{ website_data.id }}</p>
-            <p>Owner: {{ website_data.user_id }}</p>
-            <p>Address: https://{{ website_data.addr }}</p>
-            <p>Public: {{ website_data.public }}</p>
-            <p>Status: {{ website_data.url_status_ok }}</p>
+            <p>Owner: <a href="/profile/{{ website_data.user_id }}">{{ website_data.username }}</a></p>
+            <p>Address: <a href="https://{{ website_data.addr }}">https://{{ website_data.addr }}</a></p>
+            <p>Public: {% if website_data.public %}<span class="status-ok-true">True</span>{% else %}<span class="status-ok-false">False</span>{% endif %}</p>
+            <p>Current Status: {% if website_data.url_status_ok %}<span class="status-ok-true">OK</span>{% else %}<span class="status-ok-false">ERROR</span>{% endif %}</p>
             <p>HTTP Code: {{ website_data.url_code }}</p>
             <form method="POST" action="/toggle-visibility" class="inline-form">
                 <input type="hidden" name="website_id" value="{{ website_data.id }}">
@@ -69,7 +69,7 @@
                     {% for report in reports %}
                     <tr>
                         <td>{{ report.report_date }}</td>
-                        <td>{{ report.username }}</td>
+                        <td><a href="/profile/{{ report.user_id }}">{{ report.username }}</a></td>
                         {% if report.url_status_ok %}
                             <td class="status-ok-true">OK</td>
                         {% else %}
