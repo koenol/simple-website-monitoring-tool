@@ -56,11 +56,40 @@
             </form>
             <br>
             <h3>Reports</h3>
-            <ul>
-                {% for report in reports %}
-                <li>{{ report }}</li>
-                {% endfor %}
-            </ul>
+            <table class="reports-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Reporter</th>
+                        <th>URL Status</th>
+                        <th>URL Code</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for report in reports %}
+                    <tr>
+                        <td>{{ report.report_date }}</td>
+                        <td>{{ report.user_id }}</td>
+                        {% if report.url_status_ok %}
+                            <td class="status-ok-true">OK</td>
+                        {% else %}
+                            <td class="status-ok-false">ERROR</td>
+                        {% endif %}
+                        {% if report.url_code %}
+                            {% if report.url_code >= 200 and report.url_code < 300 %}
+                                <td class="url-code-green">{{ report.url_code }}</td>
+                            {% elif report.url_code >= 300 and report.url_code < 400 %}
+                                <td class="url-code-yellow">{{ report.url_code }}</td>
+                            {% else %}
+                                <td class="url-code-red">{{ report.url_code }}</td>
+                            {% endif %}
+                        {% else %}
+                            <td>-</td>
+                        {% endif %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
 </div> <!-- self.note: end of login required -->
