@@ -85,7 +85,10 @@ def get_user_websites(user_id):
 
 def get_public_websites(user_id):
     """Get all public websites"""
-    sql = "SELECT id, addr, url_status_ok, url_code, priority_class FROM urls WHERE public = ? AND user_id != ?"
+    sql = (
+        "SELECT id, addr, url_status_ok, url_code, priority_class FROM urls "
+        "WHERE public = ? AND user_id != ?"
+    )
     result = db.query(sql, [True, user_id])
     return result
 
@@ -102,7 +105,10 @@ def delete_website(website_id):
 
 def get_public_websites_filtered(filter_query, user_id):
     """Get Filtered Public Websites"""
-    sql = "SELECT id, addr, url_status_ok, url_code, priority_class FROM urls WHERE public = ? AND addr LIKE ? AND user_id != ?"
+    sql = (
+        "SELECT id, addr, url_status_ok, url_code, priority_class FROM urls "
+        "WHERE public = ? AND addr LIKE ? AND user_id != ?"
+    )
     website_filter = f"%{filter_query}%"
     result = db.query(sql, [True, website_filter, user_id])
     return result
@@ -198,7 +204,10 @@ def format_iso_to_readable_format(reports):
 
 def get_user_websites_reports_all(user_id):
     """Get all website reports for user"""
-    sql = "SELECT url_id, user_id, report_date, url_status_ok, url_code FROM reports WHERE user_id = ?"
+    sql = (
+        "SELECT url_id, user_id, report_date, url_status_ok, url_code FROM reports "
+        "WHERE user_id = ?"
+    )
     result = db.query(sql, [user_id])
     return [dict(row) for row in result] if result else []
 
