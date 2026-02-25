@@ -182,7 +182,7 @@ def report_website_by_id(url_id, user_id):
 def get_website_reports_by_id(url_id):
     """Get website reports by url_id"""
     sql = """
-    SELECT u.username, r.report_date, r.url_status_ok, r.url_code FROM reports r
+    SELECT u.username, r.user_id, r.report_date, r.url_status_ok, r.url_code FROM reports r
     JOIN users u ON r.user_id = u.id
     WHERE r.url_id = ?
     """
