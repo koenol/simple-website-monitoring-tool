@@ -178,7 +178,13 @@ def get_website_reports_by_id(url_id):
     """Get website reports by url_id"""
     sql = "SELECT url_id, user_id, report_date, url_status_ok, url_code FROM reports WHERE url_id = ?"
     result = db.query(sql, [url_id])
-    return [dict(row) for row in result] if result else []
+    formatted_result = [dict(row) | {"report_date": format_iso_to_readable_format(row["report_date"])} for row in result] if result else []
+    return formatted_result
+
+def format_iso_to_readable_format(date):
+    """Convert ISO format date to readable format"""
+    dt = datetime.fromisoformat(date)
+    return dt.strftime("%Y-%m-%d %H:%M")
 
 def get_user_websites_reports_all(user_id):
     """Get all website reports for user"""
