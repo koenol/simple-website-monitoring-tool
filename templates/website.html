@@ -174,6 +174,21 @@
                         {% endfor %}
                     </tbody>
                 </table>
+                {% if total_public_pages > 1 %}
+                <div class="pagination">
+                    {% if public_page > 1 %}
+                        <a href="/website?page={{ page }}&public_page={{ public_page - 1 }}{% if filter_query %}&filter={{ filter_query }}{% endif %}" class="pagination-link">Previous</a>
+                    {% else %}
+                        <span class="pagination-link">Previous</span>
+                    {% endif %}
+                        <span class="pagination-info">Page {{ public_page }} of {{ total_public_pages }}</span>
+                    {% if public_page < total_public_pages %}
+                        <a href="/website?page={{ page }}&public_page={{ public_page + 1 }}{% if filter_query %}&filter={{ filter_query }}{% endif %}" class="pagination-link">Next</a>
+                    {% else %}
+                        <span class="pagination-link">Next</span>
+                    {% endif %}
+                </div>
+                {% endif %}
             {% else %}
                 <p>No public websites found.</p>
             {% endif %}

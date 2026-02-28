@@ -213,15 +213,21 @@ def website():
         page = request.args.get("page", 1, int)
         limit = 5
         offset = (page - 1) * limit
+        public_page = request.args.get("public_page", 1, int)
+        public_offset = (public_page - 1) * limit
         service.ping_all_monitored_websites(session["user_id"], limit, offset)
         total_websites = service.count_user_websites(session["user_id"])
         personal_websites = service.get_user_websites(session["user_id"], limit, offset)
         total_pages = (total_websites + limit - 1) // limit
         filter_query = request.args.get("filter", "").strip()
+        total_public_websites = service.count_public_websites(session["user_id"], filter_query)
+        total_public_pages = (total_public_websites + limit - 1) // limit
         if filter_query:
-            public_websites = service.get_public_websites_filtered(filter_query, session["user_id"])
+            public_websites = service.get_public_websites_filtered(
+                filter_query, session["user_id"], limit, public_offset
+            )
         else:
-            public_websites = service.get_public_websites(session["user_id"])
+            public_websites = service.get_public_websites(session["user_id"], limit, public_offset)
         return render_template(
             "website.html",
             personal_websites=personal_websites,
@@ -229,7 +235,10 @@ def website():
             filter_query=filter_query,
             page=page,
             total_pages=total_pages,
-            total_websites=total_websites
+            total_websites=total_websites,
+            public_page=public_page,
+            total_public_pages=total_public_pages,
+            total_public_websites=total_public_websites
         )
     abort(405)
 

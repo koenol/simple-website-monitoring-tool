@@ -93,13 +93,23 @@ def get_user_websites(user_id, limit=None, offset=None):
         result = db.query(sql, [user_id])
     return result
 
-def get_public_websites(user_id):
+def get_public_websites(user_id, limit=None, offset=None):
     """Get all public websites"""
-    sql = (
-        "SELECT id, addr, url_status_ok, url_code, priority_class FROM urls "
-        "WHERE public = ? AND user_id != ?"
-    )
-    result = db.query(sql, [True, user_id])
+    if limit:
+        sql = (
+            "SELECT id, addr, url_status_ok, url_code, priority_class FROM urls "
+            "WHERE public = ? AND user_id != ? "
+            "ORDER BY priority_class DESC "
+            "LIMIT ? OFFSET ?"
+        )
+        result = db.query(sql, [True, user_id, limit, offset])
+    else:
+        sql = (
+            "SELECT id, addr, url_status_ok, url_code, priority_class FROM urls "
+            "WHERE public = ? AND user_id != ? "
+            "ORDER BY priority_class DESC"
+        )
+        result = db.query(sql, [True, user_id])
     return result
 
 def toggle_visiblity(website_id, visibility):
@@ -113,14 +123,24 @@ def delete_website(website_id):
     sql = "DELETE FROM urls WHERE id = ?"
     db.execute(sql, [website_id])
 
-def get_public_websites_filtered(filter_query, user_id):
+def get_public_websites_filtered(filter_query, user_id, limit=None, offset=None):
     """Get Filtered Public Websites"""
-    sql = (
-        "SELECT id, addr, url_status_ok, url_code, priority_class FROM urls "
-        "WHERE public = ? AND addr LIKE ? AND user_id != ?"
-    )
     website_filter = f"%{filter_query}%"
-    result = db.query(sql, [True, website_filter, user_id])
+    if limit:
+        sql = (
+            "SELECT id, addr, url_status_ok, url_code, priority_class FROM urls "
+            "WHERE public = ? AND addr LIKE ? AND user_id != ? "
+            "ORDER BY priority_class DESC "
+            "LIMIT ? OFFSET ?"
+        )
+        result = db.query(sql, [True, website_filter, user_id, limit, offset])
+    else:
+        sql = (
+            "SELECT id, addr, url_status_ok, url_code, priority_class FROM urls "
+            "WHERE public = ? AND addr LIKE ? AND user_id != ? "
+            "ORDER BY priority_class DESC"
+        )
+        result = db.query(sql, [True, website_filter, user_id])
     return result
 
 def copy_website(user_id, website_id):
@@ -146,7 +166,7 @@ def ping_all_monitored_websites(user_id, limit=None, offset=None):
         else:
             url_errors.append(url["addr"])
     print(len(results))
-    
+
 def ping_website(url_addr):
     """Ping a website"""
     try:
@@ -241,12 +261,26 @@ def update_website_priority(url_id, priority):
 
 def get_count_website_reports_created(user_id):
     """Get count of the website reports created by the user"""
-    sql = "SELECT COUNT(id) FROM reports WHERE user_id = ?"
+    sql = "SELECT COUNT(id) AS count FROM reports WHERE user_id = ?"
     result = db.query(sql, [user_id])
-    return result[0]["COUNT(id)"] if result else 0
+    return result[0]["count"] if result else 0
 
 def count_user_websites(user_id):
     """Count total number of user websites"""
-    sql = "SELECT COUNT(*) as count FROM urls WHERE user_id = ?"
+    sql = "SELECT COUNT(id) AS count FROM urls WHERE user_id = ?"
     result = db.query(sql, [user_id])
     return result[0]["count"] if result else 0
+
+def count_public_websites(user_id, filter_query=None):
+    """Count public websites"""
+    if filter_query:
+        f_query = sanitize(filter_query)
+        sql = (
+            "SELECT COUNT(id) AS count FROM urls "
+            "WHERE public = ? AND addr LIKE ? AND user_id != ?"
+        )
+        result = db.query(sql, [True, f_query, user_id])
+    else:
+        sql = "SELECT COUNT(id) AS count FROM urls WHERE public = ? AND user_id != ?"
+        result = db.query(sql, [True, user_id])
+    return result[0]["id"] if result else 0
