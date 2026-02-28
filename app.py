@@ -193,6 +193,7 @@ def profile(user_id):
             total_websites = service.count_user_websites(user_id)
             websites = service.get_user_websites(user_id, limit, offset)
             reports = service.get_user_websites_reports_all(user_id)
+            reports = service.format_reports_iso_to_readable_format(reports)
             total_pages = (total_websites + limit - 1) // limit
             return render_template(
                 "profile.html",

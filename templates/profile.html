@@ -104,9 +104,48 @@
             </div>
             <h2>User Websites Report Log</h2>
             <div id="reported-websites">
-                {% for report in reports %}
-                <li>{{ report }}</li>
-                {% endfor %}
+                {% if reports %}
+                <table class="websites-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Website</th>
+                            <th>Status</th>
+                            <th>Code</th>
+                            <th>Report Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for report in reports %}
+                        <tr>
+                            <td>{{ report.url_id }}</td>
+                            <td>
+                                <a href="/website/{{ report.url_id }}">{{ report.addr }}</a>
+                            </td>
+                            {% if report.url_status_ok == 1 %}
+                                <td class="status-ok-true">OK</td>
+                            {% else %}
+                                <td class="status-ok-false">ERROR</td>
+                            {% endif %}
+                            {% if report.url_code %}
+                                {% if report.url_code >= 200 and report.url_code < 300 %}
+                                    <td class="url-code-green">{{ report.url_code }}</td>
+                                {% elif report.url_code >= 300 and report.url_code < 400 %}
+                                    <td class="url-code-yellow">{{ report.url_code }}</td>
+                                {% else %}
+                                    <td class="url-code-red">{{ report.url_code }}</td>
+                                {% endif %}
+                            {% else %}
+                                <td>-</td>
+                            {% endif %}
+                            <td>{{ report.report_date }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                <p>No reports created yet.</p>
+                {% endif %}
             </div>
         </div>
     </div> <!-- self.note: end of login required -->

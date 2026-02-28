@@ -233,10 +233,12 @@ def format_reports_iso_to_readable_format(reports):
     return reports
 
 def get_user_websites_reports_all(user_id):
-    """Get all website reports for user"""
+    """Get all reports for websites owned by the user"""
     sql = (
-        "SELECT url_id, user_id, report_date, url_status_ok, url_code FROM reports "
-        "WHERE user_id = ?"
+        "SELECT r.id, r.url_id, r.report_date, r.url_status_ok, r.url_code, u.addr FROM reports r "
+        "JOIN urls u ON r.url_id = u.id "
+        "WHERE u.user_id = ? "
+        "ORDER BY r.report_date DESC"
     )
     result = db.query(sql, [user_id])
     return [dict(row) for row in result] if result else []
