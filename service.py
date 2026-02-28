@@ -214,15 +214,16 @@ def report_website_by_id(url_id, user_id):
     """
     db.execute(sql, [user_id, timestamp, url_id])
 
-def get_website_reports_by_id(url_id):
+def get_website_reports_by_id(url_id, limit=10, offset=0):
     """Get website reports by url_id"""
     sql = """
     SELECT u.username, r.user_id, r.report_date, r.url_status_ok, r.url_code FROM reports r
     JOIN users u ON r.user_id = u.id
     WHERE r.url_id = ?
     ORDER BY r.report_date DESC
+    LIMIT ? OFFSET ?
     """
-    result = db.query(sql, [url_id])
+    result = db.query(sql, [url_id, limit, offset])
     return [dict(row) for row in result] if result else []
 
 def format_reports_iso_to_readable_format(reports):
@@ -233,7 +234,7 @@ def format_reports_iso_to_readable_format(reports):
     return reports
 
 def get_user_websites_reports_all(user_id, limit=10, offset=0):
-    """Get paginated reports for websites owned by the user"""
+    """Get all reports for websites owned by the user"""
     sql = (
         "SELECT r.id, r.url_id, r.report_date, r.url_status_ok, r.url_code, u.addr "
         "FROM reports r "
@@ -306,4 +307,10 @@ def get_user_websites_reports_count(user_id):
         "WHERE u.user_id = ?"
     )
     result = db.query(sql, [user_id])
+    return result[0]["count"] if result else 0
+
+def count_website_reports_by_id(url_id):
+    """Count total reports for a specific website"""
+    sql = "SELECT COUNT(id) AS count FROM reports WHERE url_id = ?"
+    result = db.query(sql, [url_id])
     return result[0]["count"] if result else 0

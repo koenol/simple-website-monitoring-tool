@@ -256,14 +256,21 @@ def website_info(url_id):
     if request.method == "GET":
         if service.check_website_view_permission(url_id, session["user_id"]):
             website_data = service.get_website_info_by_id(url_id)
-            reports = service.get_website_reports_by_id(url_id)
+            reports_page = request.args.get("reports_page", 1, int)
+            reports_limit = 10
+            reports_offset = (reports_page - 1) * reports_limit
+            total_reports = service.count_website_reports_by_id(url_id)
+            reports = service.get_website_reports_by_id(url_id, reports_limit, reports_offset)
             formatted_reports = service.format_reports_iso_to_readable_format(reports)
+            reports_total_pages = (total_reports + reports_limit - 1) // reports_limit
             priority_classes = service.get_priority_classes()
             return render_template(
                 "website_info.html",
                 website_data=website_data[0],
                 reports=formatted_reports,
-                priority_classes=priority_classes
+                priority_classes=priority_classes,
+                reports_page=reports_page,
+                reports_total_pages=reports_total_pages
             )
     abort(403)
 
@@ -273,13 +280,22 @@ def website_report(url_id):
     if request.method == "POST":
         service.check_csrf()
         service.report_website_by_id(url_id, session["user_id"])
+        reports_page = request.args.get("reports_page", 1, int)
+        reports_limit = 10
+        reports_offset = (reports_page - 1) * reports_limit
+        total_reports = service.count_website_reports_by_id(url_id)
         website_data = service.get_website_info_by_id(url_id)
-        reports = service.get_website_reports_by_id(url_id)
+        reports = service.get_website_reports_by_id(url_id, reports_limit, reports_offset)
         formatted_reports = service.format_reports_iso_to_readable_format(reports)
+        reports_total_pages = (total_reports + reports_limit - 1) // reports_limit
+        priority_classes = service.get_priority_classes()
         return render_template(
             "website_info.html",
             website_data=website_data[0],
-            reports=formatted_reports
+            reports=formatted_reports,
+            priority_classes=priority_classes,
+            reports_page=reports_page,
+            reports_total_pages=reports_total_pages
             )
     abort(403)
 
