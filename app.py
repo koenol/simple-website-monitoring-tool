@@ -96,8 +96,17 @@ def login():
 def main():
     """Render Main View"""
     service.ping_all_monitored_websites(session["user_id"])
-    personal_websites = service.get_user_websites(session["user_id"])
-    return render_template("main.html", personal_websites=personal_websites)
+    page = request.args.get("page", 1, int)
+    limit = 5
+    offset = (page - 1) * limit
+    total_websites = service.count_user_websites(session["user_id"])
+    personal_websites = service.get_user_websites(session["user_id"], limit, offset)
+    total_pages = (total_websites + limit - 1) // limit
+    return render_template("main.html",
+                         personal_websites=personal_websites,
+                         page=page,
+                         total_pages=total_pages,
+                         total_websites=total_websites)
 
 @app.route("/add-website", methods=["GET", "POST"])
 def add_website():

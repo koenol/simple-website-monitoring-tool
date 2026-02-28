@@ -73,14 +73,24 @@ def valid_address(address):
     pattern = re.compile(r"^[a-z0-9-]+\.[a-z]{2,}$")
     return pattern.fullmatch(address)
 
-def get_user_websites(user_id):
+def get_user_websites(user_id, limit=0, offset=0):
+    ## refactor after fixed pagination of all pages
     """Get all user websites"""
-    sql = (
-        "SELECT addr, id, public, url_status_ok, url_code FROM urls "
-        "WHERE user_id = ? "
-        "ORDER BY priority_class DESC"
-    )
-    result = db.query(sql, [user_id])
+    if limit > 0:
+        sql = (
+            "SELECT addr, id, public, url_status_ok, url_code FROM urls "
+            "WHERE user_id = ? "
+            "ORDER BY priority_class DESC "
+            "LIMIT ? OFFSET ?"
+        )
+        result = db.query(sql, [user_id, limit, offset])
+    else:
+        sql = (
+            "SELECT addr, id, public, url_status_ok, url_code FROM urls "
+            "WHERE user_id = ? "
+            "ORDER BY priority_class DESC"
+        )
+        result = db.query(sql, [user_id])
     return result
 
 def get_public_websites(user_id):
@@ -233,3 +243,9 @@ def get_count_website_reports_created(user_id):
     sql = "SELECT COUNT(id) FROM reports WHERE user_id = ?"
     result = db.query(sql, [user_id])
     return result[0]["COUNT(id)"] if result else 0
+
+def count_user_websites(user_id):
+    """Count total number of user websites"""
+    sql = "SELECT COUNT(*) as count FROM urls WHERE user_id = ?"
+    result = db.query(sql, [user_id])
+    return result[0]["count"] if result else 0
