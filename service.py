@@ -74,7 +74,6 @@ def valid_address(address):
     return pattern.fullmatch(address)
 
 def get_user_websites(user_id, limit=None, offset=None):
-    ## refactor after fixed pagination of all pages
     """Get all user websites"""
     if limit:
         sql = (
@@ -227,7 +226,7 @@ def get_website_reports_by_id(url_id):
     return [dict(row) for row in result] if result else []
 
 def format_reports_iso_to_readable_format(reports):
-    """Convert ISO format date to readable format"""
+    """Convert reports ISO format date to readable format"""
     for report in reports:
         dt = datetime.fromisoformat(report["report_date"])
         report["report_date"] = dt.strftime("%Y-%m-%d %H:%M")
@@ -246,6 +245,10 @@ def get_user_data_public(user_id):
     """Get public user data"""
     sql = "SELECT username, creation_date FROM users WHERE id = ?"
     result = db.query(sql, [user_id])
+    if result:
+        user_data = dict(result[0])
+        user_data["creation_date"] = format_date_iso_to_readable_format(user_data["creation_date"])
+        return [user_data]
     return result
 
 def get_priority_classes():
@@ -284,3 +287,8 @@ def count_public_websites(user_id, filter_query=None):
         sql = "SELECT COUNT(id) AS count FROM urls WHERE public = ? AND user_id != ?"
         result = db.query(sql, [True, user_id])
     return result[0]["id"] if result else 0
+
+def format_date_iso_to_readable_format(isoformat):
+    """Convert ISO format date to readable format"""
+    dt = datetime.fromisoformat(isoformat)
+    return dt.strftime("%Y-%m-%d %H:%M")
