@@ -26,7 +26,7 @@
     <div class="main-box">
         <div class="box">
             <h2>Website Info</h2>
-            <p>Identifier: <a href="/website_info/{{ website_data.id }}">{{ website_data.id }}</a></p>
+            <p>Identifier: <a href="/website/{{ website_data.id }}">{{ website_data.id }}</a></p>
             <p>Owner: <a href="/profile/{{ website_data.user_id }}">{{ website_data.username }}</a></p>
             <p>Address: <a href="https://{{ website_data.addr }}">https://{{ website_data.addr }}</a></p>
             <p>Public: {% if website_data.public %}<span class="status-ok-true">True</span>{% else %}<span class="status-ok-false">False</span>{% endif %}</p>

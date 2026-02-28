@@ -248,7 +248,7 @@ def get_user_websites_reports_all(user_id, limit=10, offset=0):
 
 def get_user_data_public(user_id):
     """Get public user data"""
-    sql = "SELECT username, creation_date FROM users WHERE id = ?"
+    sql = "SELECT id, username, creation_date FROM users WHERE id = ?"
     result = db.query(sql, [user_id])
     if result:
         user_data = dict(result[0])
@@ -313,4 +313,53 @@ def count_website_reports_by_id(url_id):
     """Count total reports for a specific website"""
     sql = "SELECT COUNT(id) AS count FROM reports WHERE url_id = ?"
     result = db.query(sql, [url_id])
+    return result[0]["count"] if result else 0
+
+def get_user_websites_public_only(user_id, limit=None, offset=None):
+    """Get only public websites for a user"""
+    if limit:
+        sql = (
+            "SELECT addr, id, public, url_status_ok, url_code FROM urls "
+            "WHERE user_id = ? AND public = ? "
+            "ORDER BY priority_class DESC "
+            "LIMIT ? OFFSET ?"
+        )
+        result = db.query(sql, [user_id, True, limit, offset])
+    else:
+        sql = (
+            "SELECT addr, id, public, url_status_ok, url_code FROM urls "
+            "WHERE user_id = ? AND public = ? "
+            "ORDER BY priority_class DESC"
+        )
+        result = db.query(sql, [user_id, True])
+    return result
+
+def count_user_websites_public_only(user_id):
+    """Count public websites for a user"""
+    sql = "SELECT COUNT(id) AS count FROM urls WHERE user_id = ? AND public = ?"
+    result = db.query(sql, [user_id, True])
+    return result[0]["count"] if result else 0
+
+def get_user_websites_reports_public_only(user_id, limit=10, offset=0):
+    """Get only public reports for websites owned by the user"""
+    sql = (
+        "SELECT r.id, r.url_id, r.report_date, r.url_status_ok, r.url_code, u.addr "
+        "FROM reports r "
+        "JOIN urls u ON r.url_id = u.id "
+        "WHERE u.user_id = ? AND u.public = ? "
+        "ORDER BY r.report_date DESC "
+        "LIMIT ? OFFSET ?"
+    )
+    result = db.query(sql, [user_id, True, limit, offset])
+    return [dict(row) for row in result] if result else []
+
+def get_user_websites_reports_count_public_only(user_id):
+    """Count public reports for websites owned by the user"""
+    sql = (
+        "SELECT COUNT(r.id) AS count "
+        "FROM reports r "
+        "JOIN urls u ON r.url_id = u.id "
+        "WHERE u.user_id = ? AND u.public = ?"
+    )
+    result = db.query(sql, [user_id, True])
     return result[0]["count"] if result else 0

@@ -31,8 +31,10 @@
             <p>Created at: {{ data.creation_date }}</p>
             <p>Reports created: {{ reports_count }}</p>
             {% endfor %}
+            {% set user_id = userdata[0].id %}
+
             <!-- self.note: Iterate User Websites-->
-            <h2>Your Monitored Websites</h2>
+            <h2>Monitored Websites</h2>
             <div id="monitored-websites">
                 {% if personal_websites %}
                     <table class="websites-table">
@@ -67,11 +69,15 @@
                                 {% else %}
                                     <td>-</td>
                                 {% endif %}
+                                {% if profile_owner %}
                                 <td class="edit">
                                     <form method="GET" action="/website/{{ website.id }}" class="inline-form">
                                         <button type="submit">Edit</button>
                                     </form>
                                 </td>
+                                {% else %}
+                                <td class="edit">-</td>
+                                {% endif %}
                                 <td class="report">
                                     <form method="POST" action="/website/{{ website.id }}/report" class="inline-form">
                                         <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
@@ -85,13 +91,13 @@
                     {% if total_pages > 1 %}
                     <div class="pagination">
                         {% if page > 1 %}
-                            <a href="/profile/{{ session.user_id }}?page={{ page - 1 }}" class="pagination-link">Previous</a>
+                            <a href="/profile/{{ user_id }}?page={{ page - 1 }}" class="pagination-link">Previous</a>
                         {% else %}
                             <span class="pagination-link">Previous</span>
                         {% endif %}
                             <span class="pagination-info">Page {{ page }} of {{ total_pages }}</span>
                         {% if page < total_pages %}
-                            <a href="/profile/{{ session.user_id }}?page={{ page + 1 }}" class="pagination-link">Next</a>
+                            <a href="/profile/{{ user_id }}?page={{ page + 1 }}" class="pagination-link">Next</a>
                         {% else %}
                             <span class="pagination-link">Next</span>
                         {% endif %}
@@ -146,7 +152,7 @@
                 {% if reports_total_pages > 1 %}
                 <div class="pagination">
                     {% if reports_page > 1 %}
-                        <a href="/profile/{{ session.user_id }}?page={{ page }}&reports_page={{ reports_page - 1 }}" class="pagination-link">Previous</a>
+                        <a href="/profile/{{ user_id }}?page={{ page }}&reports_page={{ reports_page - 1 }}" class="pagination-link">Previous</a>
                     {% else %}
                         <span class="pagination-link">Previous</span>
                     {% endif %}
@@ -154,7 +160,7 @@
                     <span class="pagination-info">Page {{ reports_page }} of {{ reports_total_pages }}</span>
 
                     {% if reports_page < reports_total_pages %}
-                        <a href="/profile/{{ session.user_id }}?page={{ page }}&reports_page={{ reports_page + 1 }}" class="pagination-link">Next</a>
+                        <a href="/profile/{{ user_id }}?page={{ page }}&reports_page={{ reports_page + 1 }}" class="pagination-link">Next</a>
                     {% else %}
                         <span class="pagination-link">Next</span>
                     {% endif %}
