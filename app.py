@@ -94,6 +94,7 @@ def login():
 @app.route("/main", methods=["GET", "POST"])
 def main():
     """Render Main View"""
+    service.require_login()
     page, limit, offset = service.get_pagination_parameters()
     service.ping_all_monitored_websites(session["user_id"], limit, offset)
     total_websites = service.count_user_websites(session["user_id"])
@@ -108,6 +109,7 @@ def main():
 @app.route("/add-website", methods=["GET", "POST"])
 def add_website():
     """Add new website to user database"""
+    service.require_login()
     if request.method == "GET":
         return render_template("add_website.html")
 
@@ -129,6 +131,7 @@ def add_website():
 @app.route("/toggle-visibility", methods=["POST"])
 def toggle_visibility():
     """Toggle User Website Visibility"""
+    service.require_login()
     if request.method == "POST":
         service.check_csrf()
         website_id = request.form["website_id"]
@@ -144,6 +147,7 @@ def toggle_visibility():
 @app.route("/delete-website", methods=["POST"])
 def delete_website():
     """Delete User Website"""
+    service.require_login()
     if request.method == "POST":
         service.check_csrf()
         website_id = request.form["website_id"]
@@ -158,6 +162,7 @@ def delete_website():
 @app.route("/copy-website", methods=["POST"])
 def copy_website():
     """Copy Public Website to User Database"""
+    service.require_login()
     if request.method == "POST":
         service.check_csrf()
         website_id = request.form["public_website_id"]
@@ -172,6 +177,7 @@ def copy_website():
 @app.route("/logout", methods=["POST"])
 def logout():
     """Logout and clear session"""
+    service.require_login()
     if request.method == "POST":
         service.check_csrf()
         session.clear()
@@ -181,6 +187,7 @@ def logout():
 @app.route("/profile/<int:user_id>", methods=["GET"])
 def profile(user_id):
     """Render User Profile"""
+    service.require_login()
     if request.method == "GET":
         profile_owner = user_id == session.get("user_id")
         userdata = service.get_user_data_public(user_id)
@@ -230,6 +237,7 @@ def profile(user_id):
 @app.route("/website", methods=["GET"])
 def website():
     """Render Websites"""
+    service.require_login()
     if request.method == "GET":
         page, limit, offset = service.get_pagination_parameters("page", 5)
         public_page, public_offset = service.get_pagination_parameters(
@@ -267,12 +275,13 @@ def website():
 @app.route("/website/<int:url_id>", methods=["GET"])
 def website_info(url_id):
     """Render Website Info"""
+    service.require_login()
     if request.method == "GET":
         if service.check_website_view_permission(url_id, session["user_id"]):
             website_data = service.get_website_info_by_id(url_id)
             reports_page, reports_limit, reports_offset = (
                 service.get_pagination_parameters("reports_page", 10)
-            )
+)
             total_reports = service.count_website_reports_by_id(url_id)
             reports = service.get_website_reports_by_id(
                 url_id, reports_limit, reports_offset
@@ -297,6 +306,7 @@ def website_info(url_id):
 @app.route("/website/<int:url_id>/report", methods=["POST"])
 def website_report(url_id):
     """Report website status"""
+    service.require_login()
     if request.method == "POST":
         service.check_csrf()
         service.report_website_by_id(url_id, session["user_id"])
@@ -322,6 +332,7 @@ def website_report(url_id):
 @app.route("/update-priority", methods=["POST"])
 def update_priority():
     """Update website priority"""
+    service.require_login()
     if request.method == "POST":
         service.check_csrf()
         website_id = request.form["website_id"]

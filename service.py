@@ -344,3 +344,8 @@ def get_pagination_parameters(param_name="page", default_limit=5, return_limit=T
 def calculate_total_pages(total_items, items_per_page):
     """Calculate total pages for pagination"""
     return (total_items + items_per_page - 1) // items_per_page
+
+def require_login():
+    """Check if user is logged in"""
+    if "user_id" not in session:
+        abort(403)
