@@ -268,12 +268,12 @@ header {
 
 .websites-table th:nth-child(1),
 .websites-table td:nth-child(1) {
-    width: 10px;
+    width: 0px;
 }
 
 .websites-table th:nth-child(2),
 .websites-table td:nth-child(2) {
-    width: 200px;
+    width: 160px;
 }
 
 .websites-table th:nth-child(3),
@@ -330,7 +330,7 @@ header {
 
 .reports-table th:nth-child(1),
 .reports-table td:nth-child(1) {
-    width: 10px;
+    width: 0px;
 }
 
 .reports-table th:nth-child(2),
@@ -347,6 +347,23 @@ header {
 .reports-table td:nth-child(4) {
     width: 10px;
 }
+
+.reports-table thead th:nth-child(1) {
+  min-width: 100px;
+}
+
+.reports-table thead th:nth-child(2) {
+  min-width: 80px;
+}
+
+.reports-table thead th:nth-child(3) {
+  min-width: 80px;
+}
+
+.reports-table thead th:nth-child(4) {
+  min-width: 80px;
+}
+
 
 .reports-table td.status-ok-true {
     color: green;
@@ -388,4 +405,3 @@ header {
 .pagination-link:hover {
     background: rgb(100, 100, 250);
 }
-
