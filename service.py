@@ -145,7 +145,8 @@ def ping_all_monitored_websites(user_id, limit=None, offset=None):
                 errors.append(e)
         else:
             url_errors.append(url["addr"])
-
+    print(len(results))
+    
 def ping_website(url_addr):
     """Ping a website"""
     try:

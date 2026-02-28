@@ -186,15 +186,23 @@ def profile(user_id):
     if request.method == "GET":
         userdata = service.get_user_data_public(user_id)
         if user_id == session["user_id"]:
+            page = request.args.get("page", 1, int)
+            limit = 5
+            offset = (page - 1) * limit
             reports_count = service.get_count_website_reports_created(user_id)
-            websites = service.get_user_websites(user_id)
+            total_websites = service.count_user_websites(user_id)
+            websites = service.get_user_websites(user_id, limit, offset)
             reports = service.get_user_websites_reports_all(user_id)
+            total_pages = (total_websites + limit - 1) // limit
             return render_template(
                 "profile.html",
                 personal_websites=websites,
                 reports=reports,
                 userdata=userdata,
-                reports_count=reports_count
+                reports_count=reports_count,
+                page=page,
+                total_pages=total_pages,
+                total_websites=total_websites
             )
     abort(405)
 
@@ -202,8 +210,13 @@ def profile(user_id):
 def website():
     """Render Websites"""
     if request.method == "GET":
-        service.ping_all_monitored_websites(session["user_id"])
-        personal_websites = service.get_user_websites(session["user_id"])
+        page = request.args.get("page", 1, int)
+        limit = 5
+        offset = (page - 1) * limit
+        service.ping_all_monitored_websites(session["user_id"], limit, offset)
+        total_websites = service.count_user_websites(session["user_id"])
+        personal_websites = service.get_user_websites(session["user_id"], limit, offset)
+        total_pages = (total_websites + limit - 1) // limit
         filter_query = request.args.get("filter", "").strip()
         if filter_query:
             public_websites = service.get_public_websites_filtered(filter_query, session["user_id"])
@@ -213,7 +226,10 @@ def website():
             "website.html",
             personal_websites=personal_websites,
             public_websites=public_websites,
-            filter_query=filter_query
+            filter_query=filter_query,
+            page=page,
+            total_pages=total_pages,
+            total_websites=total_websites
         )
     abort(405)
 
