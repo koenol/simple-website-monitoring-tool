@@ -189,12 +189,17 @@ def profile(user_id):
             page = request.args.get("page", 1, int)
             limit = 5
             offset = (page - 1) * limit
+            reports_page = request.args.get("reports_page", 1, int)
+            reports_limit = 10
+            reports_offset = (reports_page - 1) * reports_limit
             reports_count = service.get_count_website_reports_created(user_id)
             total_websites = service.count_user_websites(user_id)
             websites = service.get_user_websites(user_id, limit, offset)
-            reports = service.get_user_websites_reports_all(user_id)
+            total_reports = service.get_user_websites_reports_count(user_id)
+            reports = service.get_user_websites_reports_all(user_id, reports_limit, reports_offset)
             reports = service.format_reports_iso_to_readable_format(reports)
             total_pages = (total_websites + limit - 1) // limit
+            reports_total_pages = (total_reports + reports_limit - 1) // reports_limit
             return render_template(
                 "profile.html",
                 personal_websites=websites,
@@ -203,7 +208,9 @@ def profile(user_id):
                 reports_count=reports_count,
                 page=page,
                 total_pages=total_pages,
-                total_websites=total_websites
+                total_websites=total_websites,
+                reports_page=reports_page,
+                reports_total_pages=reports_total_pages
             )
     abort(405)
 
