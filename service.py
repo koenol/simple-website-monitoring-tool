@@ -286,7 +286,7 @@ def count_public_websites(user_id, filter_query=None):
     else:
         sql = "SELECT COUNT(id) AS count FROM urls WHERE public = ? AND user_id != ?"
         result = db.query(sql, [True, user_id])
-    return result[0]["id"] if result else 0
+    return result[0]["count"] if result else 0
 
 def format_date_iso_to_readable_format(isoformat):
     """Convert ISO format date to readable format"""
