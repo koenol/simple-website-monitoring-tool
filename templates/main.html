@@ -42,7 +42,7 @@
                         <tbody>
                             {% for website in personal_websites %}
                             <tr>
-                                <td>{{ website.id }}</td>
+                                <td><a href="/website/{{ website.id }}">{{ website.id }}</a></td>
                                 <td><a href="https://{{ website.addr }}">https://{{ website.addr }}</a></td>
                                 {% if website.url_status_ok == 1 %}
                                     <td class="status-ok-true">OK</td>
