@@ -46,7 +46,8 @@
             <form method="POST" action="/update-priority" class="inline-form">
                 <input type="hidden" name="website_id" value="{{ website_data.id }}">
                 <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
-                <select name="priority" required>
+                <label for="priority">Priority</label>
+                <select id="priority" name="priority" required>
                     <option value="">Select Priority</option>
                     {% for priority in priority_classes %}
                     <option value="{{ priority.id }}">{{ priority.class }}</option>
