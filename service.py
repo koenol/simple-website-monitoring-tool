@@ -73,10 +73,10 @@ def valid_address(address):
     pattern = re.compile(r"^[a-z0-9-]+\.[a-z]{2,}$")
     return pattern.fullmatch(address)
 
-def get_user_websites(user_id, limit=0, offset=0):
+def get_user_websites(user_id, limit=None, offset=None):
     ## refactor after fixed pagination of all pages
     """Get all user websites"""
-    if limit > 0:
+    if limit:
         sql = (
             "SELECT addr, id, public, url_status_ok, url_code FROM urls "
             "WHERE user_id = ? "
@@ -130,9 +130,9 @@ def copy_website(user_id, website_id):
     sql = "INSERT INTO urls (user_id, addr, public) VALUES (?, ?, ?)"
     db.execute(sql, [user_id, result[0]["addr"], False])
 
-def ping_all_monitored_websites(user_id):
+def ping_all_monitored_websites(user_id, limit=None, offset=None):
     """Ping all monitored websites"""
-    results = get_user_websites(user_id)
+    results = get_user_websites(user_id, limit, offset)
     errors = []
     url_errors = []
     for url in results:

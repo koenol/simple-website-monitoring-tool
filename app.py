@@ -95,10 +95,10 @@ def login():
 @app.route("/main", methods=["GET", "POST"])
 def main():
     """Render Main View"""
-    service.ping_all_monitored_websites(session["user_id"])
     page = request.args.get("page", 1, int)
     limit = 5
     offset = (page - 1) * limit
+    service.ping_all_monitored_websites(session["user_id"], limit, offset)
     total_websites = service.count_user_websites(session["user_id"])
     personal_websites = service.get_user_websites(session["user_id"], limit, offset)
     total_pages = (total_websites + limit - 1) // limit
