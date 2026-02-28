@@ -95,13 +95,11 @@ def login():
 @app.route("/main", methods=["GET", "POST"])
 def main():
     """Render Main View"""
-    page = request.args.get("page", 1, int)
-    limit = 5
-    offset = (page - 1) * limit
+    page, limit, offset = service.get_pagination_parameters()
     service.ping_all_monitored_websites(session["user_id"], limit, offset)
     total_websites = service.count_user_websites(session["user_id"])
     personal_websites = service.get_user_websites(session["user_id"], limit, offset)
-    total_pages = (total_websites + limit - 1) // limit
+    total_pages = service.calculate_total_pages(total_websites, limit)
     return render_template("main.html",
                          personal_websites=personal_websites,
                          page=page,
@@ -205,8 +203,8 @@ def profile(user_id):
                 reports_offset
             )
         reports = service.format_reports_iso_to_readable_format(reports)
-        total_pages = (total_websites + limit - 1) // limit
-        reports_total_pages = (total_reports + reports_limit - 1) // reports_limit
+        total_pages = service.calculate_total_pages(total_websites, limit)
+        reports_total_pages = service.calculate_total_pages(total_reports, reports_limit)
         return render_template(
             "profile.html",
             personal_websites=websites,
@@ -231,10 +229,10 @@ def website():
         service.ping_all_monitored_websites(session["user_id"], limit, offset)
         total_websites = service.count_user_websites(session["user_id"])
         personal_websites = service.get_user_websites(session["user_id"], limit, offset)
-        total_pages = (total_websites + limit - 1) // limit
+        total_pages = service.calculate_total_pages(total_websites, limit)
         filter_query = request.args.get("filter", "").strip()
         total_public_websites = service.count_public_websites(session["user_id"], filter_query)
-        total_public_pages = (total_public_websites + limit - 1) // limit
+        total_public_pages = service.calculate_total_pages(total_public_websites, limit)
         if filter_query:
             public_websites = service.get_public_websites_filtered(
                 filter_query, session["user_id"], limit, public_offset
@@ -265,7 +263,7 @@ def website_info(url_id):
             total_reports = service.count_website_reports_by_id(url_id)
             reports = service.get_website_reports_by_id(url_id, reports_limit, reports_offset)
             formatted_reports = service.format_reports_iso_to_readable_format(reports)
-            reports_total_pages = (total_reports + reports_limit - 1) // reports_limit
+            reports_total_pages = service.calculate_total_pages(total_reports, reports_limit)
             priority_classes = service.get_priority_classes()
             return render_template(
                 "website_info.html",
@@ -288,7 +286,7 @@ def website_report(url_id):
         website_data = service.get_website_info_by_id(url_id)
         reports = service.get_website_reports_by_id(url_id, reports_limit, reports_offset)
         formatted_reports = service.format_reports_iso_to_readable_format(reports)
-        reports_total_pages = (total_reports + reports_limit - 1) // reports_limit
+        reports_total_pages = service.calculate_total_pages(total_reports, reports_limit)
         priority_classes = service.get_priority_classes()
         return render_template(
             "website_info.html",

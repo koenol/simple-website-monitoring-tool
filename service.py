@@ -340,3 +340,7 @@ def get_pagination_parameters(param_name="page", default_limit=5, return_limit=T
     if return_limit:
         return page, limit, offset
     return page, offset
+
+def calculate_total_pages(total_items, items_per_page):
+    """Calculate total pages for pagination"""
+    return (total_items + items_per_page - 1) // items_per_page
