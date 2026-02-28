@@ -226,7 +226,7 @@ def get_website_reports_by_id(url_id):
     result = db.query(sql, [url_id])
     return [dict(row) for row in result] if result else []
 
-def format_iso_to_readable_format(reports):
+def format_reports_iso_to_readable_format(reports):
     """Convert ISO format date to readable format"""
     for report in reports:
         dt = datetime.fromisoformat(report["report_date"])

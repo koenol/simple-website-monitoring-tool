@@ -249,7 +249,7 @@ def website_info(url_id):
         if service.check_website_view_permission(url_id, session["user_id"]):
             website_data = service.get_website_info_by_id(url_id)
             reports = service.get_website_reports_by_id(url_id)
-            formatted_reports = service.format_iso_to_readable_format(reports)
+            formatted_reports = service.format_reports_iso_to_readable_format(reports)
             priority_classes = service.get_priority_classes()
             return render_template(
                 "website_info.html",
@@ -267,7 +267,7 @@ def website_report(url_id):
         service.report_website_by_id(url_id, session["user_id"])
         website_data = service.get_website_info_by_id(url_id)
         reports = service.get_website_reports_by_id(url_id)
-        formatted_reports = service.format_iso_to_readable_format(reports)
+        formatted_reports = service.format_reports_iso_to_readable_format(reports)
         return render_template(
             "website_info.html",
             website_data=website_data[0],
