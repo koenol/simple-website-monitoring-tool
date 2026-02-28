@@ -187,12 +187,8 @@ def profile(user_id):
     if request.method == "GET":
         profile_owner = user_id == session.get("user_id")
         userdata = service.get_user_data_public(user_id)
-        page = request.args.get("page", 1, int)
-        limit = 5
-        offset = (page - 1) * limit
-        reports_page = request.args.get("reports_page", 1, int)
-        reports_limit = 10
-        reports_offset = (reports_page - 1) * reports_limit
+        page, limit, offset = service.get_pagination_parameters("page", 5)
+        reports_page, reports_limit, reports_offset = service.get_pagination_parameters("reports_page", 10)
         reports_count = service.get_count_website_reports_created(user_id)
         if profile_owner:
             total_websites = service.count_user_websites(user_id)
@@ -230,11 +226,8 @@ def profile(user_id):
 def website():
     """Render Websites"""
     if request.method == "GET":
-        page = request.args.get("page", 1, int)
-        limit = 5
-        offset = (page - 1) * limit
-        public_page = request.args.get("public_page", 1, int)
-        public_offset = (public_page - 1) * limit
+        page, limit, offset = service.get_pagination_parameters("page", 5)
+        public_page, public_offset = service.get_pagination_parameters("public_page", 5, return_limit=False)
         service.ping_all_monitored_websites(session["user_id"], limit, offset)
         total_websites = service.count_user_websites(session["user_id"])
         personal_websites = service.get_user_websites(session["user_id"], limit, offset)
@@ -268,9 +261,7 @@ def website_info(url_id):
     if request.method == "GET":
         if service.check_website_view_permission(url_id, session["user_id"]):
             website_data = service.get_website_info_by_id(url_id)
-            reports_page = request.args.get("reports_page", 1, int)
-            reports_limit = 10
-            reports_offset = (reports_page - 1) * reports_limit
+            reports_page, reports_limit, reports_offset = service.get_pagination_parameters("reports_page", 10)
             total_reports = service.count_website_reports_by_id(url_id)
             reports = service.get_website_reports_by_id(url_id, reports_limit, reports_offset)
             formatted_reports = service.format_reports_iso_to_readable_format(reports)
@@ -292,9 +283,7 @@ def website_report(url_id):
     if request.method == "POST":
         service.check_csrf()
         service.report_website_by_id(url_id, session["user_id"])
-        reports_page = request.args.get("reports_page", 1, int)
-        reports_limit = 10
-        reports_offset = (reports_page - 1) * reports_limit
+        reports_page, reports_limit, reports_offset = service.get_pagination_parameters("reports_page", 10)
         total_reports = service.count_website_reports_by_id(url_id)
         website_data = service.get_website_info_by_id(url_id)
         reports = service.get_website_reports_by_id(url_id, reports_limit, reports_offset)

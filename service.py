@@ -331,3 +331,12 @@ def get_user_websites_reports_count_public_only(user_id):
     )
     result = db.query(sql, [user_id, True])
     return result[0]["count"] if result else 0
+
+def get_pagination_parameters(param_name="page", default_limit=5, return_limit=True):
+    """Get pagination parameters"""
+    page = request.args.get(param_name, 1, int)
+    limit = default_limit
+    offset = (page - 1) * limit
+    if return_limit:
+        return page, limit, offset
+    return page, offset
