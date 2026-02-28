@@ -5,7 +5,6 @@ SECRET_KEY is used for session management and CSRF protection.
 USERNAME_MIN_LENGTH is the minimum username length.
 USERNAME_MAX_LENGTH is the maximum username length.
 PASSWORD_MIN_LENGTH is the minimum password length.
-PASSWORD_MAX_LENGTH is the maximum password length.
 ------------------
 """
 

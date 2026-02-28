@@ -281,17 +281,11 @@ def website_info(url_id):
             website_data = service.get_website_info_by_id(url_id)
             reports_page, reports_limit, reports_offset = (
                 service.get_pagination_parameters("reports_page", 10)
-)
+            )
             total_reports = service.count_website_reports_by_id(url_id)
-            reports = service.get_website_reports_by_id(
-                url_id, reports_limit, reports_offset
-            )
-            formatted_reports = (
-                service.format_reports_iso_to_readable_format(reports)
-            )
-            reports_total_pages = service.calculate_total_pages(
-                total_reports, reports_limit
-            )
+            reports = service.get_website_reports_by_id(url_id, reports_limit, reports_offset)
+            formatted_reports = service.format_reports_iso_to_readable_format(reports)
+            reports_total_pages = service.calculate_total_pages(total_reports, reports_limit)
             priority_classes = service.get_priority_classes()
             return render_template(
                 "website_info.html",
