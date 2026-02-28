@@ -164,7 +164,7 @@ def ping_all_monitored_websites(user_id, limit=None, offset=None):
                 errors.append(e)
         else:
             url_errors.append(url["addr"])
-            
+
 def ping_website(url_addr):
     """Ping a website"""
     try:
@@ -231,17 +231,6 @@ def format_reports_iso_to_readable_format(reports):
         dt = datetime.fromisoformat(report["report_date"])
         report["report_date"] = dt.strftime("%Y-%m-%d %H:%M")
     return reports
-
-def get_user_websites_reports_all(user_id):
-    """Get all reports for websites owned by the user"""
-    sql = (
-        "SELECT r.id, r.url_id, r.report_date, r.url_status_ok, r.url_code, u.addr FROM reports r "
-        "JOIN urls u ON r.url_id = u.id "
-        "WHERE u.user_id = ? "
-        "ORDER BY r.report_date DESC"
-    )
-    result = db.query(sql, [user_id])
-    return [dict(row) for row in result] if result else []
 
 def get_user_websites_reports_all(user_id, limit=10, offset=0):
     """Get paginated reports for websites owned by the user"""
