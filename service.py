@@ -221,6 +221,7 @@ def get_website_reports_by_id(url_id):
     SELECT u.username, r.user_id, r.report_date, r.url_status_ok, r.url_code FROM reports r
     JOIN users u ON r.user_id = u.id
     WHERE r.url_id = ?
+    ORDER BY r.report_date DESC
     """
     result = db.query(sql, [url_id])
     return [dict(row) for row in result] if result else []
