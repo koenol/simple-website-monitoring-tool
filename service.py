@@ -75,40 +75,24 @@ def valid_address(address):
 
 def get_user_websites(user_id, limit=None, offset=None):
     """Get all user websites"""
-    if limit:
-        sql = (
-            "SELECT addr, id, public, url_status_ok, url_code FROM urls "
-            "WHERE user_id = ? "
-            "ORDER BY priority_class DESC "
-            "LIMIT ? OFFSET ?"
-        )
-        result = db.query(sql, [user_id, limit, offset])
-    else:
-        sql = (
-            "SELECT addr, id, public, url_status_ok, url_code FROM urls "
-            "WHERE user_id = ? "
-            "ORDER BY priority_class DESC"
-        )
-        result = db.query(sql, [user_id])
+    sql = (
+        "SELECT addr, id, public, url_status_ok, url_code FROM urls "
+        "WHERE user_id = ? "
+        "ORDER BY priority_class DESC "
+        "LIMIT ? OFFSET ?"
+    )
+    result = db.query(sql, [user_id, limit, offset])
     return result
 
 def get_public_websites(user_id, limit=None, offset=None):
     """Get all public websites"""
-    if limit:
-        sql = (
-            "SELECT id, addr, url_status_ok, url_code, priority_class FROM urls "
-            "WHERE public = ? AND user_id != ? "
-            "ORDER BY priority_class DESC "
-            "LIMIT ? OFFSET ?"
-        )
-        result = db.query(sql, [True, user_id, limit, offset])
-    else:
-        sql = (
-            "SELECT id, addr, url_status_ok, url_code, priority_class FROM urls "
-            "WHERE public = ? AND user_id != ? "
-            "ORDER BY priority_class DESC"
-        )
-        result = db.query(sql, [True, user_id])
+    sql = (
+        "SELECT id, addr, url_status_ok, url_code, priority_class FROM urls "
+        "WHERE public = ? AND user_id != ? "
+        "ORDER BY priority_class DESC "
+        "LIMIT ? OFFSET ?"
+    )
+    result = db.query(sql, [True, user_id, limit, offset])
     return result
 
 def toggle_visiblity(website_id, visibility):
@@ -125,21 +109,13 @@ def delete_website(website_id):
 def get_public_websites_filtered(filter_query, user_id, limit=None, offset=None):
     """Get Filtered Public Websites"""
     website_filter = f"%{filter_query}%"
-    if limit:
-        sql = (
-            "SELECT id, addr, url_status_ok, url_code, priority_class FROM urls "
-            "WHERE public = ? AND addr LIKE ? AND user_id != ? "
-            "ORDER BY priority_class DESC "
-            "LIMIT ? OFFSET ?"
-        )
-        result = db.query(sql, [True, website_filter, user_id, limit, offset])
-    else:
-        sql = (
-            "SELECT id, addr, url_status_ok, url_code, priority_class FROM urls "
-            "WHERE public = ? AND addr LIKE ? AND user_id != ? "
-            "ORDER BY priority_class DESC"
-        )
-        result = db.query(sql, [True, website_filter, user_id])
+    sql = (
+        "SELECT id, addr, url_status_ok, url_code, priority_class FROM urls "
+        "WHERE public = ? AND addr LIKE ? AND user_id != ? "
+        "ORDER BY priority_class DESC "
+        "LIMIT ? OFFSET ?"
+    )
+    result = db.query(sql, [True, website_filter, user_id, limit, offset])
     return result
 
 def copy_website(user_id, website_id):
@@ -316,22 +292,14 @@ def count_website_reports_by_id(url_id):
     return result[0]["count"] if result else 0
 
 def get_user_websites_public_only(user_id, limit=None, offset=None):
-    """Get only public websites for a user"""
-    if limit:
-        sql = (
-            "SELECT addr, id, public, url_status_ok, url_code FROM urls "
-            "WHERE user_id = ? AND public = ? "
-            "ORDER BY priority_class DESC "
-            "LIMIT ? OFFSET ?"
-        )
-        result = db.query(sql, [user_id, True, limit, offset])
-    else:
-        sql = (
-            "SELECT addr, id, public, url_status_ok, url_code FROM urls "
-            "WHERE user_id = ? AND public = ? "
-            "ORDER BY priority_class DESC"
-        )
-        result = db.query(sql, [user_id, True])
+    """Get only public websites for user"""
+    sql = (
+        "SELECT addr, id, public, url_status_ok, url_code FROM urls "
+        "WHERE user_id = ? AND public = ? "
+        "ORDER BY priority_class DESC "
+        "LIMIT ? OFFSET ?"
+    )
+    result = db.query(sql, [user_id, True, limit, offset])
     return result
 
 def count_user_websites_public_only(user_id):
