@@ -264,22 +264,23 @@ def website_report(url_id):
     service.require_login()
     if request.method == "POST":
         service.check_csrf()
-        service.report_website_by_id(url_id, session["user_id"])
-        manager = WebsiteManager(session["user_id"])
-        website_data_dict = manager.get_website_details(url_id)
-        reports_page, reports_limit, reports_offset = (
-            service.get_pagination_parameters("reports_page", 10)
-        )
-        reports_manager = ReportsManager()
-        reports_data = reports_manager.get_website_reports(
-            url_id, {"page": reports_page, "limit": reports_limit, "offset": reports_offset}
-        )
-        data = {
-            "website_data": website_data_dict["website_data"],
-            "priority_classes": website_data_dict["priority_classes"],
-        }
-        data.update(reports_data)
-        return render_template("website_info.html", **data)
+        if service.validate_report_permission(session["user_id"], url_id):
+            service.report_website_by_id(url_id, session["user_id"])
+            manager = WebsiteManager(session["user_id"])
+            website_data_dict = manager.get_website_details(url_id)
+            reports_page, reports_limit, reports_offset = (
+                service.get_pagination_parameters("reports_page", 10)
+            )
+            reports_manager = ReportsManager()
+            reports_data = reports_manager.get_website_reports(
+                url_id, {"page": reports_page, "limit": reports_limit, "offset": reports_offset}
+            )
+            data = {
+                "website_data": website_data_dict["website_data"],
+                "priority_classes": website_data_dict["priority_classes"],
+            }
+            data.update(reports_data)
+            return render_template("website_info.html", **data)
     abort(403)
 
 @app.route("/update-priority", methods=["POST"])

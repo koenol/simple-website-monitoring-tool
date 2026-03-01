@@ -407,3 +407,12 @@ def set_last_update(website):
     timestamp = datetime.now().isoformat()
     sql = "UPDATE urls SET last_update = ? WHERE id = ?"
     db.execute(sql, [timestamp, website["id"]])
+
+def validate_report_permission(user_id, url_id):
+    sql = "SELECT public, user_id FROM urls WHERE id = ?"
+    result = db.query(sql, [url_id])
+    if not result:
+        return False
+    if result[0]["public"] == 1:
+        return True
+    return result[0]["user_id"] == user_id
