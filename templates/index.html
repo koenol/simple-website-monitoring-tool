@@ -7,6 +7,13 @@
 
     <body id="login-page">
         <h1 id="login-title">Simple Website Monitoring Tool</h1>
+        {% for message in get_flashed_messages() %}
+        <div class="error">
+            <p>
+                <b>{{ message }}</b>
+            </p>
+        </div>
+        {% endfor %}
         <div class="login-form" id="login-form">
             <form action="/login" method="post">
                 <p>
@@ -46,12 +53,5 @@
                 </button>
             </form>
         </div>
-        {% for message in get_flashed_messages() %}
-        <div class="error">
-            <p>
-                <b>{{ message }}</b>
-            </p>
-        </div>
-        {% endfor %}
     </body>
 </html>

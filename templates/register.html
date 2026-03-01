@@ -7,6 +7,13 @@
 
     <body id="register-page">
         <h1>Register New Account</h1>
+        {% for message in get_flashed_messages() %}
+        <div class="error">
+            <p>
+                <b>{{ message }}</b>
+            </p>
+        </div>
+        {% endfor %}
         <div class="register-form" id="register-form">
             <form action="/register" method="post">
                 <p>
@@ -17,6 +24,7 @@
                         id="username"
                         minlength="{{ form_validation_limit[0] }}"
                         maxlength="{{ form_validation_limit[1] }}"
+                        placeholder="Between {{ form_validation_limit[0] }} and {{ form_validation_limit[1] }} characters"
                         required
                         value="{{ filled.username }}"
                     />
@@ -33,6 +41,7 @@
                         name="password1"
                         id="password1"
                         minlength="{{ form_validation_limit[2] }}"
+                        placeholder="Min {{ form_validation_limit[2] }} characters"
                         required
                     />
                 </p>
@@ -43,6 +52,7 @@
                         name="password2"
                         id="password2"
                         minlength="{{ form_validation_limit[2] }}"
+                        placeholder="Min {{ form_validation_limit[2] }} characters"
                         required
                     />
                 </p>
@@ -52,12 +62,5 @@
         <p>
             <a href="/">Go back to login page</a>
          </p>
-        {% for message in get_flashed_messages() %}
-        <div class="error">
-            <p>
-                <b>{{ message }}</b>
-            </p>
-        </div>
-        {% endfor %}
     </body>
 </html>
