@@ -3,6 +3,7 @@
 import sqlite3
 from flask import Flask, render_template, request, flash, redirect, abort, session
 from website_manager import WebsiteManager
+from reports_manager import ReportsManager
 import config
 import service
 
@@ -203,23 +204,17 @@ def profile(user_id):
         data = manager.get_profile_data(
             user_id, profile_owner, {"page": page, "limit": limit, "offset": offset}
         )
-        reports_count = service.get_count_website_reports_created(user_id)
-        if profile_owner:
-            total_reports = service.get_user_websites_reports_count(user_id)
-            reports = service.get_user_websites_reports_all(user_id, reports_limit, reports_offset)
-        else:
-            total_reports = service.get_user_websites_reports_count_public_only(user_id)
-            reports = service.get_user_websites_reports_public_only(
-                user_id, reports_limit, reports_offset
-            )
-        formatted_reports = service.format_reports_iso_to_readable_format(reports)
-        reports_total_pages = service.calculate_total_pages(total_reports, reports_limit)
-        data.update({
-            "reports": formatted_reports,
-            "reports_count": reports_count,
-            "reports_page": reports_page,
-            "reports_total_pages": reports_total_pages,
-        })
+        reports_manager = ReportsManager()
+        reports_data = reports_manager.get_profile_reports(
+            user_id,
+            profile_owner,
+            {
+            "page": reports_page,
+            "limit": reports_limit,
+            "offset": reports_offset
+            }
+        )
+        data.update(reports_data)
         return render_template("profile.html", **data)
     abort(405)
 
@@ -251,17 +246,15 @@ def website_info(url_id):
             reports_page, reports_limit, reports_offset = (
                 service.get_pagination_parameters("reports_page", 10)
             )
-            total_reports = service.count_website_reports_by_id(url_id)
-            reports = service.get_website_reports_by_id(url_id, reports_limit, reports_offset)
-            formatted_reports = service.format_reports_iso_to_readable_format(reports)
-            reports_total_pages = service.calculate_total_pages(total_reports, reports_limit)
+            reports_manager = ReportsManager()
+            reports_data = reports_manager.get_website_reports(
+                url_id, {"page": reports_page, "limit": reports_limit, "offset": reports_offset}
+            )
             data = {
                 "website_data": website_data_dict["website_data"],
                 "priority_classes": website_data_dict["priority_classes"],
-                "reports": formatted_reports,
-                "reports_page": reports_page,
-                "reports_total_pages": reports_total_pages,
             }
+            data.update(reports_data)
             return render_template("website_info.html", **data)
     abort(403)
 
@@ -277,17 +270,15 @@ def website_report(url_id):
         reports_page, reports_limit, reports_offset = (
             service.get_pagination_parameters("reports_page", 10)
         )
-        total_reports = service.count_website_reports_by_id(url_id)
-        reports = service.get_website_reports_by_id(url_id, reports_limit, reports_offset)
-        formatted_reports = service.format_reports_iso_to_readable_format(reports)
-        reports_total_pages = service.calculate_total_pages(total_reports, reports_limit)
+        reports_manager = ReportsManager()
+        reports_data = reports_manager.get_website_reports(
+            url_id, {"page": reports_page, "limit": reports_limit, "offset": reports_offset}
+        )
         data = {
             "website_data": website_data_dict["website_data"],
             "priority_classes": website_data_dict["priority_classes"],
-            "reports": formatted_reports,
-            "reports_page": reports_page,
-            "reports_total_pages": reports_total_pages,
         }
+        data.update(reports_data)
         return render_template("website_info.html", **data)
     abort(403)
 
