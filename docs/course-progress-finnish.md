@@ -1,5 +1,7 @@
 ## Lopullinen Palautus
 
+Suurella tietomäärällä testaus:
+
 
 
 ## Sovelluksen perusvaatimukset
@@ -85,6 +87,6 @@
 - [x] Lomakkeissa käytetty label-elementtiä
 
 ### Suuren tietomäärän käsittely
-- [ ] Sovellusta testattu suurella tietomäärällä ja raportoitu tulokset
+- [x] Sovellusta testattu suurella tietomäärällä ja raportoitu tulokset
 - [x] Sovelluksessa käytössä tietokohteiden sivutus
-- [ ] Tietokantaan lisätty indeksi, joka nopeuttaa suuren tietomäärän käsittelyä
+- [x] Tietokantaan lisätty indeksi, joka nopeuttaa suuren tietomäärän käsittelyä

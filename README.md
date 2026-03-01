@@ -66,7 +66,7 @@ $ flask run
 
 ## Course Progress
 
-Course Deadlines. See [course progress documentation](docs/course-progress-finnish.md) (in finnish) for more details.
+See [course progress documentation](docs/course-progress-finnish.md) (in finnish) for more details.
 
 - [x] 18.1.2026 Interim Submission 1
 [branch interim-1](https://github.com/koenol/simple-website-monitoring-tool/tree/interim-1)
