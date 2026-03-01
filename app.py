@@ -254,7 +254,12 @@ def website():
         total_public_websites = service.count_public_websites(session["user_id"], filter_query)
         total_public_pages = service.calculate_total_pages(total_public_websites, limit)
         if filter_query:
-            service.ping_public_websites_filtered(filter_query, session["user_id"], limit, public_offset)
+            service.ping_public_websites_filtered(
+                filter_query, 
+                session["user_id"], 
+                limit, 
+                public_offset
+            )
             public_websites = (
                 service.get_public_websites_filtered(
                     filter_query, session["user_id"], limit, public_offset

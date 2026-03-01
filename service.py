@@ -5,6 +5,7 @@ import secrets
 import urllib.error
 import urllib.request
 from datetime import datetime
+import sqlite3
 from flask import session, abort, request
 from werkzeug.security import generate_password_hash, check_password_hash
 import config
@@ -76,7 +77,7 @@ def valid_address(address):
 def get_user_websites(user_id, limit=None, offset=None):
     """Get all user websites"""
     sql = (
-        "SELECT addr, id, public, url_status_ok, url_code FROM urls "
+        "SELECT addr, id, public, url_status_ok, url_code, last_update FROM urls "
         "WHERE user_id = ? "
         "ORDER BY priority_class DESC "
         "LIMIT ? OFFSET ?"
@@ -128,7 +129,7 @@ def copy_website(user_id, website_id):
 def ping_all_public_websites(user_id, limit=None, offset=None):
     """Ping all public websites before fetching"""
     sql = (
-        "SELECT id, addr FROM urls "
+        "SELECT id, addr, last_update FROM urls "
         "WHERE public = ? AND user_id != ? "
         "ORDER BY priority_class DESC "
         "LIMIT ? OFFSET ?"
@@ -140,7 +141,7 @@ def ping_public_websites_filtered(filter_query, user_id, limit=None, offset=None
     """Ping filtered public websites before fetching"""
     website_filter = f"%{filter_query}%"
     sql = (
-        "SELECT id, addr FROM urls "
+        "SELECT id, addr, last_update FROM urls "
         "WHERE public = ? AND addr LIKE ? AND user_id != ? "
         "ORDER BY priority_class DESC "
         "LIMIT ? OFFSET ?"
@@ -153,15 +154,21 @@ def ping_websites_list(websites):
     errors = []
     url_errors = []
     for url in websites:
-        status_ok, code = ping_website(url["addr"])
-
-        if code:
+        if check_last_update(url):
             try:
-                update_website_status(url["id"], status_ok, code)
+                set_last_update(url)
             except ValueError as e:
                 errors.append(e)
-        else:
-            url_errors.append(url["addr"])
+            except sqlite3.Error as e:
+                errors.append(e)
+            status_ok, code = ping_website(url["addr"])
+            if code:
+                try:
+                    update_website_status(url["id"], status_ok, code)
+                except ValueError as e:
+                    errors.append(e)
+            else:
+                url_errors.append(url["addr"])
 
 def ping_all_monitored_websites(user_id, limit=None, offset=None):
     """Ping all monitored websites"""
@@ -386,3 +393,17 @@ def validate_copy_permission(url_id):
     """Validate url_id is public"""
     result = db.query("SELECT public FROM urls WHERE id = ?", [url_id])
     return result[0]["public"]
+
+def check_last_update(website):
+    """Check if last_update within last 5 minutes"""
+    if not website["last_update"]:
+        return True
+    last_update_time = datetime.fromisoformat(website["last_update"])
+    time_difference = datetime.now() - last_update_time
+    return time_difference.total_seconds() > 300
+
+def set_last_update(website):
+    """Update website last_update timestamp"""
+    timestamp = datetime.now().isoformat()
+    sql = "UPDATE urls SET last_update = ? WHERE id = ?"
+    db.execute(sql, [timestamp, website["id"]])
