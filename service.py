@@ -125,12 +125,34 @@ def copy_website(user_id, website_id):
     sql = "INSERT INTO urls (user_id, addr, public) VALUES (?, ?, ?)"
     db.execute(sql, [user_id, result[0]["addr"], False])
 
-def ping_all_monitored_websites(user_id, limit=None, offset=None):
-    """Ping all monitored websites"""
-    results = get_user_websites(user_id, limit, offset)
+def ping_all_public_websites(user_id, limit=None, offset=None):
+    """Ping all public websites before fetching"""
+    sql = (
+        "SELECT id, addr FROM urls "
+        "WHERE public = ? AND user_id != ? "
+        "ORDER BY priority_class DESC "
+        "LIMIT ? OFFSET ?"
+    )
+    results = db.query(sql, [True, user_id, limit, offset])
+    ping_websites_list(results)
+
+def ping_public_websites_filtered(filter_query, user_id, limit=None, offset=None):
+    """Ping filtered public websites before fetching"""
+    website_filter = f"%{filter_query}%"
+    sql = (
+        "SELECT id, addr FROM urls "
+        "WHERE public = ? AND addr LIKE ? AND user_id != ? "
+        "ORDER BY priority_class DESC "
+        "LIMIT ? OFFSET ?"
+    )
+    results = db.query(sql, [True, website_filter, user_id, limit, offset])
+    ping_websites_list(results)
+
+def ping_websites_list(websites):
+    """Ping a list of websites"""
     errors = []
     url_errors = []
-    for url in results:
+    for url in websites:
         status_ok, code = ping_website(url["addr"])
 
         if code:
@@ -140,6 +162,11 @@ def ping_all_monitored_websites(user_id, limit=None, offset=None):
                 errors.append(e)
         else:
             url_errors.append(url["addr"])
+
+def ping_all_monitored_websites(user_id, limit=None, offset=None):
+    """Ping all monitored websites"""
+    results = get_user_websites(user_id, limit, offset)
+    ping_websites_list(results)
 
 def ping_website(url_addr):
     """Ping a website"""
