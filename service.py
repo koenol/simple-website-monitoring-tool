@@ -409,6 +409,7 @@ def set_last_update(website):
     db.execute(sql, [timestamp, website["id"]])
 
 def validate_report_permission(user_id, url_id):
+    """Validate user has permission to report the website"""
     sql = "SELECT public, user_id FROM urls WHERE id = ?"
     result = db.query(sql, [url_id])
     if not result:
