@@ -287,6 +287,8 @@ def update_priority():
         service.check_csrf()
         website_id = request.form["website_id"]
         priority = request.form["priority"]
+        if not service.validate_priority_class(priority):
+            abort(405)
         if service.validate_edit_permission(session["user_id"], website_id):
             service.update_website_priority(website_id, priority)
             return redirect(f"/website/{website_id}")

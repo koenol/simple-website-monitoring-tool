@@ -417,3 +417,12 @@ def validate_report_permission(user_id, url_id):
     if result[0]["public"] == 1:
         return True
     return result[0]["user_id"] == user_id
+
+def validate_priority_class(priority):
+    """Validate priority class"""
+    priority_san = sanitize(str(priority))
+    if not priority_san.isdigit():
+        return False
+    sql = "SELECT id FROM priority_classes WHERE id = ?"
+    result = db.query(sql, [int(priority_san)])
+    return bool(result)
