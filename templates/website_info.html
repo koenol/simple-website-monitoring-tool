@@ -32,6 +32,7 @@
             <p>Public: {% if website_data.public %}<span class="status-ok-true">True</span>{% else %}<span class="status-ok-false">False</span>{% endif %}</p>
             <p>Current Status: {% if website_data.url_status_ok %}<span class="status-ok-true">OK</span>{% else %}<span class="status-ok-false">ERROR</span>{% endif %}</p>
             <p>HTTP Code: {{ website_data.url_code }}</p>
+            {% if session.user_id == website_data.user_id %}
             <form method="POST" action="/toggle-visibility" class="inline-form">
                 <input type="hidden" name="website_id" value="{{ website_data.id }}">
                 <input type="hidden" name="website_visibility" value="{{ website_data.public }}">
@@ -55,6 +56,7 @@
                 </select>
                 <button type="submit">Update</button>
             </form>
+            {% endif %}
             <br>
             <h3>Reports</h3>
             <table class="reports-table">
