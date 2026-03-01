@@ -354,3 +354,8 @@ def validate_delete_permission(user, url_id):
     """Validate user has permission to delete url_id"""
     result = db.query("SELECT user_id FROM urls WHERE id = ?", [url_id])
     return result[0]["user_id"] == user
+
+def validate_copy_permission(url_id):
+    """Validate url_id is public"""
+    result = db.query("SELECT public FROM urls WHERE id = ?", [url_id])
+    return result[0]["public"]

@@ -167,12 +167,13 @@ def copy_website():
     if request.method == "POST":
         service.check_csrf()
         website_id = request.form["public_website_id"]
-        try:
-            service.copy_website(session["user_id"], website_id)
-            return redirect("/website")
-        except sqlite3.IntegrityError as e:
-            flash(str(e))
-            return redirect("/website")
+        if service.validate_copy_permission(website_id):
+            try:
+                service.copy_website(session["user_id"], website_id)
+                return redirect("/website")
+            except sqlite3.IntegrityError as e:
+                flash(str(e))
+                return redirect("/website")
     abort(405)
 
 @app.route("/logout", methods=["POST"])
