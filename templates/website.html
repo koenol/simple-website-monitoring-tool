@@ -4,7 +4,6 @@
         <title>Websites</title>
         <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
     </head>
-<!-- self.note: Login required -->
 <body class="website-page">
 <header>
     <div>User: <span id="username">{{ session.username }}</span></div>
@@ -46,7 +45,6 @@
             />
         </form>
         <div class="box">
-            <!-- self.note: Iterate User Websites-->
             <h2>Your Monitored Websites</h2>
             <div id="monitored-websites">
                 {% if personal_websites %}
@@ -197,7 +195,6 @@
         </div>
     </div>
     </div>
-</div> <!-- self.note: end of login required -->
-
+</div> 
 </body>
 </html>

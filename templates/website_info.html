@@ -4,7 +4,6 @@
         <title>Website Info</title>
         <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
     </head>
-<!-- self.note: Login required -->
 <body class="profile-page">
 <header>
     <div>User: <span id="username">{{ session.username }}</span></div>
@@ -110,7 +109,6 @@
                 {% endif %}
         </div>
     </div>
-</div> <!-- self.note: end of login required -->
-
+</div>
 </body>
 </html>

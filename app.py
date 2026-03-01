@@ -108,14 +108,10 @@ def main():
     data = manager.get_dashboard_websites({"page": page, "limit": limit, "offset": offset})
     return render_template("main.html", **data)
 
-@app.route("/add-website", methods=["GET", "POST"])
+@app.route("/add-website", methods=["POST"])
 def add_website():
     """Add new website to user database"""
     service.require_login()
-    if request.method == "GET":
-        data = {}
-        return render_template("add_website.html", **data)
-
     if request.method == "POST":
         service.check_csrf()
         address = request.form["address"]

@@ -4,7 +4,6 @@
         <title>Main Page</title>
         <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
     </head>
-<!-- self.note: Login required -->
 <body class="main-page">
 <header>
     <div>User: <span id="username">{{ session.username }}</span></div>
@@ -107,7 +106,6 @@
         </div>
         {% endfor %}
     </div>
-</div> <!-- self.note: end of login required -->
-
+</div>
 </body>
 </html>

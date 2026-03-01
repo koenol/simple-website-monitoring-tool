@@ -32,8 +32,6 @@
             <p>Reports created: {{ reports_count }}</p>
             {% endfor %}
             {% set user_id = userdata[0].id %}
-
-            <!-- self.note: Iterate User Websites-->
             <h2>Monitored Websites</h2>
             <div id="monitored-websites">
                 {% if personal_websites %}
@@ -171,7 +169,7 @@
                 {% endif %}
             </div>
         </div>
-    </div> <!-- self.note: end of login required -->
+    </div>
 </div>
 </body>
 </html>
