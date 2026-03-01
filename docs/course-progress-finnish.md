@@ -4,7 +4,7 @@ Suurella tietomäärällä testaus:
 [https://github.com/koenol/simple-website-monitoring-tool/blob/main/docs/testaus-report.md](https://github.com/koenol/simple-website-monitoring-tool/blob/main/docs/testaus-report.md)
 
 Loppupalaute:
-Kurssin kaikki kohdat tuli omasta mielestäni toteutettua. Paranneltavaa koodin luettavuuden suhteen kyllä jäi. website_manager.py ja reports_manager.py lisääminen ja niihin kuuluvien toimintojen enkapsulointi paransi app.py luettavuutta huomattavasti, mutta parannettavaa jäi vielä itse olio-luokkiin. Toiminnot olisi ollut syytä suunnitella tarkemmin jo ennen toista välipalautusta, jotta refaktrointiin ei olisi ollut tarve käyttää lopussa liikaa aikaa. 
+Kurssin kaikki kohdat tuli omasta mielestäni toteutettua. Paranneltavaa koodin luettavuuden suhteen kyllä jäi. website_manager.py ja reports_manager.py lisääminen ja niihin kuuluvien toimintojen enkapsulointi paransi app.py luettavuutta huomattavasti, mutta parannettavaa jäi vielä itse olio-luokkiin. Toiminnot olisi ollut syytä suunnitella tarkemmin jo ennen toista välipalautusta, jotta refaktorointiin ei olisi ollut tarve käyttää lopussa liikaa aikaa. 
 
 ## Sovelluksen perusvaatimukset
 - [x] Käyttäjä pystyy luomaan tunnuksen ja kirjautumaan sisään sovellukseen
