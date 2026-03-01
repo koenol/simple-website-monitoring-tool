@@ -81,6 +81,6 @@ Course Deadlines. See [course progress documentation](docs/course-progress-finni
 
 ## Database Diagram
 
-_Last Updated: 15.02.2026_ (dd/mm/yyyy)
+_Last Updated: 01.03.2026_ (dd/mm/yyyy)
 
-![](static/db_diagram_v3.png)
+![](static/db_diagram_v4.png)

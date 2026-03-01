@@ -13,12 +13,7 @@ Table urls {
   url_status_ok boolean
   url_code integer
   priority_class integer
-}
-
-Table keywords {
-  id integer [pk, increment]
-  url_id integer [not null]
-  keyword text
+  last_update text
 }
 
 Table reports {
@@ -37,6 +32,5 @@ Table priority_classes {
 
 Ref: urls.user_id > users.id [delete: cascade]
 Ref: urls.priority_class > priority_classes.id
-Ref: keywords.url_id > urls.id [delete: cascade]
 Ref: reports.url_id > urls.id [delete: cascade]
 Ref: reports.user_id > users.id [delete: cascade]
