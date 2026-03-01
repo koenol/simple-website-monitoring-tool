@@ -2,9 +2,9 @@
 
 import sqlite3
 from flask import Flask, render_template, request, flash, redirect, abort, session
+from website_manager import WebsiteManager
 import config
 import service
-
 
 app = Flask(__name__)
 app.secret_key = config.SECRET_KEY
@@ -19,10 +19,10 @@ def index():
     """Render the home page."""
     if request.method == "GET":
         session["csrf_token"] = service.create_csrf_token()
-        return render_template(
-            "index.html", 
-            form_validation_limit=app.config["FORM_VALIDATION_LIMIT"]
-            )
+        data = {
+            "form_validation_limit": app.config["FORM_VALIDATION_LIMIT"]
+        }
+        return render_template("index.html", **data)
     abort(405)
 
 @app.route("/register", methods=["GET", "POST"])
@@ -30,10 +30,11 @@ def register():
     """Register new account"""
     if request.method == "GET":
         session["csrf_token"] = service.create_csrf_token()
-        return render_template(
-            "register.html", filled={}, 
-            form_validation_limit=app.config["FORM_VALIDATION_LIMIT"]
-            )
+        data = {
+            "filled": {},
+            "form_validation_limit": app.config["FORM_VALIDATION_LIMIT"]
+        }
+        return render_template("register.html", **data)
 
     if request.method == "POST":
         service.check_csrf()
@@ -47,21 +48,27 @@ def register():
                 "It must contain only letters."
             )
             filled = {"username": username}
-            return render_template("register.html",
-                filled=filled, form_validation_limit=app.config["FORM_VALIDATION_LIMIT"]
-            )
+            data = {
+                "filled": filled,
+                "form_validation_limit": app.config["FORM_VALIDATION_LIMIT"]
+            }
+            return render_template("register.html", **data)
         if password1 != password2:
             flash("Passwords do not match")
             filled = {"username": username}
-            return render_template("register.html",
-                filled=filled, form_validation_limit=app.config["FORM_VALIDATION_LIMIT"]
-            )
+            data = {
+                "filled": filled,
+                "form_validation_limit": app.config["FORM_VALIDATION_LIMIT"]
+            }
+            return render_template("register.html", **data)
         if len(password1) < config.PASSWORD_MIN_LENGTH:
             flash(f"Password must be at least {config.PASSWORD_MIN_LENGTH} characters long")
             filled = {"username": username}
-            return render_template("register.html",
-                filled=filled, form_validation_limit=app.config["FORM_VALIDATION_LIMIT"]
-            )
+            data = {
+                "filled": filled,
+                "form_validation_limit": app.config["FORM_VALIDATION_LIMIT"]
+            }
+            return render_template("register.html", **data)
 
         try:
             service.create_user(username, password1)
@@ -96,22 +103,17 @@ def main():
     """Render Main View"""
     service.require_login()
     page, limit, offset = service.get_pagination_parameters()
-    service.ping_all_monitored_websites(session["user_id"], limit, offset)
-    total_websites = service.count_user_websites(session["user_id"])
-    personal_websites = service.get_user_websites(session["user_id"], limit, offset)
-    total_pages = service.calculate_total_pages(total_websites, limit)
-    return render_template("main.html",
-                         personal_websites=personal_websites,
-                         page=page,
-                         total_pages=total_pages,
-                         total_websites=total_websites)
+    manager = WebsiteManager(session["user_id"])
+    data = manager.get_dashboard_websites({"page": page, "limit": limit, "offset": offset})
+    return render_template("main.html", **data)
 
 @app.route("/add-website", methods=["GET", "POST"])
 def add_website():
     """Add new website to user database"""
     service.require_login()
     if request.method == "GET":
-        return render_template("add_website.html")
+        data = {}
+        return render_template("add_website.html", **data)
 
     if request.method == "POST":
         service.check_csrf()
@@ -193,94 +195,50 @@ def profile(user_id):
     service.require_login()
     if request.method == "GET":
         profile_owner = user_id == session.get("user_id")
-        userdata = service.get_user_data_public(user_id)
         page, limit, offset = service.get_pagination_parameters("page", 5)
         reports_page, reports_limit, reports_offset = (
             service.get_pagination_parameters("reports_page", 10)
         )
+        manager = WebsiteManager(session["user_id"])
+        data = manager.get_profile_data(
+            user_id, profile_owner, {"page": page, "limit": limit, "offset": offset}
+        )
         reports_count = service.get_count_website_reports_created(user_id)
         if profile_owner:
-            total_websites = service.count_user_websites(user_id)
-            websites = service.get_user_websites(user_id, limit, offset)
             total_reports = service.get_user_websites_reports_count(user_id)
             reports = service.get_user_websites_reports_all(user_id, reports_limit, reports_offset)
         else:
-            total_websites = service.count_user_websites_public_only(
-                user_id
-            )
-            websites = service.get_user_websites_public_only(
-                user_id, limit, offset
-            )
-            total_reports = (
-                service.get_user_websites_reports_count_public_only(user_id)
-            )
+            total_reports = service.get_user_websites_reports_count_public_only(user_id)
             reports = service.get_user_websites_reports_public_only(
-                user_id,
-                reports_limit,
-                reports_offset
+                user_id, reports_limit, reports_offset
             )
-        reports = service.format_reports_iso_to_readable_format(reports)
-        total_pages = service.calculate_total_pages(total_websites, limit)
+        formatted_reports = service.format_reports_iso_to_readable_format(reports)
         reports_total_pages = service.calculate_total_pages(total_reports, reports_limit)
-        return render_template(
-            "profile.html",
-            personal_websites=websites,
-            reports=reports,
-            userdata=userdata,
-            reports_count=reports_count,
-            page=page,
-            total_pages=total_pages,
-            total_websites=total_websites,
-            reports_page=reports_page,
-            reports_total_pages=reports_total_pages,
-            profile_owner=profile_owner
-        )
+        data.update({
+            "reports": formatted_reports,
+            "reports_count": reports_count,
+            "reports_page": reports_page,
+            "reports_total_pages": reports_total_pages,
+        })
+        return render_template("profile.html", **data)
     abort(405)
 
 @app.route("/website", methods=["GET"])
 def website():
     """Render Websites"""
     service.require_login()
-    if request.method == "GET":
-        page, limit, offset = service.get_pagination_parameters("page", 5)
-        public_page, public_offset = service.get_pagination_parameters(
-            "public_page", 5, return_limit=False
-        )
-        service.ping_all_monitored_websites(session["user_id"], limit, offset)
-        total_websites = service.count_user_websites(session["user_id"])
-        personal_websites = service.get_user_websites(session["user_id"], limit, offset)
-        total_pages = service.calculate_total_pages(total_websites, limit)
-        filter_query = request.args.get("filter", "").strip()
-        total_public_websites = service.count_public_websites(session["user_id"], filter_query)
-        total_public_pages = service.calculate_total_pages(total_public_websites, limit)
-        if filter_query:
-            service.ping_public_websites_filtered(
-                filter_query, 
-                session["user_id"], 
-                limit, 
-                public_offset
-            )
-            public_websites = (
-                service.get_public_websites_filtered(
-                    filter_query, session["user_id"], limit, public_offset
-                )
-            )
-        else:
-            service.ping_all_public_websites(session["user_id"], limit, public_offset)
-            public_websites = service.get_public_websites(session["user_id"], limit, public_offset)
-        return render_template(
-            "website.html",
-            personal_websites=personal_websites,
-            public_websites=public_websites,
-            filter_query=filter_query,
-            page=page,
-            total_pages=total_pages,
-            total_websites=total_websites,
-            public_page=public_page,
-            total_public_pages=total_public_pages,
-            total_public_websites=total_public_websites
-        )
-    abort(405)
+    page, limit, offset = service.get_pagination_parameters("page", 5)
+    public_page, public_offset = service.get_pagination_parameters(
+        "public_page", 5, return_limit=False
+    )
+    filter_query = request.args.get("filter", "").strip()
+    manager = WebsiteManager(session["user_id"])
+    data = manager.get_websites(
+        {"page": page, "limit": limit, "offset": offset},
+        {"page": public_page, "offset": public_offset},
+        filter_query
+    )
+    return render_template("website.html", **data)
 
 @app.route("/website/<int:url_id>", methods=["GET"])
 def website_info(url_id):
@@ -288,7 +246,8 @@ def website_info(url_id):
     service.require_login()
     if request.method == "GET":
         if service.check_website_view_permission(url_id, session["user_id"]):
-            website_data = service.get_website_info_by_id(url_id)
+            manager = WebsiteManager(session["user_id"])
+            website_data_dict = manager.get_website_details(url_id)
             reports_page, reports_limit, reports_offset = (
                 service.get_pagination_parameters("reports_page", 10)
             )
@@ -296,15 +255,14 @@ def website_info(url_id):
             reports = service.get_website_reports_by_id(url_id, reports_limit, reports_offset)
             formatted_reports = service.format_reports_iso_to_readable_format(reports)
             reports_total_pages = service.calculate_total_pages(total_reports, reports_limit)
-            priority_classes = service.get_priority_classes()
-            return render_template(
-                "website_info.html",
-                website_data=website_data[0],
-                reports=formatted_reports,
-                priority_classes=priority_classes,
-                reports_page=reports_page,
-                reports_total_pages=reports_total_pages
-            )
+            data = {
+                "website_data": website_data_dict["website_data"],
+                "priority_classes": website_data_dict["priority_classes"],
+                "reports": formatted_reports,
+                "reports_page": reports_page,
+                "reports_total_pages": reports_total_pages,
+            }
+            return render_template("website_info.html", **data)
     abort(403)
 
 @app.route("/website/<int:url_id>/report", methods=["POST"])
@@ -314,23 +272,23 @@ def website_report(url_id):
     if request.method == "POST":
         service.check_csrf()
         service.report_website_by_id(url_id, session["user_id"])
+        manager = WebsiteManager(session["user_id"])
+        website_data_dict = manager.get_website_details(url_id)
         reports_page, reports_limit, reports_offset = (
             service.get_pagination_parameters("reports_page", 10)
         )
         total_reports = service.count_website_reports_by_id(url_id)
-        website_data = service.get_website_info_by_id(url_id)
         reports = service.get_website_reports_by_id(url_id, reports_limit, reports_offset)
         formatted_reports = service.format_reports_iso_to_readable_format(reports)
         reports_total_pages = service.calculate_total_pages(total_reports, reports_limit)
-        priority_classes = service.get_priority_classes()
-        return render_template(
-            "website_info.html",
-            website_data=website_data[0],
-            reports=formatted_reports,
-            priority_classes=priority_classes,
-            reports_page=reports_page,
-            reports_total_pages=reports_total_pages
-            )
+        data = {
+            "website_data": website_data_dict["website_data"],
+            "priority_classes": website_data_dict["priority_classes"],
+            "reports": formatted_reports,
+            "reports_page": reports_page,
+            "reports_total_pages": reports_total_pages,
+        }
+        return render_template("website_info.html", **data)
     abort(403)
 
 @app.route("/update-priority", methods=["POST"])
