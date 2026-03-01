@@ -249,7 +249,7 @@ def get_user_websites_reports_all(user_id, limit=10, offset=0):
         "SELECT r.id, r.url_id, r.report_date, r.url_status_ok, r.url_code, u.addr "
         "FROM reports r "
         "JOIN urls u ON r.url_id = u.id "
-        "WHERE u.user_id = ? "
+        "WHERE r.user_id = ? "
         "ORDER BY r.report_date DESC "
         "LIMIT ? OFFSET ?"
     )

@@ -35,3 +35,9 @@ CREATE TABLE priority_classes (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     class TEXT UNIQUE NOT NULL
 );
+
+CREATE INDEX idx_urls_user_id_id ON urls(user_id, id);
+CREATE INDEX idx_reports_url_id_date ON reports(url_id, report_date DESC);
+CREATE INDEX idx_reports_user_id_date ON reports(user_id, report_date DESC);
+CREATE INDEX idx_reports_user_id ON reports(user_id);
+CREATE INDEX idx_reports_user_id_url_id ON reports(user_id, url_id);
