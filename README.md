@@ -8,8 +8,9 @@ This app is a project created for the University of Helsinki's TKT20019 - Databa
 -   Users can add, copy, edit and delete websites entries they want to monitor.
 -   Users can toggle website visibility to be public/hide.
 -   Users can search for website entries using keywords.
--   The user's page displays statistics and entries created by the user.
--   Users can add secondary data or related entries to a primary website entry.
+-   Users can assign a monitored website a priority listing order.
+-   The user's page displays statistics and reports that user's websites have received.
+-   Users can generate status reports for their own websites and other users public websites.
 
 
 ## Installation
@@ -75,9 +76,10 @@ Course Deadlines. See [course progress documentation](docs/course-progress-finni
 [peer review](https://github.com/HarriApp/soutuporssi/issues/1)
 - [x] 15.2.2026 Interim Submission 3
 [branch interim-3](https://github.com/koenol/simple-website-monitoring-tool/tree/interim-3)
-- [ ] 22.2.2026 Peer Review 2
-- [ ] 1.3.2026 Final Submission
-
+- [x] 22.2.2026 Peer Review 2
+[peer review](https://github.com/henkkasplund/RENTER/issues/2)
+- [x] 1.3.2026 Final Submission
+[main branch](https://github.com/koenol/simple-website-monitoring-tool)
 
 ## Database Diagram
 

@@ -1,57 +1,4 @@
-## Väliplautus 1
-- [x] Done.
-
-## Välipalautus 2
-- [x] Käyttäjä pystyy luomaan tunnuksen ja kirjautumaan sisään sovellukseen.
-    - 1. Index -> Register -> Login -> Main View
-    - 2. Index -> Login -> Main View
-- [x] Käyttäjä pystyy lisäämään, muokkaamaan ja poistamaan tietokohteita.
-    - 1. Lisääminen: Index -> Login -> Main View: Add New Website -> Address: e.g. example.com (keyword ei vielä käytössä) -> Add
-    - 2. Muokkaamaan: Index -> Login -> Main View: Public/Hide: Toggle vaihtaa tietorakenteen näkyvyyttä muille käyttäjille
-    - 3. Poistaminen: Index -> Login -> Main View: Delete: Delete poistaa käyttäjän valitaseman tietokohteen
-- [x] Käyttäjä näkee sovellukseen lisätyt tietokohteet.
-    - 1. Käyttäjän Omat Tietorakenteet: Index -> Login -> Main View: "Your Monitored Websites" kohdassa näytetään käyttäjän omat julkiset & yksityiset tietorakenteet
-    - 2. Julkiset Tietorakenteet: Index -> Login -> Main View: "Public Websites" kohdassa näytetään käyttäjän ja muiden julkiset tietorakenteet
-- [x] Käyttäjä pystyy etsimään tietokohteita hakusanalla tai muulla perusteella.
-    - 1. Haku: Index -> Login -> Main View: Käyttäjä pystyy filtteröimään julkisia tietorakenteita valitsemallaan hakusanalla
-- [x] README.md-tiedoston tulee kuvata, millainen sovellus on ja miten sitä voi testata.
-    - README.md päivitetty, toisten käyttäjien sivulle kommentointi feature-idea poistettu ja olemassa olevien featureiden ominaisuuksia tarkennettu.
-
-Huomioitavaa:
-    - Sovellus ei vielä tee health-check kutsuja tietorakenteista, mutta toimintoa testattu ensimmäisellä viikolla.
-
-## Välipalautus 3 (+Välipalautus 2 muutokset)
-
-Päivitetyt:
-- [x] Käyttäjä pystyy luomaan tunnuksen ja kirjautumaan sisään sovellukseen.
-    - 1. Index -> Register -> Login -> Main View
-    - 2. Index -> Login -> Main View
-- [x] Käyttäjä pystyy lisäämään, muokkaamaan ja poistamaan tietokohteita.
-    - 1. Lisääminen: Index -> Login -> Websites: Add New Website -> Address: e.g. example.com (keyword ei vielä käytössä) -> Add
-    - 2. Muokkaamaan: Index -> Login -> Edit -> Website/id:
-        - Public/Hide: Muuttaa sivuston näkyvyyttä
-        - Select Priority: Vaihtaa sivuston järjestysprioriteettia
-    - 3. Poistaminen: Index -> Login -> Edit -> Website/id:
-        - Delete: Poistaa sivuston
-- [x] Käyttäjä näkee sovellukseen lisätyt tietokohteet.
-    - 1. Käyttäjän Omat Tietorakenteet: Index -> Login -> Main: Käyttäjä näkee omat tietokohteensa Dashboardissa, Profiilit sivulla, Websites sivulla. 
-    - 2. Julkiset Tietorakenteet: Index -> Login -> Websites: Public Websites näyttää julkiset tietokohteet. Website/Id: Näyttää julkisten tietokohteiden tiedot ja raportit
-- [x] Käyttäjä pystyy etsimään tietokohteita hakusanalla tai muulla perusteella.
-    - 1. Haku: Index -> Login -> Websites: Käyttäjä pystyy filtteröimään julkisia tietorakenteita valitsemallaan hakusanalla
-
-Uudet:
--   [x] Sovelluksessa on käyttäjäsivut, jotka näyttävät tilastoja ja käyttäjän lisäämät tietokohteet: Index -> Login -> Profile
--   [x] Käyttäjä pystyy valitsemaan tietokohteelle yhden tai useamman luokittelun. Mahdolliset luokat ovat tietokannassa: Index -> Login -> Edit: Käyttäjä voi muuttaa tietokohteen priority luokkaa (Low/Medium/High Priority). Nämä muuttavat tietokohteen järjestely luokitusta, mutta se ei vielä ilmene välttämättä käyttäjälle tarpeeksi selvästi.
--   [x] Käyttäjä pystyy lähettämään toisen käyttäjän tietokohteeseen liittyen jotain lisätietoa, joka tulee näkyviin sovelluksessa: Index -> Websites -> Public Websites -> Report: Käyttäjä pystyy raportoimaan omiaan ja toisen käyttäjän julkisia tietokohteita report nappulasta. Tämä luo raportin itse tietokohteeseen ja käyttäjän omille sivuille.
--   [x] CSRF-aukot pitäisi olla toteutettu kaikissa formeissa.
-
-Huomioitavaa:
-- Sovelluksen lukuoikeuksissa saattaa esiintyä puutteita, koska sovelluksen logiikka on vielä hiukan keskeneräinen sen suhteen mitä ja milloin renderöidään.
-- Käyttäjän muodostamat raportit ovat vielä dict muodossa, samoin käyttäjän luontipvm.
-- Virheidenhallinta kaipaa parannusta, sovellus saattaa kaatua välillä jos urllib epäonnistuu tai yhteyden haku on hidasta, tämä esiintyy myös sivun hitautena.
-- Kaikki sivustot eivät hyväksy pingausta nykyisillä parametreillä, esim. finnair.com palauttaa 403 vaikka sinne pääsee normaalilla selaimella. Lisäparametrja harkitaan, mutta täydellistä korjausta ei ole tulossa.
-- Ulkoasu vaatii hiukan parannusta, mutta on kuitenkin aika lähellä lopullista. Virheiden esityspaikka & joidenkin painikken siirto parempaan paikkaan vaatii muutosta.
-- Keyword ei vieläkään käytössä.
+## Lopullinen Palautus
 
 
 
@@ -86,8 +33,8 @@ Huomioitavaa:
 ## Sovelluksen turvallisuus
 - [x] Salasanat tallennetaan tietokantaan asianmukaisesti
 - [x] Käyttäjän oikeus nähdä sivun sisältö tarkastetaan
-- [ ] Käyttäjän oikeus lähettää lomake tarkastetaan
-- [ ] Käyttäjän syötteet tarkastetaan ennen tietokantaan lisäämistä
+- [x] Käyttäjän oikeus lähettää lomake tarkastetaan
+- [x] Käyttäjän syötteet tarkastetaan ennen tietokantaan lisäämistä
 - [x] SQL-komennoissa käytetty parametreja
 - [x] Sivut muodostetaan sivupohjien kautta (render_template)
 - [x] Lomakkeissa on estetty CSRF-aukko
