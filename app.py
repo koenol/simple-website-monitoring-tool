@@ -151,13 +151,14 @@ def delete_website():
     if request.method == "POST":
         service.check_csrf()
         website_id = request.form["website_id"]
-        try:
-            service.delete_website(website_id)
-            return redirect("/website")
-        except sqlite3.IntegrityError as e:
-            flash(str(e))
-            return redirect("/website")
-    abort(405)
+        if service.validate_delete_permission(session["user_id"], website_id):
+            try:
+                service.delete_website(website_id)
+                return redirect("/website")
+            except sqlite3.IntegrityError as e:
+                flash(str(e))
+                return redirect("/website")
+    abort(403)
 
 @app.route("/copy-website", methods=["POST"])
 def copy_website():
