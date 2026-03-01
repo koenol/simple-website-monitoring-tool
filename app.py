@@ -151,7 +151,7 @@ def delete_website():
     if request.method == "POST":
         service.check_csrf()
         website_id = request.form["website_id"]
-        if service.validate_delete_permission(session["user_id"], website_id):
+        if service.validate_edit_permission(session["user_id"], website_id):
             try:
                 service.delete_website(website_id)
                 return redirect("/website")
@@ -333,9 +333,7 @@ def update_priority():
         service.check_csrf()
         website_id = request.form["website_id"]
         priority = request.form["priority"]
-        if service.check_website_view_permission(
-            website_id, session["user_id"]
-        ):
+        if service.validate_edit_permission(session["user_id"], website_id):
             service.update_website_priority(website_id, priority)
             return redirect(f"/website/{website_id}")
     abort(403)

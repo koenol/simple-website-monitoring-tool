@@ -350,7 +350,7 @@ def require_login():
     if "user_id" not in session:
         abort(403)
 
-def validate_delete_permission(user, url_id):
+def validate_edit_permission(user, url_id):
     """Validate user has permission to delete url_id"""
     result = db.query("SELECT user_id FROM urls WHERE id = ?", [url_id])
     return result[0]["user_id"] == user
