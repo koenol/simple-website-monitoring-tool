@@ -84,8 +84,8 @@ Kurssin kaikki kohdat tuli omasta mielestäni toteutettua. Paranneltavaa koodin 
 - [x] Raportissa selostettu jokaisesta Pylint-ilmoituksesta, miksi sitä ei ole korjattu
 
 ### Toimivuus ja käytettävyys
-- [x] Käyttäjän lähettämässä tekstissä rivinvaihdot näkyvät selaimessa -- Ei käytössä
-- [x] Kuvissa käytetty alt-attribuuttia (jos sovelluksessa kuvia) -- Ei käytössä
+- [x] Käyttäjän lähettämässä tekstissä rivinvaihdot näkyvät selaimessa -- Ei käytössä / Not Relevant
+- [x] Kuvissa käytetty alt-attribuuttia (jos sovelluksessa kuvia) -- Ei käytössä / Not Relevant
 - [x] Lomakkeissa käytetty label-elementtiä
 
 ### Suuren tietomäärän käsittely
