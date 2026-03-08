@@ -135,13 +135,15 @@ def toggle_visibility():
         service.check_csrf()
         website_id = request.form["website_id"]
         website_visibility = request.form["website_visibility"]
-        if service.validate_edit_permission(session["user_id"], website_id):
-            try:
-                service.toggle_visiblity(website_id, website_visibility)
-                return redirect(f"/website/{website_id}")
-            except sqlite3.IntegrityError as e:
-                flash(str(e))
-                return redirect(f"/website/{website_id}")
+        try:
+            service.toggle_visiblity(website_id, website_visibility)
+            # FLAW: A01:2025 Broken Access Control
+            # if service.validate_edit_permission(session["user_id"], website_id):
+            #     service.toggle_visiblity(website_id, website_visibility)
+            return redirect(f"/website/{website_id}")
+        except sqlite3.IntegrityError as e:
+            flash(str(e))
+            return redirect(f"/website/{website_id}")
     abort(405)
 
 @app.route("/delete-website", methods=["POST"])
@@ -149,7 +151,8 @@ def delete_website():
     """Delete User Website"""
     service.require_login()
     if request.method == "POST":
-        service.check_csrf()
+        # FLAW: skip CSRF check
+        # service.check_csrf()
         website_id = request.form["website_id"]
         if service.validate_edit_permission(session["user_id"], website_id):
             try:
