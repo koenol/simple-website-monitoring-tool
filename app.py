@@ -6,9 +6,12 @@ from website_manager import WebsiteManager
 from reports_manager import ReportsManager
 import config
 import service
+import db
 
 app = Flask(__name__)
-app.secret_key = config.SECRET_KEY
+app.secret_key = "secret"
+# FLAW: A04:2025 Cryptographic Failures
+# app.secret_key = config.SECRET_KEY
 app.config["FORM_VALIDATION_LIMIT"] = [
     config.USERNAME_MIN_LENGTH,
     config.USERNAME_MAX_LENGTH,
@@ -93,8 +96,15 @@ def login():
         password = request.form["password"]
 
         if service.valid_username(username):
-            if service.validate_user(username, password):
+            sql = "SELECT id FROM users WHERE username = ?"
+            result = db.query(sql, [username])
+            if result:
+                session["user_id"] = result[0]["id"]
+                session["username"] = username
                 return redirect("/main")
+            # FLAW: A07:2025 Authentication Failures
+            # if service.validate_user(username, password):
+            #     return redirect("/main")
         flash("Invalid username or password")
         return redirect("/")
     abort(405)
@@ -119,8 +129,11 @@ def add_website():
             try:
                 service.add_website(session["user_id"], address)
                 return redirect("/website")
-            except sqlite3.IntegrityError as e:
-                flash(str(e))
+            except Exception as e:
+                flash(f"Internal error: {e}")
+                # FLAW: A10:2025 Mishandling of Exceptional Conditions
+                # except sqlite3.IntegrityError:
+                #     flash("Could not add website.")
                 return redirect("/website")
         else:
             flash("Incorrect domain format, use: 'example.com'")
