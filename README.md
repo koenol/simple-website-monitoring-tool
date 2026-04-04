@@ -2,6 +2,8 @@
 
 This app is a project created for the University of Helsinki's TKT20019 - Databases and Web Programming course (Spring/2026). It uses Python, the Flask framework, and an SQLite database to provide basic functionality for monitoring website status. Please note that the features are limited to these technologies, focusing on simple interactions like login, register, http requests.
 
+Update 5.4.2026: This project contains currently five flaws (including CSRF vulnerability) from OWASP top ten security risks for CSB Project 1.
+
 ## Application features
 
 -   Users can create an account and log in to the app.
